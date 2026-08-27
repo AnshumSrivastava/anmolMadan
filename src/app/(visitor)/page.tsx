@@ -1,25 +1,19 @@
 import Hero from "@/components/visitor/hero/Hero";
 import About from "@/components/visitor/about/About";
-import Timeline from "@/components/visitor/timeline/Timeline";
-import Projects from "@/components/visitor/projects";
-import Companies from "@/components/visitor/companies/Companies";
+import Experience from "@/components/visitor/experience/Experience";
 import Gallery from "@/components/visitor/gallery";
 import Contact from "@/components/visitor/contact/Contact";
-import Services from "@/components/visitor/services/Services";
-import Testimonials from "@/components/visitor/testimonials/Testimonials";
 
+import { Vision } from "@/components/visitor/vision";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
       <About />
-      <Services />
-      <Timeline />
-      <Projects />
-      <Testimonials />
-      <Companies />      
-      <Gallery />
+      <Vision />         
+      <Experience />
+      <Gallery />      
       <Contact />
     </>
   );

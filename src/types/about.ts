@@ -8,6 +8,8 @@ export type About = {
   paragraph_2: string;
   paragraph_3: string;
 
+  image_url: string | null;
+
   credential_1_title: string;
   credential_1_subtitle: string;
 

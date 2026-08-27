@@ -25,12 +25,26 @@ export async function updateAbout(
   const { error } = await supabase
     .from("about")
     .update({
+      // =========================
+      // BASIC INFORMATION
+      // =========================
+
       section_heading: about.section_heading,
       main_heading: about.main_heading,
 
       paragraph_1: about.paragraph_1,
       paragraph_2: about.paragraph_2,
       paragraph_3: about.paragraph_3,
+
+      // =========================
+      // ABOUT IMAGE
+      // =========================
+
+      image_url: about.image_url,
+
+      // =========================
+      // CREDENTIALS
+      // =========================
 
       credential_1_title: about.credential_1_title,
       credential_1_subtitle: about.credential_1_subtitle,
@@ -44,6 +58,10 @@ export async function updateAbout(
       credential_4_title: about.credential_4_title,
       credential_4_subtitle: about.credential_4_subtitle,
 
+      // =========================
+      // AUDIENCE
+      // =========================
+
       audience_1_title: about.audience_1_title,
       audience_1_description: about.audience_1_description,
 
@@ -52,6 +70,10 @@ export async function updateAbout(
 
       audience_3_title: about.audience_3_title,
       audience_3_description: about.audience_3_description,
+
+      // =========================
+      // TIMESTAMP
+      // =========================
 
       updated_at: new Date().toISOString(),
     })

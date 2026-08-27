@@ -8,6 +8,7 @@ import AboutDetails from "./AboutDetails";
 import AboutCredentials from "./AboutCredentials";
 import AboutAudience from "./AboutAudience";
 import AboutPreview from "./AboutPreview";
+import AboutImageUpload from "./AboutImageUpload";
 
 type Props = {
   about: About;
@@ -15,7 +16,12 @@ type Props = {
 
 export default function AboutForm({ about }: Props) {
   const [formData, setFormData] = useState<About>(about);
+
   const [isPending, startTransition] = useTransition();
+
+  /* =========================================================
+     HANDLE TEXT INPUT CHANGES
+  ========================================================= */
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -27,6 +33,10 @@ export default function AboutForm({ about }: Props) {
       [name]: value,
     }));
   };
+
+  /* =========================================================
+     HANDLE ABOUT CONTENT SAVE
+  ========================================================= */
 
   const handleSubmit = () => {
     startTransition(async () => {
@@ -40,36 +50,89 @@ export default function AboutForm({ about }: Props) {
     });
   };
 
+  /* =========================================================
+     UI
+  ========================================================= */
+
   return (
     <div className="grid gap-8 lg:grid-cols-3">
-      {/* Left */}
+
+      {/* =====================================================
+          LEFT — EDITOR
+      ===================================================== */}
+
       <div className="space-y-8 lg:col-span-2">
+
+        {/* ================= IMAGE ================= */}
+
+        <AboutImageUpload
+          aboutId={formData.id}
+          currentImageUrl={formData.image_url}
+          onUploaded={(imageUrl) => {
+            setFormData((prev) => ({
+              ...prev,
+              image_url: imageUrl,
+            }));
+          }}
+        />
+
+        {/* ================= BASIC DETAILS ================= */}
+
         <AboutDetails
           data={formData}
           onChange={handleChange}
         />
+
+        {/* ================= CREDENTIALS ================= */}
 
         <AboutCredentials
           data={formData}
           onChange={handleChange}
         />
 
+        {/* ================= AUDIENCE ================= */}
+
         <AboutAudience
           data={formData}
           onChange={handleChange}
         />
 
+        {/* ================= SAVE ================= */}
+
         <button
+          type="button"
           onClick={handleSubmit}
           disabled={isPending}
-          className="w-full rounded-xl bg-white py-3 font-semibold text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-60"
+          className="
+            w-full
+
+            rounded-xl
+
+            bg-white
+
+            py-3
+
+            font-semibold
+
+            text-black
+
+            transition
+
+            hover:bg-zinc-200
+
+            disabled:cursor-not-allowed
+            disabled:opacity-60
+          "
         >
           {isPending ? "Saving..." : "Save Changes"}
         </button>
       </div>
 
-      {/* Right */}
-      <div className="lg:sticky lg:top-24 h-fit">
+      {/* =====================================================
+          RIGHT — LIVE PREVIEW
+      ===================================================== */}
+
+      <div className="h-fit lg:sticky lg:top-24">
         <AboutPreview data={formData} />
       </div>
     </div>

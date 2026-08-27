@@ -1,122 +1,575 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-/* =====================================================
-   CREATE PROJECT
-===================================================== */
+import {
+  saveProject,
+  deleteProject,
+  uploadProjectLogo,
+  uploadProjectImage,
+  uploadProjectGalleryImage,
+  type ProjectInput,
+} from "@/services/projects/project.service";
 
-export async function createProject(
+/* =========================================================
+   TYPES
+========================================================= */
+
+type ImageSource =
+  | "upload"
+  | "link"
+  | "none";
+
+type ImageMeta = {
+  source: ImageSource;
+  url?: string;
+};
+
+type TestimonialMeta = {
+  quote: string;
+  author_name: string;
+  author_role: string;
+};
+
+/* =========================================================
+   SAVE EXPERIENCE
+========================================================= */
+
+export async function saveProjectAction(
   formData: FormData
 ) {
-  const supabase = await createClient();
+  try {
+    /* =======================================================
+       BASIC INFORMATION
+    ======================================================= */
 
-  const projectData = {
-    title: formData.get("title") as string,
+    const id =
+      String(
+        formData.get("id") ?? ""
+      ).trim() || undefined;
 
-    slug: formData.get("slug") as string,
+    const lesson_title =
+      String(
+        formData.get(
+          "lesson_title"
+        ) ?? ""
+      ).trim();
 
-    category: formData.get("category") as string,
+    const description =
+      String(
+        formData.get(
+          "description"
+        ) ?? ""
+      ).trim();
 
-    year: Number(formData.get("year")),
+    const institution_name =
+      String(
+        formData.get(
+          "institution_name"
+        ) ?? ""
+      ).trim();
 
-    description:
-      formData.get("description") as string,
+    const duration =
+      String(
+        formData.get(
+          "duration"
+        ) ?? ""
+      ).trim();
 
-    github:
-      (formData.get("github") as string) || null,
+    const sort_order =
+      Number(
+        formData.get(
+          "sort_order"
+        ) ?? 0
+      ) || 0;
 
-    live_link:
-      (formData.get("live_link") as string) || null,
+    /* =======================================================
+       VALIDATION
+    ======================================================= */
 
-    featured:
-      formData.get("featured") === "on",
+    if (
+      !lesson_title ||
+      !description ||
+      !institution_name
+    ) {
+      return {
+        success: false,
+        message:
+          "Please fill all required experience details.",
+        project: null,
+      };
+    }
 
-    sort_order: Number(
-      formData.get("sort_order")
-    ),
-  };
+    /* =======================================================
+       INSTITUTION LOGO
+    ======================================================= */
 
-  const { error } = await supabase
-    .from("projects")
-    .insert(projectData);
+    const logoSource =
+      String(
+        formData.get(
+          "institution_logo_source"
+        ) ?? "none"
+      ) as ImageSource;
 
-  if (error) {
-    throw error;
+    const logoUrl =
+      String(
+        formData.get(
+          "institution_logo_url"
+        ) ?? ""
+      ).trim();
+
+    const logoFile =
+      formData.get(
+        "institution_logo_file"
+      );
+
+    let institution_logo_url:
+      | string
+      | null = null;
+
+    /* -------------------------------------------------------
+       LINK
+    ------------------------------------------------------- */
+
+    if (
+      logoSource === "link"
+    ) {
+      institution_logo_url =
+        logoUrl || null;
+    }
+
+    /* -------------------------------------------------------
+       UPLOAD
+    ------------------------------------------------------- */
+
+    if (
+      logoSource === "upload"
+    ) {
+      if (
+        !(logoFile instanceof File) ||
+        logoFile.size <= 0
+      ) {
+        throw new Error(
+          "Please select an institution logo."
+        );
+      }
+
+      institution_logo_url =
+        await uploadProjectLogo(
+          logoFile
+        );
+    }
+
+    /* -------------------------------------------------------
+       NONE
+    ------------------------------------------------------- */
+
+    if (
+      logoSource === "none"
+    ) {
+      institution_logo_url =
+        null;
+    }
+
+    /* =======================================================
+       MAIN EXPERIENCE IMAGE
+    ======================================================= */
+
+    const imageSource =
+      String(
+        formData.get(
+          "image_source"
+        ) ?? "none"
+      ) as ImageSource;
+
+    const imageUrl =
+      String(
+        formData.get(
+          "image_url"
+        ) ?? ""
+      ).trim();
+
+    const imageFile =
+      formData.get(
+        "image_file"
+      );
+
+    let image_url:
+      | string
+      | null = null;
+
+    /* -------------------------------------------------------
+       LINK
+    ------------------------------------------------------- */
+
+    if (
+      imageSource === "link"
+    ) {
+      image_url =
+        imageUrl || null;
+    }
+
+    /* -------------------------------------------------------
+       UPLOAD
+    ------------------------------------------------------- */
+
+    if (
+      imageSource === "upload"
+    ) {
+      if (
+        !(imageFile instanceof File) ||
+        imageFile.size <= 0
+      ) {
+        throw new Error(
+          "Please select a main experience image."
+        );
+      }
+
+      image_url =
+        await uploadProjectImage(
+          imageFile
+        );
+    }
+
+    /* -------------------------------------------------------
+       NONE
+    ------------------------------------------------------- */
+
+    if (
+      imageSource === "none"
+    ) {
+      image_url =
+        null;
+    }
+
+    /* =======================================================
+       GALLERY
+    ======================================================= */
+
+    const galleryRaw =
+      String(
+        formData.get(
+          "gallery"
+        ) ?? "[]"
+      );
+
+    let galleryMeta:
+      ImageMeta[] = [];
+
+    try {
+      galleryMeta =
+        JSON.parse(
+          galleryRaw
+        ) as ImageMeta[];
+
+      if (
+        !Array.isArray(
+          galleryMeta
+        )
+      ) {
+        throw new Error();
+      }
+    } catch {
+      throw new Error(
+        "Gallery data is invalid."
+      );
+    }
+
+    const images:
+      ProjectInput["images"] =
+      [];
+
+    /* -------------------------------------------------------
+       PROCESS GALLERY ITEMS
+    ------------------------------------------------------- */
+
+    for (
+      let index = 0;
+      index <
+      galleryMeta.length;
+      index++
+    ) {
+      const item =
+        galleryMeta[index];
+
+      if (!item) {
+        continue;
+      }
+
+      /* ---------------------------------------------------
+         LINK
+      --------------------------------------------------- */
+
+      if (
+        item.source === "link"
+      ) {
+        const url =
+          item.url?.trim();
+
+        if (url) {
+          images.push({
+            image_url:
+              url,
+            sort_order:
+              images.length,
+          });
+        }
+
+        continue;
+      }
+
+      /* ---------------------------------------------------
+         UPLOAD
+      --------------------------------------------------- */
+
+      if (
+        item.source === "upload"
+      ) {
+        const file =
+          formData.get(
+            `gallery_file_${index}`
+          );
+
+        if (
+          file instanceof File &&
+          file.size > 0
+        ) {
+          const url =
+            await uploadProjectGalleryImage(
+              file
+            );
+
+          images.push({
+            image_url:
+              url,
+            sort_order:
+              images.length,
+          });
+        }
+
+        continue;
+      }
+
+      /* ---------------------------------------------------
+         NONE
+      --------------------------------------------------- */
+
+      if (
+        item.source === "none"
+      ) {
+        continue;
+      }
+    }
+
+    /* =======================================================
+       TESTIMONIALS
+    ======================================================= */
+
+    const testimonialsRaw =
+      String(
+        formData.get(
+          "testimonials"
+        ) ?? "[]"
+      );
+
+    let testimonialsMeta:
+      TestimonialMeta[] =
+      [];
+
+    try {
+      testimonialsMeta =
+        JSON.parse(
+          testimonialsRaw
+        ) as TestimonialMeta[];
+
+      if (
+        !Array.isArray(
+          testimonialsMeta
+        )
+      ) {
+        throw new Error();
+      }
+    } catch {
+      throw new Error(
+        "Testimonials data is invalid."
+      );
+    }
+
+    const testimonials:
+      ProjectInput["testimonials"] =
+      testimonialsMeta
+        .map(
+          (
+            item,
+            index
+          ) => ({
+            quote:
+              String(
+                item?.quote ??
+                ""
+              ).trim(),
+
+            author_name:
+              String(
+                item?.author_name ??
+                ""
+              ).trim() ||
+              null,
+
+            author_role:
+              String(
+                item?.author_role ??
+                ""
+              ).trim() ||
+              null,
+
+            sort_order:
+              index,
+          })
+        )
+        .filter(
+          (
+            item
+          ) =>
+            item.quote.length >
+            0
+        );
+
+    /* =======================================================
+       SAVE TO DATABASE
+    ======================================================= */
+
+    const project =
+      await saveProject({
+        id,
+
+        lesson_title,
+
+        description,
+
+        institution_name,
+
+        duration,
+
+        image_url,
+
+        institution_logo_url,
+
+        sort_order,
+
+        images,
+
+        testimonials,
+      });
+
+    /* =======================================================
+       REVALIDATE
+    ======================================================= */
+
+    revalidatePath(
+      "/dashboard/projects"
+    );
+
+    revalidatePath(
+      "/"
+    );
+
+    return {
+      success: true,
+
+      message:
+        "Experience saved successfully.",
+
+      project,
+    };
+  } catch (error) {
+    console.error(
+      "===================================="
+    );
+
+    console.error(
+      "FAILED TO SAVE EXPERIENCE"
+    );
+
+    console.error(
+      "ERROR:",
+      error
+    );
+
+    console.error(
+      "MESSAGE:",
+      error instanceof Error
+        ? error.message
+        : "Unknown error"
+    );
+
+    console.error(
+      "===================================="
+    );
+
+    return {
+      success: false,
+
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to save experience.",
+
+      project: null,
+    };
   }
-
-  revalidatePath("/dashboard/projects");
 }
 
-/* =====================================================
-   UPDATE PROJECT
-===================================================== */
+/* =========================================================
+   DELETE EXPERIENCE
+========================================================= */
 
-export async function updateProject(
-  formData: FormData
-) {
-  const supabase = await createClient();
-
-  const id = formData.get("id") as string;
-
-  const projectData = {
-    title: formData.get("title") as string,
-
-    slug: formData.get("slug") as string,
-
-    category: formData.get("category") as string,
-
-    year: Number(formData.get("year")),
-
-    description:
-      formData.get("description") as string,
-
-    github:
-      (formData.get("github") as string) || null,
-
-    live_link:
-      (formData.get("live_link") as string) || null,
-
-    featured:
-      formData.get("featured") === "on",
-
-    sort_order: Number(
-      formData.get("sort_order")
-    ),
-
-    updated_at: new Date().toISOString(),
-  };
-
-  const { error } = await supabase
-    .from("projects")
-    .update(projectData)
-    .eq("id", id);
-
-  if (error) {
-    throw error;
-  }
-
-  revalidatePath("/dashboard/projects");
-}
-
-/* =====================================================
-   DELETE PROJECT
-===================================================== */
-
-export async function deleteProject(
+export async function deleteProjectAction(
   id: string
 ) {
-  const supabase = await createClient();
+  try {
+    if (
+      !id?.trim()
+    ) {
+      return {
+        success: false,
 
-  const { error } = await supabase
-    .from("projects")
-    .delete()
-    .eq("id", id);
+        message:
+          "Experience ID is required.",
+      };
+    }
 
-  if (error) {
-    throw error;
+    await deleteProject(
+      id.trim()
+    );
+
+    revalidatePath(
+      "/dashboard/projects"
+    );
+
+    revalidatePath(
+      "/"
+    );
+
+    return {
+      success: true,
+
+      message:
+        "Experience deleted successfully.",
+    };
+  } catch (error) {
+    console.error(
+      "FAILED TO DELETE EXPERIENCE:",
+      error
+    );
+
+    return {
+      success: false,
+
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to delete experience.",
+    };
   }
-
-  revalidatePath("/dashboard/projects");
 }

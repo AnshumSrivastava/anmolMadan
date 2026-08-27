@@ -23,6 +23,7 @@ export default function Sidebar() {
 <NavItem href="/dashboard/testimonials" label="Testimonials" />
 <NavItem href="/dashboard/contact" label="Contact" />
 <NavItem href="/dashboard/services" label="Services" />
+<NavItem href="/dashboard/vision" label="Vision" />
       </nav>
 
     </aside>

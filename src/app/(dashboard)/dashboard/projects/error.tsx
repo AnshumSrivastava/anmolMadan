@@ -8,7 +8,6 @@ export default function Error({
 }) {
   return (
     <div className="py-20 text-center">
-
       <h2 className="text-2xl font-bold">
         Something went wrong.
       </h2>
@@ -19,7 +18,6 @@ export default function Error({
       >
         Try Again
       </button>
-
     </div>
   );
 }

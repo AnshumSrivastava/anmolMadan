@@ -4,137 +4,201 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 /* =====================================================
-   CREATE
+   YOUTUBE URL VALIDATION
+===================================================== */
+
+function isValidYouTubeUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+
+    return (
+      parsed.hostname === "youtube.com" ||
+      parsed.hostname === "www.youtube.com" ||
+      parsed.hostname === "youtu.be" ||
+      parsed.hostname === "www.youtube-nocookie.com"
+    );
+  } catch {
+    return false;
+  }
+}
+
+/* =====================================================
+   CREATE GALLERY VIDEO
 ===================================================== */
 
 export async function createGallery(formData: FormData) {
   const supabase = await createClient();
 
-  const caption = formData.get("caption") as string;
-  const sort_order = Number(formData.get("sort_order") || 0);
+  const video = String(
+    formData.get("video") || ""
+  ).trim();
 
-  const file = formData.get("image") as File;
+  const caption = String(
+    formData.get("caption") || ""
+  ).trim();
 
-  if (!file || file.size === 0) {
-    throw new Error("Image is required.");
+  const sort_order = Number(
+    formData.get("sort_order") || 0
+  );
+
+  /* -----------------------------------------------------
+     VALIDATION
+  ----------------------------------------------------- */
+
+  if (!video) {
+    throw new Error("YouTube video URL is required.");
   }
 
-  const extension = file.name.split(".").pop();
-
-  const fileName = `gallery-${Date.now()}.${extension}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from("gallery")
-    .upload(fileName, file, {
-      upsert: false,
-    });
-
-  if (uploadError) throw uploadError;
-
-  const {
-    data: { publicUrl },
-  } = supabase.storage
-    .from("gallery")
-    .getPublicUrl(fileName);
-
-  const { error } = await supabase.from("gallery").insert({
-    image: publicUrl,
-    caption,
-    sort_order,
-  });
-
-  if (error) throw error;
-
-  revalidatePath("/dashboard/gallery");
-  revalidatePath("/");
-}
-
-/* =====================================================
-   UPDATE
-===================================================== */
-
-export async function updateGallery(formData: FormData) {
-  const supabase = await createClient();
-
-  const id = formData.get("id") as string;
-
-  const caption = formData.get("caption") as string;
-
-  const sort_order = Number(formData.get("sort_order") || 0);
-
-  const file = formData.get("image") as File | null;
-
-  const updateData: {
-    caption: string;
-    sort_order: number;
-    image?: string;
-  } = {
-    caption,
-    sort_order,
-  };
-
-  if (file && file.size > 0) {
-    const extension = file.name.split(".").pop();
-
-    const fileName = `gallery-${Date.now()}.${extension}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("gallery")
-      .upload(fileName, file, {
-        upsert: false,
-      });
-
-    if (uploadError) throw uploadError;
-
-    const {
-      data: { publicUrl },
-    } = supabase.storage
-      .from("gallery")
-      .getPublicUrl(fileName);
-
-    updateData.image = publicUrl;
+  if (!isValidYouTubeUrl(video)) {
+    throw new Error(
+      "Please enter a valid YouTube URL."
+    );
   }
+
+  /* -----------------------------------------------------
+     INSERT
+  ----------------------------------------------------- */
 
   const { error } = await supabase
     .from("gallery")
-    .update(updateData)
-    .eq("id", id);
+    .insert({
+      video,
+      caption: caption || null,
+      sort_order,
+    });
 
-  if (error) throw error;
+  if (error) {
+    console.error(
+      "FAILED TO CREATE GALLERY VIDEO:",
+      error
+    );
+
+    throw error;
+  }
+
+  /* -----------------------------------------------------
+     REVALIDATE
+  ----------------------------------------------------- */
 
   revalidatePath("/dashboard/gallery");
   revalidatePath("/");
 }
 
+
 /* =====================================================
-   DELETE
+   UPDATE GALLERY VIDEO
 ===================================================== */
 
-export async function deleteGallery(id: string) {
+export async function updateGallery(
+  formData: FormData
+) {
   const supabase = await createClient();
 
-  const { data } = await supabase
-    .from("gallery")
-    .select("image")
-    .eq("id", id)
-    .single();
+  const id = String(
+    formData.get("id") || ""
+  ).trim();
 
-  if (data?.image) {
-    const path = data.image.split("/gallery/")[1];
+  const video = String(
+    formData.get("video") || ""
+  ).trim();
 
-    if (path) {
-      await supabase.storage
-        .from("gallery")
-        .remove([path]);
-    }
+  const caption = String(
+    formData.get("caption") || ""
+  ).trim();
+
+  const sort_order = Number(
+    formData.get("sort_order") || 0
+  );
+
+  /* -----------------------------------------------------
+     VALIDATION
+  ----------------------------------------------------- */
+
+  if (!id) {
+    throw new Error("Gallery ID is required.");
   }
+
+  if (!video) {
+    throw new Error("YouTube video URL is required.");
+  }
+
+  if (!isValidYouTubeUrl(video)) {
+    throw new Error(
+      "Please enter a valid YouTube URL."
+    );
+  }
+
+  /* -----------------------------------------------------
+     UPDATE
+  ----------------------------------------------------- */
+
+  const { error } = await supabase
+    .from("gallery")
+    .update({
+      video,
+      caption: caption || null,
+      sort_order,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error(
+      "FAILED TO UPDATE GALLERY VIDEO:",
+      error
+    );
+
+    throw error;
+  }
+
+  /* -----------------------------------------------------
+     REVALIDATE
+  ----------------------------------------------------- */
+
+  revalidatePath("/dashboard/gallery");
+  revalidatePath("/");
+}
+
+
+/* =====================================================
+   DELETE GALLERY VIDEO
+===================================================== */
+
+export async function deleteGallery(
+  id: string
+) {
+  const supabase = await createClient();
+
+  if (!id?.trim()) {
+    throw new Error(
+      "Gallery ID is required."
+    );
+  }
+
+  /* -----------------------------------------------------
+     DELETE DATABASE ROW
+     
+     No storage deletion is needed because
+     we are storing YouTube URLs, not uploaded files.
+  ----------------------------------------------------- */
 
   const { error } = await supabase
     .from("gallery")
     .delete()
-    .eq("id", id);
+    .eq("id", id.trim());
 
-  if (error) throw error;
+  if (error) {
+    console.error(
+      "FAILED TO DELETE GALLERY VIDEO:",
+      error
+    );
+
+    throw error;
+  }
+
+  /* -----------------------------------------------------
+     REVALIDATE
+  ----------------------------------------------------- */
 
   revalidatePath("/dashboard/gallery");
   revalidatePath("/");

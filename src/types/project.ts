@@ -1,25 +1,55 @@
-export interface Project {
+export type Project = {
   id: string;
 
-  title: string;
-
-  slug: string;
-
-  category: string;
-
-  year: number;
+  lesson_title: string;
 
   description: string;
 
-  github: string | null;
+  institution_name: string;
 
-  live_link: string | null;
+  duration: string;
 
-  featured: boolean;
+  image_url: string | null;
+
+  institution_logo_url: string | null;
 
   sort_order: number;
 
   created_at: string;
 
   updated_at: string;
-}
+
+  images?: ProjectImage[];
+
+  testimonials?: ProjectTestimonial[];
+};
+
+export type ProjectImage = {
+  id: string;
+
+  project_id: string;
+
+  image_url: string;
+
+  sort_order: number;
+
+  created_at?: string;
+};
+
+export type ProjectTestimonial = {
+  id: string;
+
+  project_id: string;
+
+  quote: string;
+
+  author_name: string | null;
+
+  author_role: string | null;
+
+  sort_order: number;
+
+  created_at: string;
+
+  updated_at: string;
+};
