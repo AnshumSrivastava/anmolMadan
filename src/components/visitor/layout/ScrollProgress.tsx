@@ -14,7 +14,7 @@ export default function ScrollProgress() {
   return (
     <>
       {/* Track */}
-      <div className="pointer-events-none fixed left-0 right-0 top-0 z-[70] h-[3px] bg-black/10 backdrop-blur-sm" />
+      <div className="pointer-events-none fixed left-0 right-0 top-0 z-[70] h-[2px] bg-black/[0.06] backdrop-blur-sm" />
 
       {/* Progress */}
       <motion.div
@@ -27,15 +27,15 @@ export default function ScrollProgress() {
           top-0
           z-[71]
 
-          h-[3px]
+          h-[2.5px]
 
           origin-left
 
           rounded-r-full
 
-          bg-white
+          bg-black
 
-          shadow-[0_0_12px_rgba(255,255,255,0.65)]
+          shadow-[0_1px_6px_rgba(0,0,0,0.25)]
         "
       />
     </>

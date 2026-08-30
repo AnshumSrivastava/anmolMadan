@@ -12,12 +12,12 @@ export async function createTimeline(
 ) {
   const supabase = await createClient();
 
-const timelineData = {
-  year: Number(formData.get("year")),
-  title: formData.get("title"),
-  company: formData.get("company"),
-  description: formData.get("description"),
-};
+  const timelineData: Record<string, any> = {
+    year: Number(formData.get("year")),
+    title: formData.get("title"),
+    company: formData.get("company"),
+    description: formData.get("description"),
+  };
 
   const imageFile =
     formData.get("image") as File | null;
@@ -67,12 +67,12 @@ export async function updateTimeline(
 
   const id = formData.get("id") as string;
 
-const timelineData = {
-  year: Number(formData.get("year")),
-  title: formData.get("title"),
-  company: formData.get("company"),
-  description: formData.get("description"),
-};
+  const timelineData: Record<string, any> = {
+    year: Number(formData.get("year")),
+    title: formData.get("title"),
+    company: formData.get("company"),
+    description: formData.get("description"),
+  };
   const imageFile =
     formData.get("image") as File | null;
 

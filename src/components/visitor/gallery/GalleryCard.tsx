@@ -8,6 +8,7 @@ import type { Gallery } from "@/types/gallery";
 interface GalleryCardProps {
   item: Gallery;
   isActive: boolean;
+  unmuted?: boolean;
   onEnded?: () => void;
 }
 
@@ -59,6 +60,7 @@ function getYouTubeId(url: string): string {
 export default function GalleryCard({
   item,
   isActive,
+  unmuted = false,
   onEnded,
 }: GalleryCardProps) {
   const iframeRef =
@@ -204,7 +206,7 @@ export default function GalleryCard({
   const embedUrl =
     `https://www.youtube-nocookie.com/embed/${videoId}` +
     `?autoplay=${isActive ? 1 : 0}` +
-    `&mute=1` +
+    `&mute=${unmuted ? 0 : 1}` +
     `&controls=1` +
     `&cc_load_policy=1` +
     `&cc_lang_pref=en` +

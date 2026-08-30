@@ -57,26 +57,22 @@ const emptyData: ProjectFormData = {
 function normalizeGallery(value: unknown): GalleryImage[] {
   if (!Array.isArray(value)) return [];
 
-  return value
-    .map((item) => {
-      if (typeof item === "string") {
-        return { source: "link" as const, url: item, file: null };
-      }
+  const items: GalleryImage[] = [];
 
-      if (item && typeof item === "object") {
-        const x = item as Partial<GalleryImage>;
-        if (x.source === "none") return null;
-        if (x.source === "upload" && x.file instanceof File) {
-          return { source: "upload" as const, url: x.url ?? "", file: x.file };
-        }
-        if (typeof x.url === "string" && x.url.trim()) {
-          return { source: "link" as const, url: x.url, file: null };
-        }
+  for (const item of value) {
+    if (typeof item === "string" && item.trim()) {
+      items.push({ source: "link", url: item, file: null });
+    } else if (item && typeof item === "object") {
+      const x = item as Partial<GalleryImage>;
+      if (x.source === "upload" && x.file instanceof File) {
+        items.push({ source: "upload", url: x.url ?? "", file: x.file });
+      } else if (typeof x.url === "string" && x.url.trim()) {
+        items.push({ source: "link", url: x.url, file: null });
       }
+    }
+  }
 
-      return null;
-    })
-    .filter((x): x is GalleryImage => Boolean(x));
+  return items;
 }
 
 function parseDurationPart(value: string) {

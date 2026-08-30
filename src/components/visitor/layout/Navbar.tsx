@@ -1,7 +1,13 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionTemplate,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { useEffect, useState } from "react";
 import { Instrument_Sans } from "next/font/google";
 
@@ -20,10 +26,10 @@ const navbarFont = Instrument_Sans({
 ========================================================= */
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Vision", href: "#vision" },
-  { label: "Experience", href: "#experience" },
-  { label: "Testimonials", href: "#testimonials" },
+  { label: "About", href: "#about", id: "about" },
+  { label: "Vision", href: "#vision", id: "vision" },
+  { label: "Experience", href: "#experience", id: "experience" },
+  { label: "Testimonials", href: "#testimonials", id: "testimonials" },
 ];
 
 /* =========================================================
@@ -32,25 +38,78 @@ const navItems = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
+  const { scrollY } = useScroll();
 
   /* =======================================================
-     SCROLL DETECTION
+     SMOOTH PER-FRAME SCROLL INTERPOLATION (0px -> 300px)
+
+     APPROACH: Instead of interpolating width (% -> px, which
+     Framer Motion handles poorly), we grow the left/right
+     margins from 0 to auto-center the pill. This is 100%
+     pixel-based and interpolates perfectly.
+  ======================================================= */
+
+  // At 0: no top offset (flush header). At 300: 16px gap from top.
+  const topOffset = useTransform(scrollY, [0, 300], [0, 14]);
+
+  // Margins grow from 0 to push the bar inward into a pill.
+  // The pill target width is ~860px on a ~1400px screen => ~270px each side.
+  const sideMargin = useTransform(scrollY, [0, 300], [0, 260]);
+
+  // Height: tall header bar -> compact pill
+  const containerHeight = useTransform(scrollY, [0, 300], [80, 54]);
+
+  // Border radius: 0 (flat bar) -> pill (9999)
+  const containerRadius = useTransform(scrollY, [0, 300], [0, 9999]);
+
+  // Horizontal padding: generous at full-width -> tighter in pill
+  const containerPaddingX = useTransform(scrollY, [0, 300], [48, 24]);
+
+  // Background: semi-transparent at top, more opaque frosted glass in pill
+  const bgOpacity = useTransform(scrollY, [0, 300], [0.55, 0.9]);
+  const blurAmount = useTransform(scrollY, [0, 300], [12, 28]);
+  const backdropFilter = useMotionTemplate`blur(${blurAmount}px)`;
+  const backgroundColor = useMotionTemplate`rgba(255, 255, 255, ${bgOpacity})`;
+
+  // Border: very subtle at top, more defined in pill
+  const borderAlpha = useTransform(scrollY, [0, 300], [0.06, 0.10]);
+  const border = useMotionTemplate`1px solid rgba(0, 0, 0, ${borderAlpha})`;
+
+  // Shadow: none at top, defined shadow on pill
+  const shadowAlpha = useTransform(scrollY, [0, 300], [0, 0.12]);
+  const boxShadow = useMotionTemplate`0 12px 40px rgba(0, 0, 0, ${shadowAlpha})`;
+
+  // Logo + CTA scale down slightly in pill
+  const logoScale = useTransform(scrollY, [0, 300], [1, 0.88]);
+  const contactBtnScale = useTransform(scrollY, [0, 300], [1, 0.92]);
+
+  /* =======================================================
+     ACTIVE SECTION DETECTION
   ======================================================= */
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 12);
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
     };
 
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
+    const observer = new IntersectionObserver(observerCallback, {
+      rootMargin: "-45% 0px -50% 0px",
+      threshold: 0.1,
     });
 
+    const sectionElements = document.querySelectorAll(
+      "section[id], div[id='hero']"
+    );
+    sectionElements.forEach((el) => observer.observe(el));
+
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
     };
   }, []);
 
@@ -87,58 +146,47 @@ export default function Navbar() {
           duration: 0.65,
           ease: [0.22, 1, 0.36, 1],
         }}
+        style={{
+          top: topOffset,
+        }}
         className={`
           ${navbarFont.className}
-
           fixed
           inset-x-0
-          top-0
           z-[100]
-
-          w-full
-
-          border-none
-          outline-none
-          shadow-none
+          pointer-events-none
         `}
       >
-        <div
-          className={`
-            grid
-            w-full
-            grid-cols-3
+        <motion.div
+          style={{
+            marginLeft: sideMargin,
+            marginRight: sideMargin,
+            height: containerHeight,
+            borderRadius: containerRadius,
+            paddingLeft: containerPaddingX,
+            paddingRight: containerPaddingX,
+            backgroundColor,
+            backdropFilter,
+            WebkitBackdropFilter: backdropFilter,
+            border,
+            boxShadow,
+          }}
+          className="
+            pointer-events-auto
+            flex
             items-center
-
-            px-6
-            sm:px-8
-            lg:px-10
-            xl:px-12
-
-            transition-all
-            duration-500
-            ease-out
-
-            ${
-              scrolled
-                ? `
-                  h-[68px]
-                  bg-white/70
-                  backdrop-blur-xl
-                  backdrop-saturate-150
-                `
-                : `
-                  h-[82px]
-                  bg-transparent
-                  backdrop-blur-0
-                `
-            }
-          `}
+            justify-between
+            will-change-transform
+          "
         >
           {/* =================================================
               LEFT — LOGO
           ================================================= */}
 
-          <div className="flex justify-start">
+          <motion.div
+            style={{ scale: logoScale, transformOrigin: "left center" }}
+            className="flex items-center justify-start"
+          >
             <button
               type="button"
               onClick={() => scrollToSection("#hero")}
@@ -147,30 +195,26 @@ export default function Navbar() {
                 relative
                 z-[110]
                 shrink-0
-
                 border-none
                 bg-transparent
                 p-0
-
                 text-left
                 outline-none
-
                 group
+                cursor-pointer
               "
             >
               <h1
                 className="
-                  text-[24px]
+                  text-[22px]
                   font-semibold
                   leading-none
-                  tracking-[0.24em]
+                  tracking-[0.22em]
                   text-black
-
                   transition-opacity
                   duration-300
                   group-hover:opacity-70
-
-                  sm:text-[27px]
+                  sm:text-[25px]
                 "
               >
                 ANMOL
@@ -178,146 +222,116 @@ export default function Navbar() {
 
               <p
                 className="
-                  mt-[5px]
-
+                  mt-[3px]
                   text-[8px]
                   font-medium
                   leading-none
-
-                  tracking-[0.48em]
-
+                  tracking-[0.45em]
                   text-neutral-500
-
                   sm:text-[9px]
                 "
               >
                 MADAN
               </p>
             </button>
-          </div>
+          </motion.div>
 
           {/* =================================================
               CENTER — DESKTOP NAVIGATION
           ================================================= */}
 
-          <div
-            className="
-              hidden
-              items-center
-              justify-center
+          <div className="hidden items-center justify-center gap-7 lg:flex xl:gap-8">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
 
-              gap-7
-              xl:gap-9
-
-              lg:flex
-            "
-          >
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => scrollToSection(item.href)}
-                className="
-                  group
-                  relative
-
-                  whitespace-nowrap
-
-                  border-none
-                  bg-transparent
-                  p-0
-
-                  text-[10px]
-                  font-medium
-                  uppercase
-
-                  tracking-[0.18em]
-
-                  text-neutral-600
-
-                  outline-none
-
-                  transition-colors
-                  duration-300
-
-                  hover:text-black
-                "
-              >
-                {item.label}
-
-                {/* Underline */}
-
-                <span
-                  className="
-                    absolute
-
-                    -bottom-[7px]
-                    left-0
-
-                    h-px
-                    w-0
-
-                    bg-black
-
-                    transition-all
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => scrollToSection(item.href)}
+                  className={`
+                    group
+                    relative
+                    whitespace-nowrap
+                    border-none
+                    bg-transparent
+                    p-0
+                    text-[11px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.18em]
+                    outline-none
+                    transition-colors
                     duration-300
-                    ease-out
+                    cursor-pointer
+                    ${
+                      isActive
+                        ? "text-black"
+                        : "text-neutral-500 hover:text-black"
+                    }
+                  `}
+                >
+                  {item.label}
 
-                    group-hover:w-full
-                  "
-                />
-              </button>
-            ))}
+                  {/* Underline Indicator */}
+                  <span
+                    className={`
+                      absolute
+                      -bottom-[5px]
+                      left-0
+                      h-[1.5px]
+                      bg-black
+                      transition-all
+                      duration-300
+                      ease-out
+                      ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+                    `}
+                  />
+                </button>
+              );
+            })}
           </div>
 
           {/* =================================================
               RIGHT — CONTACT
           ================================================= */}
 
-          <div className="flex justify-end">
+          <motion.div
+            style={{ scale: contactBtnScale, transformOrigin: "right center" }}
+            className="flex items-center justify-end"
+          >
             <button
               type="button"
               onClick={() => scrollToSection("#contact")}
               className="
                 relative
                 z-[110]
-
                 hidden
                 shrink-0
-
-                min-w-[132px]
-
                 rounded-full
-
                 border-none
                 bg-black
-
-                px-6
-                py-[11px]
-
-                text-[11px]
-                font-medium
-
-                tracking-[-0.01em]
-
+                px-5
+                py-2.5
+                text-[10.5px]
+                font-semibold
+                uppercase
+                tracking-[0.1em]
                 text-white
-
                 outline-none
-
                 transition-all
                 duration-300
-
-                hover:scale-[1.035]
+                hover:scale-[1.03]
                 hover:bg-neutral-800
-
                 active:scale-[0.98]
-
+                cursor-pointer
+                shadow-sm
                 lg:block
               "
             >
               Contact Now →
             </button>
-          </div>
+          </motion.div>
 
           {/* =================================================
               MOBILE MENU BUTTON
@@ -331,82 +345,41 @@ export default function Navbar() {
             className="
               relative
               z-[110]
-
               justify-self-end
-
               border-none
               bg-transparent
-              p-1
-
+              p-1.5
               text-black
-
               outline-none
-
+              cursor-pointer
               lg:hidden
             "
           >
-            <AnimatePresence
-              mode="wait"
-              initial={false}
-            >
+            <AnimatePresence mode="wait" initial={false}>
               {open ? (
                 <motion.div
                   key="close"
-                  initial={{
-                    opacity: 0,
-                    rotate: -45,
-                    scale: 0.8,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    rotate: 0,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    rotate: 45,
-                    scale: 0.8,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
+                  initial={{ opacity: 0, rotate: -45, scale: 0.8 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: 45, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <X
-                    size={25}
-                    strokeWidth={1.7}
-                  />
+                  <X size={22} strokeWidth={1.8} />
                 </motion.div>
               ) : (
                 <motion.div
                   key="menu"
-                  initial={{
-                    opacity: 0,
-                    rotate: 45,
-                    scale: 0.8,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    rotate: 0,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    rotate: -45,
-                    scale: 0.8,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
+                  initial={{ opacity: 0, rotate: 45, scale: 0.8 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: -45, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <Menu
-                    size={25}
-                    strokeWidth={1.7}
-                  />
+                  <Menu size={22} strokeWidth={1.8} />
                 </motion.div>
               )}
             </AnimatePresence>
           </button>
-        </div>
+        </motion.div>
       </motion.nav>
 
       {/* =====================================================
@@ -417,256 +390,116 @@ export default function Navbar() {
         {open && (
           <>
             {/* Background overlay */}
-
             <motion.div
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              exit={{
-                opacity: 0,
-              }}
-              transition={{
-                duration: 0.3,
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               onClick={() => setOpen(false)}
               className="
                 fixed
                 inset-0
                 z-[80]
-
-                bg-black/20
+                bg-black/30
                 backdrop-blur-sm
-
                 lg:hidden
               "
             />
 
             {/* Menu panel */}
-
             <motion.div
-              initial={{
-                opacity: 0,
-                x: "100%",
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              exit={{
-                opacity: 0,
-                x: "100%",
-              }}
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
               transition={{
-                duration: 0.45,
+                duration: 0.42,
                 ease: [0.22, 1, 0.36, 1],
               }}
               className={`
                 ${navbarFont.className}
-
                 fixed
                 inset-y-0
                 right-0
-
                 z-[90]
-
-                w-[88%]
-                max-w-[420px]
-
+                w-[86%]
+                max-w-[400px]
                 bg-white
-
-                pt-28
-
-                shadow-[-30px_0_80px_rgba(0,0,0,0.12)]
-
+                pt-24
+                shadow-[-25px_0_70px_rgba(0,0,0,0.14)]
                 lg:hidden
               `}
             >
               <div className="flex h-full flex-col px-8">
-                {/* Small label */}
-
-                <motion.p
-                  initial={{
-                    opacity: 0,
-                    y: 10,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: 0.1,
-                  }}
-                  className="
-                    mb-8
-
-                    text-[9px]
-                    font-semibold
-                    uppercase
-
-                    tracking-[0.32em]
-
-                    text-neutral-400
-                  "
-                >
+                <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.32em] text-neutral-400">
                   Navigation
-                </motion.p>
-
-                {/* Navigation */}
+                </p>
 
                 <div className="flex flex-col">
                   {navItems.map((item, index) => (
                     <motion.button
                       key={item.label}
                       type="button"
-                      onClick={() =>
-                        scrollToSection(item.href)
-                      }
-                      initial={{
-                        opacity: 0,
-                        x: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                      }}
+                      onClick={() => scrollToSection(item.href)}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{
-                        delay:
-                          0.08 +
-                          index * 0.045,
+                        delay: 0.06 + index * 0.04,
                         duration: 0.35,
-                        ease: [
-                          0.22,
-                          1,
-                          0.36,
-                          1,
-                        ],
                       }}
                       className="
                         group
-
                         flex
                         items-center
                         justify-between
-
                         border-none
                         border-b
                         border-neutral-100
-
                         bg-transparent
-
                         py-4
-
                         text-left
-
                         text-lg
                         font-medium
-
-                        tracking-[0.05em]
-
+                        tracking-[0.04em]
                         text-black
-
                         outline-none
                       "
                     >
-                      <span>
-                        {item.label}
-                      </span>
-
-                      <span
-                        className="
-                          text-neutral-300
-
-                          transition-all
-                          duration-300
-
-                          group-hover:translate-x-1
-                          group-hover:text-black
-                        "
-                      >
+                      <span>{item.label}</span>
+                      <span className="text-neutral-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-black">
                         →
                       </span>
                     </motion.button>
                   ))}
                 </div>
 
-                {/* Contact */}
-
                 <motion.button
                   type="button"
-                  onClick={() =>
-                    scrollToSection("#contact")
-                  }
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay:
-                      0.08 +
-                      navItems.length * 0.045 +
-                      0.1,
-                  }}
+                  onClick={() => scrollToSection("#contact")}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
                   className="
-                    mt-10
-
+                    mt-8
                     w-full
-
                     rounded-full
-
                     border-none
                     bg-black
-
                     px-8
-                    py-4
-
+                    py-3.5
                     text-sm
                     font-medium
-
                     text-white
-
                     outline-none
-
-                    transition-transform
-                    duration-300
-
-                    active:scale-[0.98]
+                    shadow-md
                   "
                 >
                   Contact Now →
                 </motion.button>
 
-                {/* Bottom detail */}
-
                 <div className="mt-auto pb-8">
-                  <div
-                    className="
-                      h-px
-                      w-full
-                      bg-neutral-100
-                    "
-                  />
-
-                  <p
-                    className="
-                      mt-5
-
-                      text-[9px]
-                      font-medium
-                      uppercase
-
-                      tracking-[0.3em]
-
-                      text-neutral-400
-                    "
-                  >
-                    ANMOL MADAN
+                  <div className="h-px w-full bg-neutral-100" />
+                  <p className="mt-5 text-[9px] font-medium uppercase tracking-[0.3em] text-neutral-400">
+                    ANMOL MADAN · PORTFOLIO
                   </p>
                 </div>
               </div>

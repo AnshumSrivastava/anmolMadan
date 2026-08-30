@@ -8,6 +8,7 @@ import type { Project } from "@/types/project";
 
 import ExperienceGallery from "./ExperienceGallery";
 import ExperienceTestimonials from "./ExperienceTestimonials";
+import ExperienceComments from "./ExperienceComments";
 
 type Props = {
   experience: Project;
@@ -465,6 +466,11 @@ export default function ExperienceModal({
                   </div>
                 </div>
               )}
+
+            {/* ==================================================
+                FACEBOOK-STYLE COMMENTS & DISCUSSIONS
+            ================================================== */}
+            <ExperienceComments projectId={experience.id} />
           </div>
         </div>
       </div>

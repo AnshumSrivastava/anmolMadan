@@ -132,22 +132,82 @@ export default function TestimonialCard({
         />
       </div>
 
-      {/* Active */}
-      <div className="mt-6">
-        <label className="flex items-center gap-3 text-sm text-zinc-300">
-          <input
-            type="checkbox"
-            checked={form.is_active}
-            onChange={(e) =>
-              handleChange(
-                "is_active",
-                e.target.checked
-              )
-            }
-          />
+      {/* Status & Active Moderation */}
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-zinc-950 p-4 border border-zinc-800">
+        <div className="flex items-center gap-4">
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              Moderation Status
+            </label>
+            <select
+              value={form.status ?? (form.is_active ? "approved" : "pending")}
+              onChange={(e) => {
+                const newStatus = e.target.value as "pending" | "approved" | "rejected";
+                handleChange("status", newStatus);
+                if (newStatus === "approved") {
+                  handleChange("is_active", true);
+                } else {
+                  handleChange("is_active", false);
+                }
+              }}
+              className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white outline-none focus:border-white"
+            >
+              <option value="pending">⏳ Pending Review</option>
+              <option value="approved">✅ Approved & Live</option>
+              <option value="rejected">❌ Rejected</option>
+            </select>
+          </div>
 
-          Active
-        </label>
+          <div className="pt-4">
+            <label className="flex items-center gap-2 text-xs font-medium text-zinc-300 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.is_active}
+                onChange={(e) =>
+                  handleChange(
+                    "is_active",
+                    e.target.checked
+                  )
+                }
+                className="h-4 w-4 rounded border-zinc-700 bg-zinc-900 text-white"
+              />
+              Visible on Live Site
+            </label>
+          </div>
+        </div>
+
+        {form.status === "pending" && (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                onUpdate(form.id, {
+                  ...form,
+                  status: "approved",
+                  is_active: true,
+                });
+              }}
+              disabled={disabled}
+              className="rounded-lg bg-emerald-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-500 disabled:opacity-50"
+            >
+              ✓ Quick Approve
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                onUpdate(form.id, {
+                  ...form,
+                  status: "rejected",
+                  is_active: false,
+                });
+              }}
+              disabled={disabled}
+              className="rounded-lg bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-700 disabled:opacity-50"
+            >
+              ✕ Reject
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Buttons */}
@@ -155,7 +215,7 @@ export default function TestimonialCard({
         <button
           onClick={handleSave}
           disabled={disabled}
-          className="rounded-xl bg-white px-6 py-3 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:opacity-50"
+          className="rounded-xl bg-white px-6 py-2.5 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:opacity-50"
         >
           Save Changes
         </button>
@@ -163,7 +223,7 @@ export default function TestimonialCard({
         <button
           onClick={() => onDelete(form.id)}
           disabled={disabled}
-          className="rounded-xl border border-red-500 px-6 py-3 text-sm font-medium text-red-400 transition hover:bg-red-500 hover:text-white disabled:opacity-50"
+          className="rounded-xl border border-red-500/80 px-6 py-2.5 text-sm font-medium text-red-400 transition hover:bg-red-500 hover:text-white disabled:opacity-50"
         >
           Delete
         </button>

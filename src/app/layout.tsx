@@ -16,8 +16,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Anmol Madan",
-  description: "Portfolio",
+  title: "Anmol Madan — Cybersecurity Trainer & Motivational Speaker",
+  description:
+    "Official portfolio of Anmol Madan, certified Cybersecurity Specialist & Motivational Speaker based in Chandigarh, India. Corporate training, keynotes, and workshops across India and online.",
+  keywords: [
+    "Anmol Madan",
+    "Cybersecurity Trainer",
+    "Motivational Speaker",
+    "Corporate Training",
+    "Cybersecurity Specialist",
+    "Chandigarh",
+    "Speaker India",
+  ],
+  authors: [{ name: "Anmol Madan" }],
+  openGraph: {
+    title: "Anmol Madan — Cybersecurity Trainer & Motivational Speaker",
+    description:
+      "Transforming classrooms and boardrooms with memorable cybersecurity sessions and motivational keynotes.",
+    type: "website",
+    locale: "en_US",
+    siteName: "Anmol Madan Portfolio",
+  },
 };
 
 export default function RootLayout({

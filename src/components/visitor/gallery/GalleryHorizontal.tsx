@@ -3,506 +3,244 @@
 import {
   ChevronLeft,
   ChevronRight,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
-
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-
-import { motion } from "framer-motion";
-
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Gallery } from "@/types/gallery";
-
 import GalleryCard from "./GalleryCard";
 
 interface GalleryHorizontalProps {
   items: Gallery[];
 }
 
-/* =========================================================
-   COMPONENT
-========================================================= */
-
-export default function GalleryHorizontal({
-  items,
-}: GalleryHorizontalProps) {
-  const [activeIndex, setActiveIndex] =
-    useState(0);
-
-  /* =======================================================
-     NORMALIZE
-
-     Keep original order from Supabase.
-  ======================================================= */
-
+export default function GalleryHorizontal({ items }: GalleryHorizontalProps) {
   const normalizedItems = useMemo(
-    () =>
-      [...items].sort(
-        (a, b) =>
-          a.sort_order - b.sort_order
-      ),
+    () => [...items].sort((a, b) => a.sort_order - b.sort_order),
     [items]
   );
 
-  /* =======================================================
-     NEXT
-  ======================================================= */
+  const total = normalizedItems.length;
 
-  const goNext = useCallback(() => {
-    setActiveIndex((current) => {
-      if (!normalizedItems.length) {
-        return 0;
-      }
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const [unmuted, setUnmuted] = useState(false);
+  const [isManualPaused, setIsManualPaused] = useState(false);
 
-      return (
-        (current + 1) %
-        normalizedItems.length
-      );
-    });
-  }, [normalizedItems.length]);
+  const angleRef = useRef<number>(0);
+  const targetAngleRef = useRef<number | null>(null);
+  const cylinderRef = useRef<HTMLDivElement>(null);
+  const animFrameIdRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(0);
+  const nudgeDeltaRef = useRef<number>(0);
 
-  /* =======================================================
-     PREVIOUS
-  ======================================================= */
+  const angleStep = 360 / Math.max(total, 1);
+  const radius = Math.min(Math.max(total * 95, 380), 580);
 
-  const goPrevious = useCallback(() => {
-    setActiveIndex((current) => {
-      if (!normalizedItems.length) {
-        return 0;
-      }
+  // Speed: ~12 degrees per second (smooth continuous orbital glide)
+  const orbitSpeed = 11.5;
 
-      return (
-        (current -
-          1 +
-          normalizedItems.length) %
-        normalizedItems.length
-      );
-    });
-  }, [normalizedItems.length]);
-
-  /* =======================================================
-     KEYBOARD NAVIGATION
-  ======================================================= */
+  /* =========================================================
+     CONTINUOUS ORBITAL ANIMATION LOOP (Planetary 3D Revolution)
+  ========================================================= */
 
   useEffect(() => {
-    const handleKeyDown = (
-      event: KeyboardEvent
-    ) => {
-      if (event.key === "ArrowRight") {
-        goNext();
+    let isRunning = true;
+
+    const animate = (time: number) => {
+      if (!lastTimeRef.current) lastTimeRef.current = time;
+      const deltaTime = (time - lastTimeRef.current) / 1000;
+      lastTimeRef.current = time;
+
+      const isFocused = focusedIndex !== null;
+      const isPaused = isManualPaused || isFocused;
+
+      if (!isPaused) {
+        if (nudgeDeltaRef.current !== 0) {
+          angleRef.current += nudgeDeltaRef.current;
+          nudgeDeltaRef.current = 0;
+        }
+        // Continuous smooth planetary revolution
+        angleRef.current = (angleRef.current - orbitSpeed * deltaTime) % 360000;
+        if (cylinderRef.current) {
+          cylinderRef.current.style.transform = `rotateY(${angleRef.current}deg)`;
+        }
+      } else if (targetAngleRef.current !== null) {
+        // Smoothly interpolate to target focused angle
+        const diff = targetAngleRef.current - angleRef.current;
+        if (Math.abs(diff) > 0.1) {
+          angleRef.current += diff * Math.min(deltaTime * 8, 0.25);
+          if (cylinderRef.current) {
+            cylinderRef.current.style.transform = `rotateY(${angleRef.current}deg)`;
+          }
+        } else {
+          angleRef.current = targetAngleRef.current;
+          if (cylinderRef.current) {
+            cylinderRef.current.style.transform = `rotateY(${angleRef.current}deg)`;
+          }
+          targetAngleRef.current = null;
+        }
       }
 
-      if (event.key === "ArrowLeft") {
-        goPrevious();
+      if (isRunning) {
+        animFrameIdRef.current = requestAnimationFrame(animate);
       }
     };
 
-    window.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
+    animFrameIdRef.current = requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener(
-        "keydown",
-        handleKeyDown
-      );
+      isRunning = false;
+      cancelAnimationFrame(animFrameIdRef.current);
     };
-  }, [goNext, goPrevious]);
+  }, [focusedIndex, isManualPaused, orbitSpeed]);
 
-  /* =======================================================
-     EMPTY
-  ======================================================= */
+  /* =========================================================
+     FOCUS & NUDGE CONTROLS
+  ========================================================= */
+
+  const handleCardClick = (index: number) => {
+    if (focusedIndex === index) {
+      // Toggle off focus -> resume continuous orbit
+      setFocusedIndex(null);
+      targetAngleRef.current = null;
+    } else {
+      // Lock onto this card at front (0 deg)
+      setFocusedIndex(index);
+      const target = -index * angleStep;
+      // Find shortest angular path to target
+      const current = angleRef.current;
+      const delta = ((((target - current) % 360) + 540) % 360) - 180;
+      targetAngleRef.current = current + delta;
+    }
+  };
+
+  const handleNudge = (direction: "left" | "right") => {
+    const delta = direction === "right" ? -angleStep : angleStep;
+    if (focusedIndex !== null) {
+      const nextIndex =
+        direction === "right"
+          ? (focusedIndex + 1) % total
+          : (focusedIndex - 1 + total) % total;
+      setFocusedIndex(nextIndex);
+      targetAngleRef.current = -nextIndex * angleStep;
+    } else {
+      nudgeDeltaRef.current += delta;
+    }
+  };
 
   if (!normalizedItems.length) {
     return null;
   }
 
-  /* =======================================================
-     BUILD 3 CARD WINDOW
-
-     Previous | Active | Next
-
-     We don't need to render all videos at once.
-  ======================================================= */
-
-  const previousIndex =
-    (activeIndex -
-      1 +
-      normalizedItems.length) %
-    normalizedItems.length;
-
-  const nextIndex =
-    (activeIndex + 1) %
-    normalizedItems.length;
-
-  const visibleCards =
-    normalizedItems.length === 1
-      ? [
-          {
-            item: normalizedItems[0],
-            position: "active" as const,
-          },
-        ]
-      : normalizedItems.length === 2
-        ? [
-            {
-              item: normalizedItems[
-                previousIndex
-              ],
-              position: "side" as const,
-            },
-            {
-              item: normalizedItems[
-                activeIndex
-              ],
-              position: "active" as const,
-            },
-            {
-              item: normalizedItems[
-                nextIndex
-              ],
-              position: "side" as const,
-            },
-          ]
-        : [
-            {
-              item: normalizedItems[
-                previousIndex
-              ],
-              position: "side" as const,
-            },
-            {
-              item: normalizedItems[
-                activeIndex
-              ],
-              position: "active" as const,
-            },
-            {
-              item: normalizedItems[
-                nextIndex
-              ],
-              position: "side" as const,
-            },
-          ];
-
-  /* =======================================================
-     RENDER
-  ======================================================= */
-
   return (
-    <section
-      className="
-        relative
-        w-full
-      "
-    >
-      {/* ===================================================
-          TOP CONTROLS
-      =================================================== */}
-
-      <div
-        className="
-          mx-auto
-          flex
-          w-full
-          max-w-[1500px]
-          items-center
-          justify-between
-          px-6
-          lg:px-10
-        "
-      >
-        {/* Counter */}
-
-        <motion.div
-          key={activeIndex}
-          initial={{
-            opacity: 0,
-            y: 8,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.4,
-          }}
-          className="
-            text-[10px]
-            font-medium
-            uppercase
-            tracking-[0.3em]
-            text-neutral-400
-          "
-        >
-          {String(
-            activeIndex + 1
-          ).padStart(2, "0")}
-          {" "}
-          /{" "}
-          {String(
-            normalizedItems.length
-          ).padStart(2, "0")}
-        </motion.div>
-
-        {/* Arrows */}
-
-        {normalizedItems.length > 1 && (
-          <div
-            className="
-              flex
-              items-center
-              gap-2
-            "
+    <section className="relative w-full overflow-hidden py-6 select-none">
+      {/* TOP CONTROLS */}
+      <div className="mx-auto flex w-full max-w-[1500px] items-center justify-end px-6 lg:px-10">
+        {/* Audio & Manual Nudge Controls */}
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setUnmuted((prev) => !prev)}
+            aria-label={unmuted ? "Mute video audio" : "Unmute video audio"}
+            className={`flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold uppercase tracking-wider transition-all ${
+              unmuted
+                ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                : "border-neutral-200 bg-white/90 text-neutral-700 hover:bg-neutral-50 shadow-sm"
+            }`}
           >
-            {/* PREVIOUS */}
+            {unmuted ? <Volume2 size={14} /> : <VolumeX size={14} />}
+            <span className="text-[10px] hidden sm:inline">
+              {unmuted ? "Audio Active" : "Muted"}
+            </span>
+          </button>
 
-            <button
-              type="button"
-              onClick={goPrevious}
-              aria-label="Previous testimonial"
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                bg-black
-                text-white
-                transition-all
-                duration-300
-                hover:scale-105
-                hover:bg-neutral-800
-                active:scale-95
-              "
-            >
-              <ChevronLeft
-                size={16}
-                strokeWidth={1.8}
-              />
-            </button>
+          <button
+            type="button"
+            onClick={() => setIsManualPaused((prev) => !prev)}
+            aria-label={isManualPaused ? "Play orbit" : "Pause orbit"}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white/90 text-neutral-700 shadow-sm transition hover:bg-neutral-50"
+          >
+            {isManualPaused ? <Play size={13} /> : <Pause size={13} />}
+          </button>
 
-            {/* NEXT */}
-
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="Next testimonial"
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                bg-black
-                text-white
-                transition-all
-                duration-300
-                hover:scale-105
-                hover:bg-neutral-800
-                active:scale-95
-              "
-            >
-              <ChevronRight
-                size={16}
-                strokeWidth={1.8}
-              />
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* ===================================================
-          VIDEO STAGE
-      =================================================== */}
-
-      <div
-        className="
-          relative
-          mt-8
-          w-full
-          overflow-hidden
-        "
-      >
-        <div
-          className="
-            mx-auto
-            flex
-            w-full
-            items-center
-            justify-center
-            gap-5
-            px-0
-            lg:gap-8
-          "
-        >
-          {visibleCards.map(
-            ({
-              item,
-              position,
-            }) => {
-              const isActive =
-                position === "active";
-
-              return (
-                <motion.div
-                  key={item.id}
-                  layout
-                  initial={{
-                    opacity: 0,
-                    scale: 0.9,
-                  }}
-                  animate={{
-                    opacity: isActive
-                      ? 1
-                      : 0.55,
-                    scale: isActive
-                      ? 1
-                      : 0.9,
-                  }}
-                  transition={{
-                    duration: 0.7,
-                    ease: [
-                      0.22,
-                      1,
-                      0.36,
-                      1,
-                    ],
-                  }}
-                  className={`
-                    flex-shrink-0
-
-                    ${
-                      isActive
-                        ? `
-                          w-[72vw]
-                          sm:w-[68vw]
-                          lg:w-[52vw]
-                          xl:w-[48vw]
-                          max-w-[720px]
-                        `
-                        : `
-                          hidden
-                          sm:block
-                          w-[26vw]
-                          lg:w-[27vw]
-                          xl:w-[25vw]
-                          max-w-[420px]
-                        `
-                    }
-                  `}
-                  onClick={() => {
-                    if (!isActive) {
-                      if (
-                        position === "side"
-                      ) {
-                        if (
-                          item.id ===
-                          normalizedItems[
-                            previousIndex
-                          ].id
-                        ) {
-                          goPrevious();
-                        } else {
-                          goNext();
-                        }
-                      }
-                    }
-                  }}
-                >
-                  <GalleryCard
-                    item={item}
-                    isActive={isActive}
-                    onEnded={
-                      isActive
-                        ? goNext
-                        : undefined
-                    }
-                  />
-                </motion.div>
-              );
-            }
-          )}
-        </div>
-      </div>
-
-      {/* ===================================================
-          DOTS
-      =================================================== */}
-
-      {normalizedItems.length > 1 && (
-        <div
-          className="
-            mt-7
-            flex
-            items-center
-            justify-center
-            gap-2
-          "
-        >
-          {normalizedItems.map(
-            (item, index) => (
+          {total > 1 && (
+            <div className="flex items-center gap-1.5">
               <button
-                key={item.id}
                 type="button"
-                aria-label={`Go to testimonial ${
-                  index + 1
-                }`}
-                onClick={() =>
-                  setActiveIndex(index)
-                }
-                className="
-                  group
-                  flex
-                  h-5
-                  items-center
-                  justify-center
-                "
+                onClick={() => handleNudge("left")}
+                aria-label="Rotate left"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white transition-all hover:scale-105 hover:bg-neutral-800 active:scale-95 shadow-sm"
               >
-                <span
-                  className={`
-                    block
-                    h-1
-                    rounded-full
-                    transition-all
-                    duration-500
-
-                    ${
-                      index ===
-                      activeIndex
-                        ? "w-8 bg-black"
-                        : "w-1.5 bg-neutral-300 group-hover:bg-neutral-500"
-                    }
-                  `}
-                />
+                <ChevronLeft size={16} strokeWidth={2} />
               </button>
-            )
+
+              <button
+                type="button"
+                onClick={() => handleNudge("right")}
+                aria-label="Rotate right"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white transition-all hover:scale-105 hover:bg-neutral-800 active:scale-95 shadow-sm"
+              >
+                <ChevronRight size={16} strokeWidth={2} />
+              </button>
+            </div>
           )}
         </div>
-      )}
+      </div>
 
-      {/* ===================================================
-          DRAG / NAVIGATION HINT
-      =================================================== */}
-
+      {/* 3D PLANETARY CYLINDER STAGE */}
       <div
-        className="
-          mt-4
-          text-center
-          text-[9px]
-          font-medium
-          uppercase
-          tracking-[0.3em]
-          text-neutral-300
-        "
+        className="relative mx-auto mt-4 flex min-h-[520px] sm:min-h-[620px] w-full max-w-[1700px] items-center justify-center overflow-visible px-4"
+        style={{
+          perspective: "1400px",
+          perspectiveOrigin: "center 48%",
+        }}
       >
-        Use arrows to explore
+        {/* Revolving Cylinder Center Pivot */}
+        <div
+          ref={cylinderRef}
+          className="relative flex h-full w-full items-center justify-center will-change-transform"
+          style={{
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {normalizedItems.map((item, index) => {
+            const itemAngle = index * angleStep;
+            const isFocused = focusedIndex === index;
+
+            return (
+              <div
+                key={item.id}
+                onClick={() => handleCardClick(index)}
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${radius}px)`,
+                }}
+                className={`
+                  absolute
+                  top-1/2
+                  left-1/2
+                  cursor-pointer
+                  transition-all
+                  duration-500
+                  ${
+                    isFocused
+                      ? "w-[88vw] sm:w-[70vw] lg:w-[48vw] max-w-[720px] z-50 scale-[1.04]"
+                      : "w-[75vw] sm:w-[50vw] lg:w-[35vw] max-w-[500px] hover:brightness-105"
+                  }
+                `}
+              >
+                <GalleryCard
+                  item={item}
+                  isActive={isFocused || focusedIndex === null}
+                  unmuted={isFocused && unmuted}
+                  onEnded={() => handleNudge("right")}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

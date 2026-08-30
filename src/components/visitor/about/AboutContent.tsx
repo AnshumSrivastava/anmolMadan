@@ -6,27 +6,28 @@ type Props = {
 
 export default function AboutContent({ about }: Props) {
   return (
-    <div className="mx-auto max-w-5xl text-center">
+    <div className="max-w-2xl text-left">
       {/* Section Label */}
-      <span className="inline-flex items-center rounded-full border border-zinc-300 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-zinc-600">
-        {about.section_heading}
-      </span>
+      <div className="inline-flex items-center gap-3">
+        <span className="h-px w-6 bg-zinc-400" />
+        <span className="text-xs font-semibold uppercase tracking-[0.32em] text-zinc-500">
+          {about.section_heading || "ABOUT ME"}
+        </span>
+      </div>
 
       {/* Heading */}
-      <h2 className="mx-auto mt-8 max-w-4xl text-5xl font-bold leading-tight tracking-tight text-black md:text-6xl lg:text-7xl">
+      <h2 className="mt-6 text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-black sm:text-5xl lg:text-6xl">
         {about.main_heading}
       </h2>
 
       {/* Divider */}
-      <div className="mx-auto mt-10 h-px w-24 bg-zinc-300" />
+      <div className="mt-8 h-px w-16 bg-zinc-300" />
 
       {/* Paragraphs */}
-      <div className="mx-auto mt-10 max-w-3xl space-y-8 text-lg leading-9 text-zinc-600">
-        <p>{about.paragraph_1}</p>
-
-        <p>{about.paragraph_2}</p>
-
-        <p>{about.paragraph_3}</p>
+      <div className="mt-8 space-y-6 text-base sm:text-lg leading-relaxed text-zinc-600">
+        {about.paragraph_1 && <p>{about.paragraph_1}</p>}
+        {about.paragraph_2 && <p>{about.paragraph_2}</p>}
+        {about.paragraph_3 && <p>{about.paragraph_3}</p>}
       </div>
     </div>
   );
