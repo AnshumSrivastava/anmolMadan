@@ -42,7 +42,7 @@ export default function ExperienceGallery({
           w-full
           items-center
           justify-center
-          bg-neutral-100
+          bg-neutral-100 dark:bg-neutral-800
           text-xs
           font-medium
           uppercase
@@ -90,7 +90,7 @@ export default function ExperienceGallery({
         min-h-[400px]
         w-full
         overflow-hidden
-        bg-neutral-100
+        bg-neutral-100 dark:bg-neutral-800
       "
     >
       {/* ======================================================
@@ -182,10 +182,10 @@ export default function ExperienceGallery({
 
               rounded-full
 
-              bg-white/90
+              bg-white dark:bg-black/90
 
               text-xl
-              text-black
+              text-black dark:text-white
 
               shadow-lg
               backdrop-blur-md
@@ -194,7 +194,7 @@ export default function ExperienceGallery({
               duration-300
 
               hover:scale-105
-              hover:bg-white
+              hover:bg-white dark:bg-black
             "
           >
             ←
@@ -222,10 +222,10 @@ export default function ExperienceGallery({
 
               rounded-full
 
-              bg-white/90
+              bg-white dark:bg-black/90
 
               text-xl
-              text-black
+              text-black dark:text-white
 
               shadow-lg
               backdrop-blur-md
@@ -234,7 +234,7 @@ export default function ExperienceGallery({
               duration-300
 
               hover:scale-105
-              hover:bg-white
+              hover:bg-white dark:bg-black
             "
           >
             →

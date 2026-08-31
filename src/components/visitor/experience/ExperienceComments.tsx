@@ -78,9 +78,9 @@ export default function ExperienceComments({ projectId }: Props) {
   };
 
   return (
-    <div className="mt-12 w-full border-t border-neutral-100 pt-8">
+    <div className="mt-12 w-full border-t border-neutral-100 dark:border-neutral-800 pt-8">
       {/* SOCIAL ACTIONS BAR (Facebook style) */}
-      <div className="flex items-center justify-between border-b border-neutral-100 pb-4 text-xs text-neutral-500">
+      <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800 pb-4 text-xs text-neutral-500 dark:text-neutral-400">
         <div className="flex items-center gap-2">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] text-white">
             <ThumbsUp size={10} />
@@ -88,7 +88,7 @@ export default function ExperienceComments({ projectId }: Props) {
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] text-white">
             <Heart size={10} />
           </span>
-          <span className="font-medium text-neutral-700">
+          <span className="font-medium text-neutral-700 dark:text-neutral-300">
             {likesCount} people found this insightful
           </span>
         </div>
@@ -100,7 +100,7 @@ export default function ExperienceComments({ projectId }: Props) {
       </div>
 
       {/* LIKE / SHARE INTERACTIVE BUTTONS */}
-      <div className="my-3 flex items-center justify-around border-b border-neutral-100 py-1.5">
+      <div className="my-3 flex items-center justify-around border-b border-neutral-100 dark:border-neutral-800 py-1.5">
         <button
           type="button"
           onClick={() => {
@@ -115,7 +115,7 @@ export default function ExperienceComments({ projectId }: Props) {
           className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all ${
             hasLiked
               ? "bg-blue-50 text-blue-600"
-              : "text-neutral-600 hover:bg-neutral-100"
+              : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:bg-neutral-800"
           }`}
         >
           <ThumbsUp size={15} className={hasLiked ? "fill-blue-600" : ""} />
@@ -124,7 +124,7 @@ export default function ExperienceComments({ projectId }: Props) {
 
         <a
           href="#comment-box"
-          className="flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold text-neutral-600 transition-all hover:bg-neutral-100"
+          className="flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold text-neutral-600 dark:text-neutral-400 transition-all hover:bg-neutral-100 dark:bg-neutral-800"
         >
           <MessageSquare size={15} />
           <span>Comment</span>
@@ -132,15 +132,15 @@ export default function ExperienceComments({ projectId }: Props) {
       </div>
 
       {/* COMMENT SUBMISSION FORM */}
-      <div id="comment-box" className="mt-6 rounded-2xl bg-neutral-50 p-4 sm:p-5">
+      <div id="comment-box" className="mt-6 rounded-2xl bg-neutral-50 dark:bg-neutral-900 p-4 sm:p-5">
         <div className="mb-3 flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-white">
             <User size={14} />
           </div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-neutral-700">
+          <p className="text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
             Leave a Comment
           </p>
-          <span className="ml-auto flex items-center gap-1 rounded-full bg-neutral-200/70 px-2 py-0.5 text-[9px] font-medium text-neutral-600">
+          <span className="ml-auto flex items-center gap-1 rounded-full bg-neutral-200 dark:bg-neutral-700/70 px-2 py-0.5 text-[9px] font-medium text-neutral-600 dark:text-neutral-400">
             <ShieldCheck size={10} />
             Moderated
           </span>
@@ -164,7 +164,7 @@ export default function ExperienceComments({ projectId }: Props) {
               placeholder="Your name (e.g., Sarah Jenkins)"
               maxLength={80}
               required
-              className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-black focus:outline-none"
+              className="w-full rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black px-3.5 py-2 text-xs text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:border-black dark:border-white focus:outline-none"
             />
           </div>
 
@@ -176,7 +176,7 @@ export default function ExperienceComments({ projectId }: Props) {
               rows={3}
               maxLength={800}
               required
-              className="w-full resize-none rounded-xl border border-neutral-200 bg-white p-3.5 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-black focus:outline-none"
+              className="w-full resize-none rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black p-3.5 text-xs text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:border-black dark:border-white focus:outline-none"
             />
           </div>
 
@@ -223,14 +223,14 @@ export default function ExperienceComments({ projectId }: Props) {
         </p>
 
         {comments.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-neutral-200 py-6 text-center text-xs text-neutral-400">
+          <div className="rounded-xl border border-dashed border-neutral-200 dark:border-neutral-800 py-6 text-center text-xs text-neutral-400">
             No public comments yet. Be the first to share your thoughts!
           </div>
         ) : (
           comments.map((item) => (
             <div
               key={item.id}
-              className="flex items-start gap-3 rounded-2xl bg-neutral-50/70 p-4 transition-colors hover:bg-neutral-50"
+              className="flex items-start gap-3 rounded-2xl bg-neutral-50 dark:bg-neutral-900/70 p-4 transition-colors hover:bg-neutral-50 dark:bg-neutral-900"
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-neutral-800 to-neutral-600 text-xs font-bold text-white shadow-sm">
                 {getInitials(item.author_name)}
@@ -238,7 +238,7 @@ export default function ExperienceComments({ projectId }: Props) {
 
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-semibold text-black">
+                  <h4 className="text-xs font-semibold text-black dark:text-white">
                     {item.author_name}
                   </h4>
                   <span className="text-[10px] text-neutral-400">
@@ -249,14 +249,14 @@ export default function ExperienceComments({ projectId }: Props) {
                   </span>
                 </div>
 
-                <p className="mt-1.5 whitespace-pre-line text-xs leading-relaxed text-neutral-700">
+                <p className="mt-1.5 whitespace-pre-line text-xs leading-relaxed text-neutral-700 dark:text-neutral-300">
                   {item.comment}
                 </p>
 
-                <div className="mt-2.5 flex items-center gap-4 text-[10px] font-medium text-neutral-500">
+                <div className="mt-2.5 flex items-center gap-4 text-[10px] font-medium text-neutral-500 dark:text-neutral-400">
                   <button
                     type="button"
-                    className="hover:text-black hover:underline"
+                    className="hover:text-black dark:text-white hover:underline"
                     onClick={(e) => {
                       const btn = e.currentTarget;
                       btn.textContent = "Liked (1)";

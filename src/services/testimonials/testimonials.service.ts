@@ -1,46 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Testimonial } from "@/types/testimonial";
 
-const initialFallbackTestimonials: Testimonial[] = [
-  {
-    id: "test-1",
-    client_name: "Vikram Sharma",
-    designation: "Head of Information Security",
-    company: "Apex Global Tech",
-    photo: null,
-    message:
-      "Anmol delivered an unforgettable session on modern social engineering vectors. His presentation style was engaging, energetic, and completely transformed our team's day-to-day security posture.",
-    sort_order: 1,
-    is_active: true,
-    status: "approved",
-  },
-  {
-    id: "test-2",
-    client_name: "Dr. Ananya Roy",
-    designation: "Associate Dean & Professor",
-    company: "Institute of Technology",
-    photo: null,
-    message:
-      "Rarely do you find a speaker who bridges technical depth with such charisma. The students were captivated for two hours straight, and the feedback has been phenomenal.",
-    sort_order: 2,
-    is_active: true,
-    status: "approved",
-  },
-  {
-    id: "test-3",
-    client_name: "Rajesh Malhotra",
-    designation: "VP, Engineering",
-    company: "CloudCore Networks",
-    photo: null,
-    message:
-      "Working with Anmol was seamless. His insights into practical cybersecurity drills gave our enterprise actionable takeaways we implemented immediately.",
-    sort_order: 3,
-    is_active: true,
-    status: "approved",
-  },
-];
-
-let runtimeTestimonialsStore: Testimonial[] = [...initialFallbackTestimonials];
 
 /* -------------------- GET ALL (ADMIN) -------------------- */
 
@@ -52,13 +12,15 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       .select("*")
       .order("sort_order", { ascending: true });
 
-    if (error || !data || data.length === 0) {
-      return [...runtimeTestimonialsStore].sort((a, b) => a.sort_order - b.sort_order);
+    if (error) {
+      console.error(error);
+      return [];
     }
 
-    return data as Testimonial[];
-  } catch {
-    return [...runtimeTestimonialsStore].sort((a, b) => a.sort_order - b.sort_order);
+    return (data as Testimonial[]) || [];
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 }
 
@@ -73,17 +35,15 @@ export async function getPublicApprovedTestimonials(): Promise<Testimonial[]> {
       .eq("is_active", true)
       .order("sort_order", { ascending: true });
 
-    if (error || !data || data.length === 0) {
-      return runtimeTestimonialsStore
-        .filter((t) => t.is_active && (t.status === "approved" || !t.status))
-        .sort((a, b) => a.sort_order - b.sort_order);
+    if (error) {
+      console.error(error);
+      return [];
     }
 
-    return data.filter((t) => t.status === "approved" || !t.status) as Testimonial[];
-  } catch {
-    return runtimeTestimonialsStore
-      .filter((t) => t.is_active && (t.status === "approved" || !t.status))
-      .sort((a, b) => a.sort_order - b.sort_order);
+    return (data.filter((t) => t.status === "approved" || !t.status) as Testimonial[]) || [];
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 }
 
@@ -128,12 +88,11 @@ export async function submitPublicTestimonial(input: {
     if (!error && data) {
       return data;
     }
+    throw error || new Error("Failed to submit testimonial");
   } catch (err) {
-    console.warn("Supabase insert testimonial fallback to runtime store:", err);
+    console.error("Supabase insert testimonial error:", err);
+    throw err;
   }
-
-  runtimeTestimonialsStore.push(newRecord);
-  return newRecord;
 }
 
 /* -------------------- CREATE (ADMIN) -------------------- */
@@ -166,10 +125,12 @@ export async function createTestimonial() {
     });
 
     if (error) {
-      runtimeTestimonialsStore.push(newRecord);
+      console.error(error);
+      throw error;
     }
-  } catch {
-    runtimeTestimonialsStore.push(newRecord);
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 }
 
@@ -187,16 +148,12 @@ export async function updateTestimonial(
       .eq("id", id);
 
     if (error) {
-      const target = runtimeTestimonialsStore.find((t) => t.id === id);
-      if (target) {
-        Object.assign(target, updates);
-      }
+      console.error(error);
+      throw error;
     }
-  } catch {
-    const target = runtimeTestimonialsStore.find((t) => t.id === id);
-    if (target) {
-      Object.assign(target, updates);
-    }
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 }
 
@@ -207,9 +164,11 @@ export async function deleteTestimonial(id: string) {
     const supabase = await createClient();
     const { error } = await supabase.from("testimonials").delete().eq("id", id);
     if (error) {
-      runtimeTestimonialsStore = runtimeTestimonialsStore.filter((t) => t.id !== id);
+      console.error(error);
+      throw error;
     }
-  } catch {
-    runtimeTestimonialsStore = runtimeTestimonialsStore.filter((t) => t.id !== id);
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 }

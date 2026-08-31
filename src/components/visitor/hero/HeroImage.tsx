@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { Hero } from "@/types/hero";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 type Props = {
   hero: Hero;
@@ -12,102 +11,120 @@ type Props = {
 export default function HeroImage({ hero }: Props) {
   if (!hero.hero_image) return null;
 
-  /* ==========================================================
-     MAGNETIC MOUSE TILT (Desktop Only)
-     Stronger tilt range (±7°) for a more pronounced 3D pop.
-  ========================================================== */
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Stronger tilt — more dramatic 3D depth perception
-  const rotateX = useSpring(mouseY, { stiffness: 80, damping: 20, mass: 0.15 });
-  const rotateY = useSpring(mouseX, { stiffness: 80, damping: 20, mass: 0.15 });
-
-  // Separate glow position — moves at different speed than image for parallax
-  const glowX = useSpring(mouseX, { stiffness: 40, damping: 18, mass: 0.3 });
-  const glowY = useSpring(mouseY, { stiffness: 40, damping: 18, mass: 0.3 });
-
-  useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 2;  // -1 to 1
-      const y = (e.clientY / innerHeight - 0.5) * 2; // -1 to 1
-
-      mouseX.set(x * 7);   // rotateY ±7°
-      mouseY.set(-y * 5);  // rotateX ±5°
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
   return (
     <motion.div
-      /* Entrance: slides up + scales in from slightly smaller */
-      initial={{ y: 60, opacity: 0, scale: 0.94 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      transition={{
-        delay: 0.5,
-        duration: 1.1,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="relative h-full w-full overflow-visible [transform-style:preserve-3d]"
-      style={{
-        rotateX,
-        rotateY,
-        transformPerspective: 1400,
-      }}
+      initial={{ opacity: 0, scale: 0.94, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="relative flex h-[72vh] sm:h-[76vh] lg:h-[80vh] xl:h-[82vh] w-full items-end justify-center lg:justify-end select-none pointer-events-none pb-4 sm:pb-6 pr-4 sm:pr-8"
     >
-      {/* Parallax ambient glow — moves slower than image for depth */}
-      <motion.div
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-[40%]
-          h-[70%]
-          w-[70%]
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          bg-neutral-200/60
-          blur-[120px]
-        "
-        style={{
-          x: glowX,
-          y: glowY,
-        }}
-      />
+      {/* Grouped Single Element Container */}
+      <div className="relative flex h-[380px] sm:h-[420px] lg:h-[460px] xl:h-[490px] w-[320px] sm:w-[360px] lg:w-[390px] xl:w-[420px] items-end justify-center">
 
-      {/* SUBJECT IMAGE */}
-      <Image
-        src={hero.hero_image}
-        alt={hero.title_line_1 || "Anmol Madan"}
-        width={1050}
-        height={1400}
-        priority
-        sizes="(min-width: 1536px) 950px, (min-width: 1024px) 52vw, 90vw"
-        className="
-          absolute
-          bottom-0
-          left-1/2
-          h-full
-          w-auto
-          max-w-none
-          -translate-x-1/2
-          object-contain
-          object-bottom
-          scale-[1.12]
-          lg:scale-[1.18]
-          origin-bottom
-          drop-shadow-[0_40px_80px_rgba(0,0,0,0.12)]
-          select-none
-          pointer-events-none
-        "
-      />
+        {/* Ambient Depth Glow (Safely inset so blur never clips at edges) */}
+        <div
+          aria-hidden="true"
+          className="
+            absolute
+            bottom-0
+            left-1/2
+            -translate-x-1/2
+            h-[90%]
+            w-[90%]
+            rounded-full
+            bg-radial
+            from-neutral-400/20
+            via-neutral-300/5
+            to-transparent
+            dark:from-black/70
+            dark:via-neutral-900/30
+            dark:to-transparent
+            blur-2xl
+          "
+        />
+
+        {/* =========================================================
+            1. VISIBLE DIV: FULL CIRCLE BACKGROUND
+            - Pure circle (rounded-full, aspect-square)
+            - Anchored at bottom-0 with clean border and natural shadow
+        ========================================================= */}
+        <div
+          className="
+            absolute
+            bottom-0
+            left-1/2
+            -translate-x-1/2
+            w-[320px]
+            sm:w-[360px]
+            lg:w-[390px]
+            xl:w-[420px]
+            aspect-square
+            rounded-full
+            bg-[#beb49e]
+            dark:bg-[#2c2a26]
+            border
+            border-neutral-400/40
+            dark:border-neutral-700/80
+            shadow-[0_20px_45px_rgba(0,0,0,0.18)]
+            dark:shadow-[0_25px_55px_rgba(0,0,0,0.85)]
+            overflow-hidden
+          "
+        >
+          {/* Subtle radial lighting on the circular surface */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-radial from-white/20 via-transparent to-black/30 dark:from-white/5 dark:to-black/60 pointer-events-none"
+          />
+        </div>
+
+        {/* =========================================================
+            2. INVISIBLE DIV: TALL CLIPPING CONTAINER
+            - Same width & bottom-0 as the circle
+            - Generous top headroom (-top-[140px]) so head NEVER gets cropped
+            - Circular at bottom (rounded-b-full), Rectangular at top (rounded-t-none)
+        ========================================================= */}
+        <div
+          className="
+            absolute
+            -top-[140px]
+            bottom-0
+            left-1/2
+            -translate-x-1/2
+            w-[320px]
+            sm:w-[360px]
+            lg:w-[390px]
+            xl:w-[420px]
+            overflow-hidden
+            rounded-b-full
+            rounded-t-none
+            pointer-events-none
+            flex
+            items-end
+            justify-center
+          "
+        >
+          <Image
+            src={hero.hero_image}
+            alt={hero.pre_heading || "Anmol Madan"}
+            width={1000}
+            height={1400}
+            priority
+            className="
+              h-[118%]
+              w-auto
+              max-w-none
+              scale-[1.22]
+              origin-bottom
+              translate-y-[calc(8%+50px)]
+              object-contain
+              object-bottom
+              drop-shadow-[0_15px_25px_rgba(0,0,0,0.25)]
+              dark:drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)]
+            "
+          />
+        </div>
+
+      </div>
     </motion.div>
   );
 }

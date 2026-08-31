@@ -9,7 +9,7 @@ export default async function Timeline() {
   return (
     <section
       id="timeline"
-      className="relative overflow-hidden bg-[#fafafa] py-24 text-black lg:py-28"
+      className="relative overflow-hidden bg-[#fafafa] dark:bg-neutral-950 py-24 text-black dark:text-white lg:py-28"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
 

@@ -4,25 +4,6 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 /* =====================================================
-   YOUTUBE URL VALIDATION
-===================================================== */
-
-function isValidYouTubeUrl(url: string) {
-  try {
-    const parsed = new URL(url);
-
-    return (
-      parsed.hostname === "youtube.com" ||
-      parsed.hostname === "www.youtube.com" ||
-      parsed.hostname === "youtu.be" ||
-      parsed.hostname === "www.youtube-nocookie.com"
-    );
-  } catch {
-    return false;
-  }
-}
-
-/* =====================================================
    CREATE GALLERY VIDEO
 ===================================================== */
 
@@ -49,11 +30,7 @@ export async function createGallery(formData: FormData) {
     throw new Error("YouTube video URL is required.");
   }
 
-  if (!isValidYouTubeUrl(video)) {
-    throw new Error(
-      "Please enter a valid YouTube URL."
-    );
-  }
+
 
   /* -----------------------------------------------------
      INSERT
@@ -122,11 +99,7 @@ export async function updateGallery(
     throw new Error("YouTube video URL is required.");
   }
 
-  if (!isValidYouTubeUrl(video)) {
-    throw new Error(
-      "Please enter a valid YouTube URL."
-    );
-  }
+
 
   /* -----------------------------------------------------
      UPDATE

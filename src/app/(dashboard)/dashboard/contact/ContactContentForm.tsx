@@ -75,23 +75,7 @@ export default function ContactContentForm({ content }: Props) {
           description={content?.booking_description}
         />
 
-        <ContactCard
-          title="Call (Phone)"
-          placeholder="+1 234 567 890"
-          field="phone"
-          descriptionField="phone_description"
-          value={content?.phone}
-          description={content?.phone_description}
-        />
 
-        <ContactCard
-          title="Instagram"
-          placeholder="https://instagram.com/username"
-          field="instagram"
-          descriptionField="instagram_description"
-          value={content?.instagram}
-          description={content?.instagram_description}
-        />
       </div>
 
       <button

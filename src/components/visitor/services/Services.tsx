@@ -1,46 +1,42 @@
 import Reveal from "@/components/shared/Reveal";
-
 import {
   getServicesSection,
   getServiceItems,
 } from "@/services/services/services.service";
-
 import ServicesHeader from "./ServicesHeader";
 import ServicesGrid from "./ServicesGrid";
-import CTA from "./CTA";
 
 export default async function Services() {
   const section = await getServicesSection();
   const items = await getServiceItems();
 
-  if (!section) return null;
-
   const activeItems = items
     .filter((item) => item.is_active)
-    .sort(
-      (a, b) =>
-        a.display_order - b.display_order
-    );
+    .sort((a, b) => a.display_order - b.display_order);
+
+  const defaultSection = {
+    id: "services-default",
+    section_heading: "WAYS WE CAN WORK TOGETHER",
+    main_heading: "Ways We Can Work Together",
+    description:
+      "Whether you're looking for an interactive keynote, custom enterprise security training, or one-on-one executive advisory — explore the core formats available.",
+  };
+
+  const displaySection = section || defaultSection;
 
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-[#fafafa] py-28 text-black lg:py-32"
+      className="relative overflow-hidden bg-[#fafafa] dark:bg-neutral-950 py-20 lg:py-24 text-black dark:text-white"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
         <Reveal>
-          <ServicesHeader section={section} />
+          <ServicesHeader section={displaySection} />
         </Reveal>
 
-        <Reveal delay={0.15}>
+        <div className="mt-12 lg:mt-16">
           <ServicesGrid items={activeItems} />
-        </Reveal>
-
-        <Reveal delay={0.3}>
-          <CTA />
-        </Reveal>
-
+        </div>
       </div>
     </section>
   );

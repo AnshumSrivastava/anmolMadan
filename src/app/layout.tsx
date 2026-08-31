@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 
 import "./globals.css";
 import "@/styles/visitor.css";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,17 +51,24 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-white dark:bg-black transition-colors duration-300`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
 
-        <Toaster
-          position="top-right"
-          richColors
-          closeButton
-          expand
-          duration={4000}
-        />
+          <Toaster
+            position="top-right"
+            richColors
+            closeButton
+            expand
+            duration={4000}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );

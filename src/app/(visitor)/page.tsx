@@ -1,15 +1,17 @@
 import Hero from "@/components/visitor/hero/Hero";
-import About from "@/components/visitor/about/About";
+import { About, AudienceSection } from "@/components/visitor/about";
+import Services from "@/components/visitor/services/Services";
 import Experience from "@/components/visitor/experience/Experience";
-import Gallery from "@/components/visitor/gallery/Gallery";
 import Testimonials from "@/components/visitor/testimonials/Testimonials";
 import Footer from "@/components/visitor/layout/Footer";
 import { Vision } from "@/components/visitor/vision";
+import { Note } from "@/components/visitor/note";
 import ConnectButton from "@/components/visitor/layout/ConnectButton";
-import { getContactContent } from "@/services/contact";
+import { getContactContent, getContactLinks } from "@/services/contact";
 
 export default async function HomePage() {
   const contactContent = await getContactContent();
+  const contactLinks = await getContactLinks();
 
   return (
     <>
@@ -29,21 +31,24 @@ export default async function HomePage() {
           sm:rounded-t-[44px]
           lg:rounded-t-[52px]
           bg-white
+          dark:bg-black
           shadow-[0_-25px_60px_rgba(0,0,0,0.15)]
           transition-shadow
           duration-500
         "
       >
         <About />
-        <Vision />
-        <Experience />
-        <Gallery />
         <Testimonials />
-        <Footer />
+        <AudienceSection />
+        <Services />
+        <Vision />
+        <Note />
+        <Experience />
+        <Footer links={contactLinks} />
       </main>
 
       {/* Sticky Connect Button */}
-      <ConnectButton content={contactContent} />
+      <ConnectButton content={contactContent} links={contactLinks} />
     </>
   );
 }

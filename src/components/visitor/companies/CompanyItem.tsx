@@ -19,13 +19,13 @@ export default function CompanyItem({
       : "";
 
   return (
-    <article className="group w-full rounded-2xl border border-black/10 bg-white p-8 transition-all duration-300 hover:border-black/20 md:p-10 lg:p-12">
+    <article className="group w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900/60 p-8 transition-all duration-300 hover:border-black/20 dark:hover:border-white/20 md:p-10 lg:p-12">
       <div className="grid gap-10 lg:grid-cols-[180px_1fr_auto] lg:items-start lg:gap-12">
 
         {/* Duration */}
 
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-[0.3em] text-zinc-400">
+          <p className="text-[10px] font-medium uppercase tracking-[0.3em] text-zinc-400 dark:text-neutral-500">
             {startYear} — {endYear}
           </p>
         </div>
@@ -33,16 +33,16 @@ export default function CompanyItem({
         {/* Company Details */}
 
         <div>
-          <p className="text-sm font-medium text-zinc-500">
+          <p className="text-sm font-medium text-zinc-500 dark:text-neutral-400">
             {company.role}
           </p>
 
-          <h3 className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-black md:text-4xl">
+          <h3 className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-black dark:text-white md:text-4xl">
             {company.company_name}
           </h3>
 
           {company.description && (
-            <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-500">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-500 dark:text-neutral-400">
               {company.description}
             </p>
           )}

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import type { MessageStatus } from "@/types/contact";
+import type { MessageStatus, ContactLink } from "@/types/contact";
 
 /* ============================================================
    UPDATE CONTACT CONTENT (CMS)
@@ -30,12 +30,6 @@ export async function updateContactContent(formData: FormData) {
     booking_link: formData.get("booking_link"),
     booking_description: formData.get("booking_description"),
 
-    phone: formData.get("phone"),
-    phone_description: formData.get("phone_description"),
-
-    instagram: formData.get("instagram"),
-    instagram_description: formData.get("instagram_description"),
-
     updated_at: new Date().toISOString(),
   };
 
@@ -47,6 +41,114 @@ export async function updateContactContent(formData: FormData) {
   if (error) {
     console.error("UPDATE CONTACT CONTENT ERROR:", error);
     throw error;
+  }
+
+  revalidatePath("/dashboard/contact");
+  revalidatePath("/");
+}
+
+/* ============================================================
+   CONTACT LINKS CRUD & REORDER (CMS)
+============================================================ */
+
+export async function createContactLink(data: {
+  label: string;
+  url: string;
+  icon_name: string;
+}) {
+  const supabase = await createClient();
+
+  // Get max sort order
+  const { data: existing } = await supabase
+    .from("contact_links")
+    .select("sort_order")
+    .order("sort_order", { ascending: false })
+    .limit(1);
+
+  const nextSort = (existing?.[0]?.sort_order ?? 0) + 1;
+
+  const { data: created, error } = await supabase
+    .from("contact_links")
+    .insert({
+      label: data.label,
+      url: data.url,
+      icon_name: data.icon_name || "Link",
+      sort_order: nextSort,
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("CREATE CONTACT LINK ERROR:", error);
+    throw error;
+  }
+
+  revalidatePath("/dashboard/contact");
+  revalidatePath("/");
+  return created as ContactLink;
+}
+
+export async function updateContactLink(
+  id: string,
+  data: {
+    label: string;
+    url: string;
+    icon_name: string;
+  }
+) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("contact_links")
+    .update({
+      label: data.label,
+      url: data.url,
+      icon_name: data.icon_name || "Link",
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("UPDATE CONTACT LINK ERROR:", error);
+    throw error;
+  }
+
+  revalidatePath("/dashboard/contact");
+  revalidatePath("/");
+}
+
+export async function deleteContactLink(id: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("contact_links")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("DELETE CONTACT LINK ERROR:", error);
+    throw error;
+  }
+
+  revalidatePath("/dashboard/contact");
+  revalidatePath("/");
+}
+
+export async function reorderContactLinks(
+  orderedItems: { id: string; sort_order: number }[]
+) {
+  const supabase = await createClient();
+
+  // Batch update sort orders
+  for (const item of orderedItems) {
+    const { error } = await supabase
+      .from("contact_links")
+      .update({ sort_order: item.sort_order })
+      .eq("id", item.id);
+
+    if (error) {
+      console.error("REORDER CONTACT LINK ERROR:", error);
+      throw error;
+    }
   }
 
   revalidatePath("/dashboard/contact");
@@ -81,8 +183,6 @@ export async function submitContactForm(formData: FormData) {
     console.error("SUBMIT CONTACT ERROR:", error);
     throw error;
   }
-
-  // 📧 Resend email notification yahin add karenge
 
   revalidatePath("/dashboard/contact");
 

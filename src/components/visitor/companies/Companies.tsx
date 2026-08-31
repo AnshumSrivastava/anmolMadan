@@ -10,7 +10,7 @@ export default async function Companies() {
   return (
     <section
       id="companies"
-      className="relative overflow-hidden bg-[#fafafa] py-24 text-black md:py-28 lg:py-32"
+      className="relative overflow-hidden bg-[#fafafa] dark:bg-neutral-950 py-24 text-black dark:text-white md:py-28 lg:py-32"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
 
@@ -31,7 +31,7 @@ export default async function Companies() {
               <div
                 className={
                   index !== companies.length - 1
-                    ? "border-b border-black/10 py-10"
+                    ? "border-b border-black/10 dark:border-white/10 py-10"
                     : "py-10"
                 }
               >

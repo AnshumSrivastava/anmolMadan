@@ -34,11 +34,10 @@ export default async function Vision() {
         relative
         overflow-hidden
 
-        bg-[#fafafa]
+        bg-white dark:bg-black
 
-        py-28
-
-        text-black
+        py-20 lg:py-24
+        text-black dark:text-white
       `}
     >
       <div
@@ -55,31 +54,20 @@ export default async function Vision() {
         ===================================================== */}
 
         <div
-          className="
-            grid
-            items-center
-
-            gap-16
-
-            lg:grid-cols-2
-          "
+          className={`grid items-center gap-16 ${vision.image_url ? "lg:grid-cols-2" : ""}`}
         >
           {/* ===================================================
-              LEFT — IMAGE
+              LEFT — IMAGE (only if exists)
           =================================================== */}
 
-          <VisionImage
-            vision={vision}
-          />
+          <VisionImage vision={vision} />
 
           {/* ===================================================
               RIGHT — CONTENT
           =================================================== */}
 
           <Reveal delay={0.15}>
-            <VisionContent
-              vision={vision}
-            />
+            <VisionContent vision={vision} />
           </Reveal>
         </div>
 

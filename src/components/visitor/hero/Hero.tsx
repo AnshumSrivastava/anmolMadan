@@ -1,16 +1,13 @@
 import { getHero } from "@/services/hero/hero.service";
 import Reveal from "@/components/shared/Reveal";
-
 import HeroScrollWrapper from "./HeroScrollWrapper";
 import HeroBackground from "./HeroBackground";
-import HeroContent from "./HeroContent";
 import HeroImage from "./HeroImage";
 import HeroStats from "./HeroStats";
 import HeroTitle from "./HeroTitle";
-import HeroScrollIndicator from "./HeroScrollIndicator";
 
 /* ==========================================================
-   HERO
+   STRUCTURED 2-COLUMN HERO
 ========================================================== */
 
 export default async function Hero() {
@@ -19,7 +16,7 @@ export default async function Hero() {
   if (!hero) return null;
 
   /* ==========================================================
-     STATS
+     STATS DATA
   ========================================================== */
 
   const stats = [
@@ -37,28 +34,7 @@ export default async function Hero() {
     },
   ];
 
-  /* ==========================================================
-     SUBTITLE
-  ========================================================== */
-
-  const subtitle = hero.title_line_1?.trim() || "";
-  const subtitleParts = subtitle.split(/\s+/);
-
-  const specialistIndex = subtitleParts.findIndex((item: string) =>
-    item.toLowerCase().startsWith("specialist")
-  );
-
-  const cybersecurity =
-    specialistIndex > 0
-      ? subtitleParts.slice(0, specialistIndex).join(" ")
-      : subtitle;
-
-  const specialist =
-    specialistIndex > 0 ? subtitleParts.slice(specialistIndex).join(" ") : "";
-
-  /* ==========================================================
-     RENDER
-  ========================================================== */
+  const roleSubtitle = "Cybersecurity Expert · Motivational Speaker";
 
   return (
     <section
@@ -68,262 +44,125 @@ export default async function Hero() {
         inset-0
         z-0
         h-[100dvh]
-        min-h-[680px]
         w-full
         overflow-hidden
         bg-white
+        dark:bg-black
       "
     >
-      {/* BACKGROUND */}
+      {/* Background Atmosphere */}
       <HeroBackground />
 
-      {/* HERO SCROLL WRAPPER (Smooth hardware-accelerated blur & fade of whole hero) */}
+      {/* Hero Scroll Container */}
       <HeroScrollWrapper>
-        {/* HERO CANVAS */}
-        <div
-          className="
-            relative
-            mx-auto
-            h-full
-            w-full
-            max-w-[1920px]
-          "
-        >
-          {/* ====================================================
-              MAIN TITLE (Behind Subject, z-20)
-          ==================================================== */}
-          <div
-            className="
-              absolute
-              left-1/2
-              top-[95px]
-              sm:top-[105px]
-              lg:top-[115px]
-              z-20
-              w-[94%]
-              -translate-x-1/2
-              text-center
-            "
-          >
-            <HeroTitle title={hero.pre_heading} />
-          </div>
+        <div className="relative mx-auto flex h-full w-full max-w-[1560px] items-center px-6 sm:px-10 md:px-14 lg:px-18 xl:px-20">
+          <div className="grid h-full w-full grid-cols-1 lg:grid-cols-12 items-center gap-10 lg:gap-8 xl:gap-14">
 
-          {/* ====================================================
-              SUBTITLE ROW (Desktop)
-          ==================================================== */}
-          <div
-            className="
-              absolute
-              left-1/2
-              top-[215px]
-              sm:top-[230px]
-              lg:top-[245px]
-              z-20
-              hidden
-              w-[min(1280px,90vw)]
-              -translate-x-1/2
-              items-center
-              justify-between
-              lg:flex
-            "
-          >
-            {/* CYBERSECURITY */}
-            <Reveal delay={0.2}>
-              <div className="flex items-center gap-4">
-                <span className="h-px w-8 bg-neutral-300" />
-                <p
-                  className="
-                    whitespace-nowrap
-                    text-[clamp(1.1rem,1.7vw,1.8rem)]
-                    font-normal
-                    uppercase
-                    leading-none
-                    tracking-[0.05em]
-                    text-neutral-500
-                  "
-                >
-                  {cybersecurity}
+            {/* ==================================================
+                LEFT COLUMN (55-60% width): Unified Left-Aligned Stack
+            ================================================== */}
+            <div className="flex flex-col gap-6 sm:gap-7 lg:col-span-7 text-left my-auto py-12 lg:py-0">
+              
+              {/* 1. Name */}
+              <Reveal delay={0.08}>
+                <HeroTitle title={hero.pre_heading || "ANMOL MADAN"} />
+              </Reveal>
+
+              {/* 2. Role Line */}
+              <Reveal delay={0.14}>
+                <p className="text-[clamp(13px,1.05vw,16px)] font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
+                  {roleSubtitle}
                 </p>
-              </div>
-            </Reveal>
+              </Reveal>
 
-            {/* SPECIALIST */}
-            <Reveal delay={0.25}>
-              <div className="flex items-center justify-end gap-4">
-                <p
-                  className="
-                    whitespace-nowrap
-                    text-[clamp(1.1rem,1.7vw,1.8rem)]
-                    font-normal
-                    uppercase
-                    leading-none
-                    tracking-[0.05em]
-                    text-neutral-500
-                  "
-                >
-                  {specialist}
+              {/* 3. Quote */}
+              <Reveal delay={0.2}>
+                <p className="max-w-[580px] text-[clamp(14px,1.05vw,17px)] leading-[1.65] text-neutral-600 dark:text-neutral-400">
+                  {hero.description}
                 </p>
-                <span className="h-px w-8 bg-neutral-300" />
-              </div>
-            </Reveal>
-          </div>
+              </Reveal>
 
-          {/* ====================================================
-              HERO IMAGE (z-30 — stands prominently in front of title)
-          ==================================================== */}
-          <div
-            className="
-              pointer-events-none
-              absolute
-              bottom-0
-              left-1/2
-              z-30
-              h-[85vh]
-              max-h-[920px]
-              w-[min(94vw,560px)]
-              lg:w-[clamp(560px,44vw,800px)]
-              -translate-x-1/2
-            "
-          >
-            <HeroImage hero={hero} />
-          </div>
+              {/* 4. Stats Row */}
+              <Reveal delay={0.26}>
+                <HeroStats stats={stats} />
+              </Reveal>
 
-          {/* ====================================================
-              HERO ABOUT / INTRO (Left)
-          ==================================================== */}
-          <div
-            className="
-              absolute
-              left-[5%]
-              top-[60%]
-              z-40
-              w-[min(380px,88vw)]
-              -translate-y-1/2
-              hidden
-              md:block
-              xl:left-[7%]
-              xl:w-[400px]
-              2xl:left-[9%]
-            "
-          >
-            <Reveal delay={0.3}>
-              <HeroContent hero={hero} />
-            </Reveal>
-          </div>
+              {/* 5. Buttons Row */}
+              <Reveal delay={0.32}>
+                <div className="flex items-center gap-4 pt-1">
+                  {/* Primary Action */}
+                  <a
+                    href="#contact"
+                    className="
+                      inline-flex
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-neutral-950
+                      dark:bg-white
+                      px-7
+                      py-3.5
+                      text-xs
+                      font-semibold
+                      uppercase
+                      tracking-[0.12em]
+                      text-white
+                      dark:text-black
+                      shadow-sm
+                      transition-all
+                      duration-200
+                      hover:bg-neutral-800
+                      dark:hover:bg-neutral-200
+                      active:scale-95
+                    "
+                  >
+                    Book a Call
+                  </a>
 
-          {/* ====================================================
-              STATS (Right)
-          ==================================================== */}
-          <div
-            className="
-              absolute
-              right-[5%]
-              top-[60%]
-              z-40
-              w-[260px]
-              -translate-y-1/2
-              hidden
-              lg:block
-              xl:right-[7%]
-              xl:w-[300px]
-              2xl:right-[9%]
-            "
-          >
-            <Reveal delay={0.35}>
-              <HeroStats stats={stats} />
-            </Reveal>
-          </div>
+                  {/* Secondary Action */}
+                  <a
+                    href="#about"
+                    className="
+                      inline-flex
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-neutral-300
+                      dark:border-neutral-700
+                      bg-transparent
+                      px-7
+                      py-3.5
+                      text-xs
+                      font-medium
+                      uppercase
+                      tracking-[0.12em]
+                      text-neutral-700
+                      dark:text-neutral-300
+                      transition-all
+                      duration-200
+                      hover:border-black
+                      dark:hover:border-white
+                      hover:text-black
+                      dark:hover:text-white
+                      active:scale-95
+                    "
+                  >
+                    Learn More
+                  </a>
+                </div>
+              </Reveal>
 
-          {/* ====================================================
-              MOBILE SUBTITLE & CTA
-          ==================================================== */}
-          <div
-            className="
-              absolute
-              inset-x-0
-              top-[180px]
-              sm:top-[200px]
-              z-20
-              px-6
-              text-center
-              lg:hidden
-            "
-          >
-            <Reveal delay={0.2}>
-              <p
-                className="
-                  text-xs
-                  sm:text-sm
-                  font-medium
-                  uppercase
-                  tracking-[0.2em]
-                  text-neutral-500
-                "
-              >
-                {subtitle}
-              </p>
-            </Reveal>
-          </div>
+            </div>
 
-          {/* Mobile bottom actions */}
-          <div
-            className="
-              absolute
-              inset-x-0
-              bottom-20
-              z-50
-              flex
-              justify-center
-              px-6
-              md:hidden
-            "
-          >
-            <Reveal delay={0.35}>
-              <div className="flex items-center gap-3">
-                <a
-                  href="#contact"
-                  className="
-                    rounded-full
-                    bg-black
-                    px-6
-                    py-3
-                    text-xs
-                    font-semibold
-                    uppercase
-                    tracking-wider
-                    text-white
-                    shadow-lg
-                  "
-                >
-                  Book a Call →
-                </a>
-                <a
-                  href="#about"
-                  className="
-                    rounded-full
-                    border
-                    border-black/20
-                    bg-white/80
-                    backdrop-blur-sm
-                    px-6
-                    py-3
-                    text-xs
-                    font-semibold
-                    uppercase
-                    tracking-wider
-                    text-black
-                  "
-                >
-                  Learn More
-                </a>
-              </div>
-            </Reveal>
-          </div>
+            {/* ==================================================
+                RIGHT COLUMN (40-45% width): Large Portrait Touching Bottom
+            ================================================== */}
+            <div className="flex items-end justify-center lg:justify-end lg:col-span-5 h-full w-full self-end pointer-events-none">
+              <HeroImage hero={hero} />
+            </div>
 
-          {/* ====================================================
-              SCROLL INDICATOR
-          ==================================================== */}
-          <HeroScrollIndicator />
+          </div>
         </div>
       </HeroScrollWrapper>
     </section>

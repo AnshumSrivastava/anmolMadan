@@ -123,7 +123,7 @@ export default function ExperienceModal({
 
           rounded-[28px]
 
-          bg-white
+          bg-white dark:bg-black
 
           shadow-[0_40px_120px_rgba(0,0,0,0.30)]
 
@@ -196,7 +196,7 @@ export default function ExperienceModal({
 
             overflow-hidden
 
-            bg-neutral-100
+            bg-neutral-100 dark:bg-neutral-800
 
             lg:block
           "
@@ -222,7 +222,7 @@ export default function ExperienceModal({
             overflow-y-auto
             overflow-x-hidden
 
-            bg-white
+            bg-white dark:bg-black
           "
           style={{
             width: "45%",
@@ -286,7 +286,7 @@ export default function ExperienceModal({
                 leading-[0.98]
                 tracking-[-0.055em]
 
-                text-black
+                text-black dark:text-white
 
                 sm:text-5xl
                 xl:text-[3.5rem]
@@ -311,14 +311,14 @@ export default function ExperienceModal({
 
                   rounded-full
 
-                  bg-neutral-100
+                  bg-neutral-100 dark:bg-neutral-800
 
                   px-4
                   py-2
 
                   text-xs
                   leading-5
-                  text-neutral-600
+                  text-neutral-600 dark:text-neutral-400
 
                   sm:text-sm
                 "
@@ -349,9 +349,9 @@ export default function ExperienceModal({
                   rounded-2xl
 
                   border
-                  border-neutral-200
+                  border-neutral-200 dark:border-neutral-800
 
-                  bg-white
+                  bg-white dark:bg-black
 
                   p-3
 
@@ -396,7 +396,7 @@ export default function ExperienceModal({
                     text-[15px]
                     leading-7
 
-                    text-neutral-600
+                    text-neutral-600 dark:text-neutral-400
 
                     sm:text-base
                     sm:leading-8
@@ -435,7 +435,7 @@ export default function ExperienceModal({
                     w-full
 
                     border-t
-                    border-neutral-100
+                    border-neutral-100 dark:border-neutral-800
 
                     pt-10
                   "

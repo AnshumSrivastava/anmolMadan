@@ -43,21 +43,19 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[32px] bg-white shadow-2xl pointer-events-auto"
+              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden rounded-[32px] bg-white dark:bg-neutral-950 p-6 sm:p-10 pointer-events-auto border-none shadow-2xl"
             >
               {/* Close Button */}
               <button
                 type="button"
                 onClick={onClose}
-                className="absolute top-6 right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-colors hover:bg-neutral-200 hover:text-black"
+                className="absolute top-6 right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-black dark:hover:text-white"
                 aria-label="Close modal"
               >
                 <X size={20} />
               </button>
 
-              <div className="p-2 sm:p-4">
-                <ContactForm />
-              </div>
+              <ContactForm />
             </motion.div>
           </div>
         </>

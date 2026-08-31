@@ -1,27 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { ProjectComment } from "@/types/projectComment";
 
-// In-memory store for session persistence and graceful fallback
-const fallbackComments: ProjectComment[] = [
-  {
-    id: "comment-fb-1",
-    project_id: "exp-1",
-    author_name: "Aditya Verma",
-    comment: "The live exploitation and defense breakdown in this session was eye-opening! Really appreciated the hands-on clarity.",
-    status: "approved",
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
-  },
-  {
-    id: "comment-fb-2",
-    project_id: "exp-1",
-    author_name: "Meera Nair",
-    comment: "Best guest lecture of the semester. The social engineering demonstration was incredible!",
-    status: "approved",
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
-  },
-];
-
-let runtimeCommentsStore: ProjectComment[] = [...fallbackComments];
 
 export async function getApprovedComments(projectId: string): Promise<ProjectComment[]> {
   try {
@@ -33,17 +12,15 @@ export async function getApprovedComments(projectId: string): Promise<ProjectCom
       .eq("status", "approved")
       .order("created_at", { ascending: false });
 
-    if (error || !data || data.length === 0) {
-      return runtimeCommentsStore.filter(
-        (c) => (c.project_id === projectId || projectId === "exp-1") && c.status === "approved"
-      );
+    if (error) {
+      console.error(error);
+      return [];
     }
 
-    return data;
-  } catch {
-    return runtimeCommentsStore.filter(
-      (c) => (c.project_id === projectId || projectId === "exp-1") && c.status === "approved"
-    );
+    return data || [];
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 }
 
@@ -55,17 +32,15 @@ export async function getAllCommentsForAdmin(): Promise<ProjectComment[]> {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error || !data) {
-      return [...runtimeCommentsStore].sort(
-        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
+    if (error) {
+      console.error(error);
+      return [];
     }
 
-    return data;
-  } catch {
-    return [...runtimeCommentsStore].sort(
-      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    );
+    return data || [];
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 }
 
@@ -99,12 +74,11 @@ export async function insertComment(input: {
     if (!error && data) {
       return data;
     }
+    throw error || new Error("Failed to insert comment");
   } catch (err) {
-    console.warn("Supabase insert comment fallback to runtime store:", err);
+    console.error("Supabase insert comment error:", err);
+    throw err;
   }
-
-  runtimeCommentsStore.unshift(newComment);
-  return newComment;
 }
 
 export async function updateCommentStatus(
@@ -119,20 +93,12 @@ export async function updateCommentStatus(
       .eq("id", id);
 
     if (error) {
-      const target = runtimeCommentsStore.find((c) => c.id === id);
-      if (target) {
-        target.status = status;
-        return true;
-      }
+      console.error(error);
       return false;
     }
     return true;
-  } catch {
-    const target = runtimeCommentsStore.find((c) => c.id === id);
-    if (target) {
-      target.status = status;
-      return true;
-    }
+  } catch (err) {
+    console.error(err);
     return false;
   }
 }
@@ -142,11 +108,12 @@ export async function deleteComment(id: string): Promise<boolean> {
     const supabase = await createClient();
     const { error } = await supabase.from("project_comments").delete().eq("id", id);
     if (error) {
-      runtimeCommentsStore = runtimeCommentsStore.filter((c) => c.id !== id);
+      console.error(error);
+      return false;
     }
     return true;
-  } catch {
-    runtimeCommentsStore = runtimeCommentsStore.filter((c) => c.id !== id);
-    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
   }
 }

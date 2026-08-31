@@ -15,25 +15,6 @@ type Props = {
   onCancel?: () => void;
 };
 
-/* =====================================================
-   YOUTUBE URL VALIDATION
-===================================================== */
-
-function isYouTubeUrl(url: string) {
-  try {
-    const parsed = new URL(url);
-    const hostname = parsed.hostname.toLowerCase();
-
-    return (
-      hostname === "youtube.com" ||
-      hostname === "www.youtube.com" ||
-      hostname === "youtu.be" ||
-      hostname === "www.youtu.be"
-    );
-  } catch {
-    return false;
-  }
-}
 
 /* =====================================================
    FORM
@@ -83,19 +64,13 @@ export default function GalleryForm({
 
     if (!cleanVideo) {
       setError(
-        "Please enter a YouTube video URL."
+        "Please enter an embed code or video URL."
       );
 
       return;
     }
 
-    if (!isYouTubeUrl(cleanVideo)) {
-      setError(
-        "Please enter a valid YouTube URL."
-      );
 
-      return;
-    }
 
     /* ---------------------------------------------
        SORT ORDER VALIDATION
@@ -195,21 +170,22 @@ export default function GalleryForm({
             text-black
           "
         >
-          YouTube Video URL
+          Embed Code / Video URL
         </label>
 
-        <input
+        <textarea
           id="gallery-video"
-          type="url"
           value={video}
           onChange={(event) =>
             setVideo(event.target.value)
           }
-          placeholder="https://www.youtube.com/watch?v=..."
+          placeholder='<iframe src="https://www.youtube.com/embed/..." ...></iframe>'
           required
+          rows={4}
           disabled={isPending}
           className="
             w-full
+            resize-none
             rounded-xl
             border
             border-neutral-200
@@ -237,9 +213,7 @@ export default function GalleryForm({
             text-neutral-400
           "
         >
-          Paste the YouTube video link.
-          The visitor gallery will handle
-          the video playback automatically.
+          Paste the raw embed HTML code (e.g., iframe) or a video URL.
         </p>
       </div>
 

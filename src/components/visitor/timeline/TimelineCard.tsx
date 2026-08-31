@@ -14,9 +14,9 @@ export default function TimelineCard({ item }: Props) {
 
         rounded-3xl
         border
-        border-black/10
+        border-black/10 dark:border-white/10
 
-        bg-white/90
+        bg-white dark:bg-black/90
         backdrop-blur-xl
 
         p-6
@@ -37,15 +37,15 @@ export default function TimelineCard({ item }: Props) {
         group-hover:scale-100
       "
     >
-      <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">
+      <p className="text-xs uppercase tracking-[0.35em] text-neutral-500 dark:text-neutral-400">
         {item.company}
       </p>
 
-      <h3 className="mt-3 text-2xl font-bold text-black">
+      <h3 className="mt-3 text-2xl font-bold text-black dark:text-white">
         {item.title}
       </h3>
 
-      <p className="mt-5 leading-7 text-neutral-600">
+      <p className="mt-5 leading-7 text-neutral-600 dark:text-neutral-400">
         {item.description}
       </p>
     </div>

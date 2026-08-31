@@ -11,37 +11,10 @@ type Props = {
   stats: Stat[];
 };
 
-
-/* ==========================================================
-   ANIMATED NUMBER
-
-   Initial load:
-   0 → 1 → 2 → 3 → ... → TARGET
-
-   Once target is reached:
-   STOP.
-
-   No live +1 every 3 seconds.
-========================================================== */
-
-function AnimatedNumber({
-  value,
-}: {
-  value: string | null;
-}) {
-  const target = parseInt(
-    value?.replace(/\D/g, "") || "0",
-    10
-  );
-
+function AnimatedNumber({ value }: { value: string | null }) {
+  const target = parseInt(value?.replace(/\D/g, "") || "0", 10);
   const hasPlus = value?.includes("+");
-
   const [count, setCount] = useState(0);
-
-
-  /* ========================================================
-     INITIAL FAST COUNT
-  ======================================================== */
 
   useEffect(() => {
     if (!target) {
@@ -50,34 +23,29 @@ function AnimatedNumber({
     }
 
     setCount(0);
+    const duration = 3000; // 3 seconds
+    let startTime: number | null = null;
+    let animationFrameId: number;
 
-    let current = 0;
-
-    const interval = window.setInterval(() => {
-      current += 1;
-
-      if (current >= target) {
-        current = target;
-
-        setCount(target);
-
-        window.clearInterval(interval);
-
-        return;
-      }
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+      const easeOutQuart = 1 - Math.pow(1 - percentage, 4);
+      const current = Math.floor(easeOutQuart * target);
 
       setCount(current);
-    }, 4);
 
-    return () => {
-      window.clearInterval(interval);
+      if (progress < duration) {
+        animationFrameId = window.requestAnimationFrame(animate);
+      } else {
+        setCount(target);
+      }
     };
+
+    animationFrameId = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(animationFrameId);
   }, [target]);
-
-
-  /* ========================================================
-     OUTPUT
-  ======================================================== */
 
   return (
     <>
@@ -87,96 +55,26 @@ function AnimatedNumber({
   );
 }
 
-
-/* ==========================================================
-   HERO STATS
-========================================================== */
-
-export default function HeroStats({
-  stats,
-}: Props) {
+export default function HeroStats({ stats }: Props) {
   return (
-    <div
-      className="
-        flex
-        flex-col
+    <div className="flex flex-wrap items-start gap-8 sm:gap-12 lg:gap-14 text-left select-none">
+      {stats.map((stat, index) => {
+        if (!stat.number && !stat.label) return null;
 
-        gap-[clamp(28px,4vh,52px)]
-      "
-    >
+        return (
+          <div key={index} className="flex flex-col">
+            {/* Number */}
+            <div className="text-[clamp(1.5rem,2.2vw,2.25rem)] font-extrabold tracking-tight text-neutral-950 dark:text-white leading-none">
+              <AnimatedNumber value={stat.number} />
+            </div>
 
-      {stats.map((stat, index) => (
-        <div
-          key={index}
-          className="
-            flex
-            items-stretch
-          "
-        >
-
-          {/* =================================================
-              LINE
-          ================================================= */}
-
-          <div
-            className="
-              mr-[clamp(14px,1.2vw,22px)]
-
-              w-px
-
-              shrink-0
-
-              bg-neutral-300
-            "
-          />
-
-
-          {/* =================================================
-              CONTENT
-          ================================================= */}
-
-          <div>
-
-            <h3
-              className="
-                text-[clamp(30px,2.5vw,48px)]
-
-                font-bold
-
-                leading-none
-
-                tracking-[-0.045em]
-
-                text-black
-              "
-            >
-              <AnimatedNumber
-                value={stat.number}
-              />
-            </h3>
-
-
-            <p
-              className="
-                mt-2
-
-                max-w-[190px]
-
-                text-[clamp(12px,0.8vw,15px)]
-
-                leading-5
-
-                text-neutral-500
-              "
-            >
-              {stat.label}
-            </p>
-
+            {/* Label */}
+            <div className="mt-1.5 text-[clamp(11px,0.8vw,13px)] font-medium text-neutral-500 dark:text-neutral-400">
+              {stat.label?.trim()}
+            </div>
           </div>
-
-        </div>
-      ))}
-
+        );
+      })}
     </div>
   );
 }

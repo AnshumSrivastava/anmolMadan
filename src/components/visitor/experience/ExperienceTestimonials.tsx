@@ -52,8 +52,8 @@ export default function ExperienceTestimonials({
         className="
           rounded-[22px]
           border
-          border-neutral-200
-          bg-neutral-50
+          border-neutral-200 dark:border-neutral-800
+          bg-neutral-50 dark:bg-neutral-900
           p-6
           sm:p-7
         "
@@ -64,7 +64,7 @@ export default function ExperienceTestimonials({
           className="
             text-[15px]
             leading-7
-            text-neutral-700
+            text-neutral-700 dark:text-neutral-300
           "
         >
           “{current.quote}”
@@ -82,7 +82,7 @@ export default function ExperienceTestimonials({
                 className="
                   text-sm
                   font-semibold
-                  text-black
+                  text-black dark:text-white
                 "
               >
                 {current.author_name}
@@ -145,9 +145,9 @@ export default function ExperienceTestimonials({
                 justify-center
                 rounded-full
                 border
-                border-neutral-200
-                bg-white
-                text-black
+                border-neutral-200 dark:border-neutral-800
+                bg-white dark:bg-black
+                text-black dark:text-white
                 transition-all
                 duration-300
                 hover:bg-black
@@ -169,9 +169,9 @@ export default function ExperienceTestimonials({
                 justify-center
                 rounded-full
                 border
-                border-neutral-200
-                bg-white
-                text-black
+                border-neutral-200 dark:border-neutral-800
+                bg-white dark:bg-black
+                text-black dark:text-white
                 transition-all
                 duration-300
                 hover:bg-black

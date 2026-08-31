@@ -10,6 +10,8 @@ type Props = {
 export default function VisionImage({
   vision,
 }: Props) {
+  if (!vision.image_url) return null;
+
   return (
     <Reveal delay={0.15}>
       <div
@@ -19,39 +21,18 @@ export default function VisionImage({
           w-full
           overflow-hidden
           rounded-3xl
-          bg-neutral-100
+          border
+          border-neutral-200/80 dark:border-neutral-800
+          bg-neutral-100 dark:bg-neutral-800
         "
       >
-        {vision.image_url ? (
-          <Image
-            src={vision.image_url}
-            alt={
-              vision.main_heading ||
-              "Vision"
-            }
-            fill
-            sizes="
-              (max-width: 1024px) 100vw,
-              50vw
-            "
-            className="
-              object-cover
-            "
-          />
-        ) : (
-          <div
-            className="
-              flex
-              h-full
-              items-center
-              justify-center
-              text-sm
-              text-neutral-400
-            "
-          >
-            No Vision Image
-          </div>
-        )}
+        <Image
+          src={vision.image_url}
+          alt={vision.main_heading || "Vision"}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover"
+        />
       </div>
     </Reveal>
   );

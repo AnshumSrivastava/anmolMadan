@@ -2,7 +2,28 @@ import { createClient } from "@/lib/supabase/server";
 import type {
   ContactContent,
   ContactMessage,
+  ContactLink,
 } from "@/types/contact";
+
+/* ============================================================
+   GET CONTACT LINKS
+============================================================ */
+
+export async function getContactLinks(): Promise<ContactLink[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("contact_links")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error("CONTACT LINKS ERROR:", error);
+    return [];
+  }
+
+  return data as ContactLink[];
+}
 
 /* ============================================================
    GET CONTACT CONTENT

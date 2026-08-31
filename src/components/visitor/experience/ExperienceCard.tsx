@@ -68,8 +68,8 @@ export default function ExperienceCard({
           overflow-hidden
           rounded-[28px]
           border
-          border-neutral-200
-          bg-[#f7f7f7]
+          border-neutral-200 dark:border-neutral-800
+          bg-[#f7f7f7] dark:bg-neutral-900
         "
       >
         {/* ====================================================
@@ -81,7 +81,7 @@ export default function ExperienceCard({
             relative
             aspect-[4/3]
             overflow-hidden
-            bg-neutral-200
+            bg-neutral-200 dark:bg-neutral-700
           "
         >
           {mainImage ? (
@@ -186,12 +186,12 @@ export default function ExperienceCard({
                 bottom-5
                 left-5
                 rounded-full
-                bg-white/95
+                bg-white dark:bg-black/95
                 px-4
                 py-2
                 text-xs
                 font-medium
-                text-black
+                text-black dark:text-white
                 shadow-sm
               "
             >
@@ -327,9 +327,9 @@ export default function ExperienceCard({
                 rounded-full
 
                 border
-                border-neutral-200
+                border-neutral-200 dark:border-neutral-800
 
-                bg-white
+                bg-white dark:bg-black
 
                 p-2
 
@@ -388,7 +388,7 @@ export default function ExperienceCard({
                 line-clamp-3
                 text-[15px]
                 leading-7
-                text-neutral-500
+                text-neutral-500 dark:text-neutral-400
               "
             >
               {experience.description}
@@ -431,7 +431,7 @@ export default function ExperienceCard({
               className="
                 text-sm
                 font-medium
-                text-black
+                text-black dark:text-white
               "
             >
               View experience
@@ -451,13 +451,13 @@ export default function ExperienceCard({
                 justify-center
                 rounded-full
                 border
-                border-neutral-200
+                border-neutral-200 dark:border-neutral-800
                 text-lg
-                text-black
+                text-black dark:text-white
                 transition-all
                 duration-300
-                group-hover:bg-black
-                group-hover:text-white
+                group-hover:bg-black dark:group-hover:bg-white
+                group-hover:text-white dark:group-hover:text-black
               "
             >
               →

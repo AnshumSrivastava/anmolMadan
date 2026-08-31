@@ -7,7 +7,7 @@ export default function HeroBackground() {
         inset-0
         z-0
         overflow-hidden
-        bg-white
+        bg-white dark:bg-black
       "
     >
       {/* CENTER SOFT AMBIENT LIGHT */}
@@ -21,7 +21,7 @@ export default function HeroBackground() {
           -translate-x-1/2
           -translate-y-1/2
           rounded-full
-          bg-neutral-100/70
+          bg-neutral-100 dark:opacity-0
           blur-[130px]
         "
       />
@@ -37,7 +37,7 @@ export default function HeroBackground() {
           w-[75vw]
           max-w-[1200px]
           bg-gradient-to-b
-          from-neutral-100/40
+          from-neutral-100/40 dark:from-neutral-800/15
           to-transparent
           blur-[90px]
         "

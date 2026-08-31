@@ -25,7 +25,7 @@ export default function TimelineNode({ item }: Props) {
           border-4
           border-white
 
-          bg-neutral-100
+          bg-neutral-100 dark:bg-neutral-800
 
           shadow-lg
           shadow-black/10
@@ -35,6 +35,7 @@ export default function TimelineNode({ item }: Props) {
 
           group-hover:scale-110
           group-hover:shadow-[0_0_40px_rgba(0,0,0,.18)]
+          dark:group-hover:shadow-[0_0_40px_rgba(255,255,255,.18)]
         "
       >
         {item.image ? (
@@ -50,7 +51,7 @@ export default function TimelineNode({ item }: Props) {
             "
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs text-neutral-500">
+          <div className="flex h-full w-full items-center justify-center text-xs text-neutral-500 dark:text-neutral-400">
             No Image
           </div>
         )}
@@ -66,7 +67,7 @@ export default function TimelineNode({ item }: Props) {
           font-bold
           tracking-[0.2em]
 
-          text-black
+          text-black dark:text-white
 
           transition-all
           duration-300

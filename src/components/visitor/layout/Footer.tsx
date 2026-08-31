@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Instrument_Sans } from "next/font/google";
 import { Mail, Phone, ArrowUpRight } from "lucide-react";
+import ContactModal from "@/components/visitor/layout/ContactModal";
 
 /* =========================================================
    FONT
@@ -58,19 +60,24 @@ const scrollToSection = (id: string) => {
   });
 };
 
+import type { ContactLink } from "@/types/contact";
+import { renderContactIcon } from "@/components/shared/ContactIcons";
+
 /* =========================================================
    FOOTER
 ========================================================= */
 
-export default function Footer() {
+export default function Footer({ links = [] }: { links?: ContactLink[] }) {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <footer
       className={`
         ${footerFont.className}
         border-t
         border-black/[0.08]
-        bg-white
-        text-black
+        bg-white dark:bg-black
+        text-black dark:text-white
       `}
     >
       {/* =====================================================
@@ -93,24 +100,24 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-4">
             <button
               type="button"
-              onClick={() => scrollToSection("#contact")}
+              onClick={() => setIsContactOpen(true)}
               className="
                 inline-flex
                 items-center
                 gap-2
                 rounded-full
-                bg-white
+                bg-white dark:bg-black
                 px-8
                 py-4
                 text-xs
                 font-semibold
                 uppercase
                 tracking-[0.1em]
-                text-black
+                text-black dark:text-white
                 transition-all
                 duration-300
                 hover:scale-105
-                hover:bg-neutral-100
+                hover:bg-neutral-100 dark:bg-neutral-800
                 active:scale-95
                 cursor-pointer
               "
@@ -154,7 +161,7 @@ export default function Footer() {
             {/* Logo */}
             <button
               type="button"
-              onClick={() => scrollToSection("#hero")}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="
                 group
                 border-none
@@ -171,7 +178,7 @@ export default function Footer() {
                   font-semibold
                   leading-none
                   tracking-[0.25em]
-                  text-black
+                  text-black dark:text-white
                   transition-opacity
                   duration-300
                   group-hover:opacity-60
@@ -202,10 +209,10 @@ export default function Footer() {
                 space-y-2
                 text-[14px]
                 leading-6
-                text-neutral-500
+                text-neutral-500 dark:text-neutral-400
               "
             >
-              <p className="font-medium text-neutral-800">
+              <p className="font-medium text-neutral-800 dark:text-neutral-200">
                 Cybersecurity Trainer & Motivational Speaker
               </p>
               <p>Based in Chandigarh, India</p>
@@ -237,13 +244,13 @@ export default function Footer() {
                 flex-col
                 gap-3.5
                 text-[14px]
-                text-neutral-600
+                text-neutral-600 dark:text-neutral-400
               "
             >
               <button
                 type="button"
-                onClick={() => scrollToSection("#hero")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black cursor-pointer"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
               >
                 Home
               </button>
@@ -251,7 +258,7 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={() => scrollToSection("#about")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black cursor-pointer"
+                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
               >
                 About
               </button>
@@ -259,7 +266,7 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={() => scrollToSection("#vision")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black cursor-pointer"
+                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
               >
                 Vision
               </button>
@@ -267,7 +274,7 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={() => scrollToSection("#experience")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black cursor-pointer"
+                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
               >
                 Experience
               </button>
@@ -275,7 +282,7 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={() => scrollToSection("#testimonials")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black cursor-pointer"
+                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
               >
                 Testimonials
               </button>
@@ -305,7 +312,7 @@ export default function Footer() {
                 space-y-3.5
                 text-[14px]
                 leading-6
-                text-neutral-600
+                text-neutral-600 dark:text-neutral-400
               "
             >
               <li>Corporate Cybersecurity</li>
@@ -335,49 +342,71 @@ export default function Footer() {
             </h4>
 
             <div className="flex flex-col gap-4">
-              <a
-                href="https://linkedin.com/in/anmol-madan"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 text-sm text-neutral-600 transition-colors duration-300 hover:text-black"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 transition-colors duration-300 hover:border-black hover:bg-black hover:text-white">
-                  <LinkedInIcon className="h-3.5 w-3.5" />
-                </div>
-                <span>LinkedIn Profile</span>
-              </a>
+              {links.length > 0 ? (
+                links.map((link) => {
+                  const isExternal = !link.url?.startsWith("mailto:") && !link.url?.startsWith("tel:");
+                  return (
+                    <a
+                      key={link.id}
+                      href={link.url}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                    >
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:hover:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
+                        {renderContactIcon(link.icon_name, { size: 14 })}
+                      </div>
+                      <span className="truncate">{link.label}</span>
+                    </a>
+                  );
+                })
+              ) : (
+                <>
+                  <a
+                    href="https://linkedin.com/in/anmol-madan"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                      <LinkedInIcon className="h-3.5 w-3.5" />
+                    </div>
+                    <span>LinkedIn Profile</span>
+                  </a>
 
-              <a
-                href="mailto:anmolmadan.official@gmail.com"
-                className="flex items-center gap-3 text-sm text-neutral-600 transition-colors duration-300 hover:text-black"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 transition-colors duration-300 hover:border-black hover:bg-black hover:text-white">
-                  <Mail className="h-3.5 w-3.5" />
-                </div>
-                <span>anmolmadan.official@gmail.com</span>
-              </a>
+                  <a
+                    href="mailto:anmolmadan.official@gmail.com"
+                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                      <Mail className="h-3.5 w-3.5" />
+                    </div>
+                    <span>anmolmadan.official@gmail.com</span>
+                  </a>
 
-              <a
-                href="tel:+919876543210"
-                className="flex items-center gap-3 text-sm text-neutral-600 transition-colors duration-300 hover:text-black"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 transition-colors duration-300 hover:border-black hover:bg-black hover:text-white">
-                  <Phone className="h-3.5 w-3.5" />
-                </div>
-                <span>+91 98765 43210</span>
-              </a>
+                  <a
+                    href="tel:+919876543210"
+                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                      <Phone className="h-3.5 w-3.5" />
+                    </div>
+                    <span>+91 98765 43210</span>
+                  </a>
 
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 text-sm text-neutral-600 transition-colors duration-300 hover:text-black"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 transition-colors duration-300 hover:border-black hover:bg-black hover:text-white">
-                  <InstagramIcon className="h-3.5 w-3.5" />
-                </div>
-                <span>Instagram Updates</span>
-              </a>
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                      <InstagramIcon className="h-3.5 w-3.5" />
+                    </div>
+                    <span>Instagram Updates</span>
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -426,6 +455,10 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
     </footer>
   );
 }

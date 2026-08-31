@@ -18,7 +18,7 @@ export default function VisionContent({ vision }: Props) {
       {/* SECTION LABEL */}
       <div className="mb-6 flex items-center gap-3">
         <span className="h-px w-6 bg-neutral-400" />
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500 dark:text-neutral-400">
           {vision.section_heading || "VISION & PURPOSE"}
         </p>
       </div>
@@ -30,7 +30,7 @@ export default function VisionContent({ vision }: Props) {
           font-medium
           leading-[1.05]
           tracking-[-0.035em]
-          text-black
+          text-black dark:text-white
           sm:text-5xl
           lg:text-6xl
         "
@@ -46,7 +46,7 @@ export default function VisionContent({ vision }: Props) {
           text-base
           sm:text-lg
           leading-relaxed
-          text-neutral-600
+          text-neutral-600 dark:text-neutral-400
           lg:text-xl
         "
       >

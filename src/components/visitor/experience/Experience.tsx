@@ -3,96 +3,12 @@ import Reveal from "@/components/shared/Reveal";
 import ExperienceCard from "./ExperienceCard";
 import { Project } from "@/types/project";
 
-const fallbackExperiences: Project[] = [
-  {
-    id: "exp-1",
-    lesson_title: "Executive Cybersecurity Defense & Threat Awareness",
-    description:
-      "Comprehensive digital security briefings and incident-response drills for senior corporate leadership and enterprise engineering teams.",
-    institution_name: "Enterprise Tech Conclave",
-    duration: "2024 — Present",
-    image_url:
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80",
-    institution_logo_url: null,
-    sort_order: 1,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    images: [],
-    testimonials: [
-      {
-        id: "t-1",
-        project_id: "exp-1",
-        quote:
-          "Anmol brought real-world attack vectors to life in a way our team had never experienced before.",
-        author_name: "VP of Engineering",
-        author_role: "Tech Enterprise",
-        sort_order: 1,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-    ],
-  },
-  {
-    id: "exp-2",
-    lesson_title: "Campus-Wide Ethical Hacking & Security Bootcamp",
-    description:
-      "Interactive hands-on training empowering over 1,200 aspiring engineers and computer science scholars with foundational cybersecurity skills.",
-    institution_name: "Chitkara University",
-    duration: "2023 — 2025",
-    image_url:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
-    institution_logo_url: null,
-    sort_order: 2,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    images: [],
-    testimonials: [
-      {
-        id: "t-2",
-        project_id: "exp-2",
-        quote:
-          "The most engaging technical workshop we've ever hosted on campus.",
-        author_name: "Dean of Academic Affairs",
-        author_role: "University Partner",
-        sort_order: 1,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-    ],
-  },
-  {
-    id: "exp-3",
-    lesson_title: "Youth Mindset, Resilience & Digital Safety Keynote",
-    description:
-      "Inspiring youth conferences and leadership summits on personal branding, digital footprints, and relentless personal growth.",
-    institution_name: "National Youth Conclave",
-    duration: "2024",
-    image_url:
-      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80",
-    institution_logo_url: null,
-    sort_order: 3,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    images: [],
-    testimonials: [
-      {
-        id: "t-3",
-        project_id: "exp-3",
-        quote:
-          "Anmol had the entire auditorium on their feet. Incredible energy and insight.",
-        author_name: "Program Director",
-        author_role: "Youth Summit",
-        sort_order: 1,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-    ],
-  },
-];
+
 
 export default async function Experience() {
-  const fetched = await getProjects();
-  const experiences = fetched && fetched.length > 0 ? fetched : fallbackExperiences;
+  const experiences = await getProjects() || [];
+
+  if (experiences.length === 0) return null;
 
   return (
     <section
@@ -100,10 +16,10 @@ export default async function Experience() {
       className="
         relative
         overflow-hidden
-        bg-white
-        py-24
-        text-black
-        lg:py-32
+        bg-[#fafafa] dark:bg-neutral-950
+        py-20
+        text-black dark:text-white
+        lg:py-24
       "
     >
       <div
@@ -148,7 +64,7 @@ export default async function Experience() {
                 font-medium
                 leading-[1.02]
                 tracking-[-0.04em]
-                text-black
+                text-black dark:text-white
                 sm:text-5xl
                 lg:text-6xl
               "

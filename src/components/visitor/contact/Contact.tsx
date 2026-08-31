@@ -10,7 +10,7 @@ export default async function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-[#fafafa] py-24 text-black md:py-28 lg:py-32"
+      className="relative overflow-hidden bg-[#fafafa] dark:bg-neutral-950 py-24 text-black dark:text-white md:py-28 lg:py-32"
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-20 px-6 lg:px-8">
 

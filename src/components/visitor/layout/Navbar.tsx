@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { Instrument_Sans } from "next/font/google";
 import Image from "next/image";
 import ContactModal from "./ContactModal";
+import ThemeToggle from "./ThemeToggle";
+import { useTheme } from "next-themes";
 
 /* =========================================================
    FONT
@@ -29,9 +31,9 @@ const navbarFont = Instrument_Sans({
 
 const navItems = [
   { label: "About", href: "#about", id: "about" },
+  { label: "Testimonials", href: "#testimonials", id: "testimonials" },
   { label: "Vision", href: "#vision", id: "vision" },
   { label: "Experience", href: "#experience", id: "experience" },
-  { label: "Testimonials", href: "#testimonials", id: "testimonials" },
 ];
 
 /* =========================================================
@@ -44,6 +46,14 @@ export default function Navbar() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const { scrollY } = useScroll();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && resolvedTheme === "dark";
 
   /* =======================================================
      SMOOTH PER-FRAME SCROLL INTERPOLATION (0px -> 300px)
@@ -74,15 +84,19 @@ export default function Navbar() {
   const bgOpacity = useTransform(scrollY, [0, 300], [0.55, 0.9]);
   const blurAmount = useTransform(scrollY, [0, 300], [12, 28]);
   const backdropFilter = useMotionTemplate`blur(${blurAmount}px)`;
-  const backgroundColor = useMotionTemplate`rgba(255, 255, 255, ${bgOpacity})`;
+  
+  const bgColorStr = isDark ? "0, 0, 0" : "255, 255, 255";
+  const backgroundColor = useMotionTemplate`rgba(${bgColorStr}, ${bgOpacity})`;
 
   // Border: very subtle at top, more defined in pill
   const borderAlpha = useTransform(scrollY, [0, 300], [0.06, 0.10]);
-  const border = useMotionTemplate`1px solid rgba(0, 0, 0, ${borderAlpha})`;
+  const borderColorStr = isDark ? "255, 255, 255" : "0, 0, 0";
+  const border = useMotionTemplate`1px solid rgba(${borderColorStr}, ${borderAlpha})`;
 
   // Shadow: none at top, defined shadow on pill
-  const shadowAlpha = useTransform(scrollY, [0, 300], [0, 0.12]);
-  const boxShadow = useMotionTemplate`0 12px 40px rgba(0, 0, 0, ${shadowAlpha})`;
+  const shadowAlpha = useTransform(scrollY, [0, 300], [0, isDark ? 0.3 : 0.12]);
+  const shadowColorStr = isDark ? "0, 0, 0" : "0, 0, 0";
+  const boxShadow = useMotionTemplate`0 12px 40px rgba(${shadowColorStr}, ${shadowAlpha})`;
 
   // Logo + CTA scale down slightly in pill
   const logoScale = useTransform(scrollY, [0, 300], [1, 0.88]);
@@ -255,8 +269,8 @@ export default function Navbar() {
                     cursor-pointer
                     ${
                       isActive
-                        ? "text-black"
-                        : "text-neutral-500 hover:text-black"
+                        ? "text-black dark:text-white"
+                        : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
                     }
                   `}
                 >
@@ -289,6 +303,10 @@ export default function Navbar() {
             style={{ scale: contactBtnScale, transformOrigin: "right center" }}
             className="flex items-center justify-end"
           >
+            {/* THEME TOGGLE DESKTOP */}
+            <div className="hidden lg:block mr-4">
+              <ThemeToggle />
+            </div>
             <button
               type="button"
               onClick={() => setIsContactModalOpen(true)}
@@ -312,6 +330,9 @@ export default function Navbar() {
                 duration-300
                 hover:scale-[1.03]
                 hover:bg-neutral-800
+                dark:bg-white
+                dark:text-black
+                dark:hover:bg-neutral-200
                 active:scale-[0.98]
                 cursor-pointer
                 shadow-sm
@@ -338,7 +359,7 @@ export default function Navbar() {
               border-none
               bg-transparent
               p-1.5
-              text-black
+              text-black dark:text-white
               outline-none
               cursor-pointer
               lg:hidden
@@ -412,7 +433,7 @@ export default function Navbar() {
                 z-[90]
                 w-[86%]
                 max-w-[400px]
-                bg-white
+                bg-white dark:bg-black
                 pt-24
                 shadow-[-25px_0_70px_rgba(0,0,0,0.14)]
                 lg:hidden
@@ -442,19 +463,19 @@ export default function Navbar() {
                         justify-between
                         border-none
                         border-b
-                        border-neutral-100
+                        border-neutral-100 dark:border-neutral-800
                         bg-transparent
                         py-4
                         text-left
                         text-lg
                         font-medium
                         tracking-[0.04em]
-                        text-black
+                        text-black dark:text-white
                         outline-none
                       "
                     >
                       <span>{item.label}</span>
-                      <span className="text-neutral-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-black">
+                      <span className="text-neutral-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-black dark:hover:text-white">
                         →
                       </span>
                     </motion.button>
@@ -476,6 +497,8 @@ export default function Navbar() {
                     rounded-full
                     border-none
                     bg-black
+                    dark:bg-white
+                    dark:text-black
                     px-8
                     py-3.5
                     text-sm
@@ -488,8 +511,18 @@ export default function Navbar() {
                   Contact Now →
                 </motion.button>
 
+                {/* THEME TOGGLE MOBILE */}
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="mt-6 flex justify-center"
+                >
+                  <ThemeToggle />
+                </motion.div>
+
                 <div className="mt-auto pb-8">
-                  <div className="h-px w-full bg-neutral-100" />
+                  <div className="h-px w-full bg-neutral-100 dark:bg-neutral-800" />
                   <p className="mt-5 text-[9px] font-medium uppercase tracking-[0.3em] text-neutral-400">
                     ANMOL MADAN · PORTFOLIO
                   </p>
