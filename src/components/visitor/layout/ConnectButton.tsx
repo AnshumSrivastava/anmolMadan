@@ -69,7 +69,7 @@ export default function ConnectButton({ content }: ConnectButtonProps) {
       id: "phone",
       label: content.phone,
       icon: <Phone size={18} />,
-      href: `tel:${content.phone}`,
+      href: content.phone ? `tel:${content.phone}` : undefined,
       show: !!content.phone,
     },
     {
@@ -97,7 +97,7 @@ export default function ConnectButton({ content }: ConnectButtonProps) {
       id: "instagram",
       label: content.instagram?.replace("https://instagram.com/", "").replace("https://www.instagram.com/", "").replace(/\/$/, ""),
       icon: <InstagramIcon size={18} />,
-      href: content.instagram,
+      href: content.instagram || undefined,
       show: !!content.instagram,
     },
   ].filter(link => link.show);

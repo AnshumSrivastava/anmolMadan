@@ -15,6 +15,10 @@ const fallbackContent: ContactContent = {
   booking_description: "Schedule a 30-minute discovery consultation",
   linkedin: "https://linkedin.com/in/anmol-madan",
   linkedin_description: "Connect for cybersecurity insights & updates",
+  phone: null,
+  phone_description: null,
+  instagram: null,
+  instagram_description: null,
   updated_at: new Date().toISOString(),
 };
 
