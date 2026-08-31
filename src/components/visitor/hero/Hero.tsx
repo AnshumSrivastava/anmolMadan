@@ -90,50 +90,20 @@ export default async function Hero() {
           "
         >
           {/* ====================================================
-              MAIN TITLE — BACK LAYER (behind image, z-20)
-              This is the 'base' layer of the 3D WordArt depth.
+              MAIN TITLE (Behind Subject, z-20)
           ==================================================== */}
           <div
             className="
               absolute
               left-1/2
-              top-[100px]
-              sm:top-[115px]
-              lg:top-[130px]
+              top-[95px]
+              sm:top-[105px]
+              lg:top-[115px]
               z-20
               w-[94%]
               -translate-x-1/2
               text-center
             "
-          >
-            <HeroTitle title={hero.pre_heading} />
-          </div>
-
-          {/* ====================================================
-              MAIN TITLE — FRONT LAYER (in front of image, z-50)
-              Clipped to ONLY show the bottom 40% of the letters.
-              This makes the subject appear to emerge through
-              the text — the classic 3D magazine-cover WordArt
-              effect. The bottom of each letter peeks in front
-              of the subject's waist/lower-body.
-          ==================================================== */}
-          <div
-            className="
-              pointer-events-none
-              absolute
-              left-1/2
-              top-[100px]
-              sm:top-[115px]
-              lg:top-[130px]
-              z-50
-              w-[94%]
-              -translate-x-1/2
-              text-center
-            "
-            style={{
-              clipPath: "inset(55% 0 0 0)",
-              WebkitClipPath: "inset(55% 0 0 0)",
-            }}
           >
             <HeroTitle title={hero.pre_heading} />
           </div>
@@ -145,11 +115,12 @@ export default async function Hero() {
             className="
               absolute
               left-1/2
-              top-[265px]
-              xl:top-[285px]
-              z-25
+              top-[215px]
+              sm:top-[230px]
+              lg:top-[245px]
+              z-20
               hidden
-              w-[min(1100px,88vw)]
+              w-[min(1280px,90vw)]
               -translate-x-1/2
               items-center
               justify-between
@@ -163,11 +134,11 @@ export default async function Hero() {
                 <p
                   className="
                     whitespace-nowrap
-                    text-[clamp(1.35rem,2.1vw,2.2rem)]
+                    text-[clamp(1.1rem,1.7vw,1.8rem)]
                     font-normal
                     uppercase
                     leading-none
-                    tracking-[-0.025em]
+                    tracking-[0.05em]
                     text-neutral-500
                   "
                 >
@@ -182,11 +153,11 @@ export default async function Hero() {
                 <p
                   className="
                     whitespace-nowrap
-                    text-[clamp(1.35rem,2.1vw,2.2rem)]
+                    text-[clamp(1.1rem,1.7vw,1.8rem)]
                     font-normal
                     uppercase
                     leading-none
-                    tracking-[-0.025em]
+                    tracking-[0.05em]
                     text-neutral-500
                   "
                 >
@@ -198,22 +169,19 @@ export default async function Hero() {
           </div>
 
           {/* ====================================================
-              HERO IMAGE  (z-40 — between the two title layers)
-              Back title: z-20 | Image: z-40 | Front title: z-50
+              HERO IMAGE (z-30 — stands prominently in front of title)
           ==================================================== */}
           <div
             className="
               pointer-events-none
               absolute
-              bottom-[-60px]
-              sm:bottom-[-80px]
-              lg:bottom-[-120px]
+              bottom-0
               left-1/2
-              z-40
-              h-[92vh]
-              max-h-[1100px]
-              w-[min(94vw,640px)]
-              lg:w-[clamp(640px,52vw,1000px)]
+              z-30
+              h-[85vh]
+              max-h-[920px]
+              w-[min(94vw,560px)]
+              lg:w-[clamp(560px,44vw,800px)]
               -translate-x-1/2
             "
           >
@@ -226,14 +194,14 @@ export default async function Hero() {
           <div
             className="
               absolute
-              left-[6%]
-              top-[68%]
-              z-50
+              left-[5%]
+              top-[60%]
+              z-40
               w-[min(380px,88vw)]
               -translate-y-1/2
               hidden
               md:block
-              xl:left-[8%]
+              xl:left-[7%]
               xl:w-[400px]
               2xl:left-[9%]
             "
@@ -249,15 +217,15 @@ export default async function Hero() {
           <div
             className="
               absolute
-              right-[6%]
+              right-[5%]
               top-[60%]
-              z-50
-              w-[280px]
+              z-40
+              w-[260px]
               -translate-y-1/2
               hidden
               lg:block
-              xl:right-[8%]
-              xl:w-[320px]
+              xl:right-[7%]
+              xl:w-[300px]
               2xl:right-[9%]
             "
           >
@@ -273,9 +241,9 @@ export default async function Hero() {
             className="
               absolute
               inset-x-0
-              top-[195px]
-              sm:top-[225px]
-              z-30
+              top-[180px]
+              sm:top-[200px]
+              z-20
               px-6
               text-center
               lg:hidden
@@ -284,11 +252,11 @@ export default async function Hero() {
             <Reveal delay={0.2}>
               <p
                 className="
-                  text-sm
-                  sm:text-base
+                  text-xs
+                  sm:text-sm
                   font-medium
                   uppercase
-                  tracking-[0.18em]
+                  tracking-[0.2em]
                   text-neutral-500
                 "
               >

@@ -4,6 +4,7 @@ import Experience from "@/components/visitor/experience/Experience";
 import Gallery from "@/components/visitor/gallery/Gallery";
 import Testimonials from "@/components/visitor/testimonials/Testimonials";
 import Contact from "@/components/visitor/contact/Contact";
+import Footer from "@/components/visitor/layout/Footer";
 import { Vision } from "@/components/visitor/vision";
 
 export default function HomePage() {
@@ -36,6 +37,7 @@ export default function HomePage() {
         <Gallery />
         <Testimonials />
         <Contact />
+        <Footer />
       </main>
     </>
   );

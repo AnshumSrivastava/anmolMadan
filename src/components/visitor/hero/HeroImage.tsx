@@ -100,10 +100,10 @@ export default function HeroImage({ hero }: Props) {
           -translate-x-1/2
           object-contain
           object-bottom
-          scale-[1.32]
-          lg:scale-[1.48]
+          scale-[1.12]
+          lg:scale-[1.18]
           origin-bottom
-          drop-shadow-[0_60px_120px_rgba(0,0,0,0.18)]
+          drop-shadow-[0_40px_80px_rgba(0,0,0,0.12)]
           select-none
           pointer-events-none
         "
