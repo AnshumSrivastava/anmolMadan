@@ -30,6 +30,12 @@ export async function updateContactContent(formData: FormData) {
     booking_link: formData.get("booking_link"),
     booking_description: formData.get("booking_description"),
 
+    phone: formData.get("phone"),
+    phone_description: formData.get("phone_description"),
+
+    instagram: formData.get("instagram"),
+    instagram_description: formData.get("instagram_description"),
+
     updated_at: new Date().toISOString(),
   };
 

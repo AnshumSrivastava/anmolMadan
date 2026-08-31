@@ -10,6 +10,8 @@ import {
 } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Instrument_Sans } from "next/font/google";
+import Image from "next/image";
+import ContactModal from "./ContactModal";
 
 /* =========================================================
    FONT
@@ -39,6 +41,7 @@ const navItems = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const { scrollY } = useScroll();
 
@@ -204,35 +207,21 @@ export default function Navbar() {
                 cursor-pointer
               "
             >
-              <h1
+              <Image
+                src="/anmol_logo.png"
+                alt="Anmol Madan"
+                width={120}
+                height={44}
                 className="
-                  text-[22px]
-                  font-semibold
-                  leading-none
-                  tracking-[0.22em]
-                  text-black
+                  h-8
+                  w-auto
                   transition-opacity
                   duration-300
                   group-hover:opacity-70
-                  sm:text-[25px]
+                  sm:h-[44px]
                 "
-              >
-                ANMOL
-              </h1>
-
-              <p
-                className="
-                  mt-[3px]
-                  text-[8px]
-                  font-medium
-                  leading-none
-                  tracking-[0.45em]
-                  text-neutral-500
-                  sm:text-[9px]
-                "
-              >
-                MADAN
-              </p>
+                priority
+              />
             </button>
           </motion.div>
 
@@ -302,7 +291,7 @@ export default function Navbar() {
           >
             <button
               type="button"
-              onClick={() => scrollToSection("#contact")}
+              onClick={() => setIsContactModalOpen(true)}
               className="
                 relative
                 z-[110]
@@ -474,7 +463,10 @@ export default function Navbar() {
 
                 <motion.button
                   type="button"
-                  onClick={() => scrollToSection("#contact")}
+                  onClick={() => {
+                    setOpen(false);
+                    setIsContactModalOpen(true);
+                  }}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
@@ -507,6 +499,11 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </>
   );
 }

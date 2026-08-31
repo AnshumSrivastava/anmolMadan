@@ -3,11 +3,14 @@ import About from "@/components/visitor/about/About";
 import Experience from "@/components/visitor/experience/Experience";
 import Gallery from "@/components/visitor/gallery/Gallery";
 import Testimonials from "@/components/visitor/testimonials/Testimonials";
-import Contact from "@/components/visitor/contact/Contact";
 import Footer from "@/components/visitor/layout/Footer";
 import { Vision } from "@/components/visitor/vision";
+import ConnectButton from "@/components/visitor/layout/ConnectButton";
+import { getContactContent } from "@/services/contact";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const contactContent = await getContactContent();
+
   return (
     <>
       {/* FIXED HERO LAYER */}
@@ -36,9 +39,11 @@ export default function HomePage() {
         <Experience />
         <Gallery />
         <Testimonials />
-        <Contact />
         <Footer />
       </main>
+
+      {/* Sticky Connect Button */}
+      <ConnectButton content={contactContent} />
     </>
   );
 }

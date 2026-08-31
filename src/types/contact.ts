@@ -17,6 +17,12 @@ export interface ContactContent {
   booking_link: string;
   booking_description: string | null;
 
+  phone: string | null;
+  phone_description: string | null;
+
+  instagram: string | null;
+  instagram_description: string | null;
+
   updated_at: string;
 }
 
@@ -78,4 +84,10 @@ export interface UpdateContactContent {
 
   booking_link: string;
   booking_description?: string | null;
+
+  phone?: string | null;
+  phone_description?: string | null;
+
+  instagram?: string | null;
+  instagram_description?: string | null;
 }
