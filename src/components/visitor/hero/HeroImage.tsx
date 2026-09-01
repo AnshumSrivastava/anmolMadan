@@ -16,12 +16,12 @@ export default function HeroImage({ hero }: Props) {
       initial={{ opacity: 0, scale: 0.94, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className="relative flex h-[72vh] sm:h-[76vh] lg:h-[80vh] xl:h-[82vh] w-full items-end justify-center lg:justify-end select-none pointer-events-none pb-4 sm:pb-6 pr-4 sm:pr-8"
+      className="relative flex h-full max-h-[82vh] w-full items-end justify-center lg:justify-end select-none pointer-events-none pb-3 sm:pb-6 pr-2 sm:pr-6"
     >
-      {/* Grouped Single Element Container */}
-      <div className="relative flex h-[380px] sm:h-[420px] lg:h-[460px] xl:h-[490px] w-[320px] sm:w-[360px] lg:w-[390px] xl:w-[420px] items-end justify-center">
+      {/* Dynamic Responsive Container based on viewport height & width */}
+      <div className="relative flex h-[clamp(320px,56vh,480px)] w-[clamp(270px,46vh,410px)] items-end justify-center">
 
-        {/* Ambient Depth Glow (Safely inset so blur never clips at edges) */}
+        {/* Ambient Depth Glow */}
         <div
           aria-hidden="true"
           className="
@@ -45,7 +45,7 @@ export default function HeroImage({ hero }: Props) {
 
         {/* =========================================================
             1. VISIBLE DIV: FULL CIRCLE BACKGROUND
-            - Pure circle (rounded-full, aspect-square)
+            - Dynamically scales with viewport height (aspect-square)
             - Anchored at bottom-0 with clean border and natural shadow
         ========================================================= */}
         <div
@@ -54,10 +54,7 @@ export default function HeroImage({ hero }: Props) {
             bottom-0
             left-1/2
             -translate-x-1/2
-            w-[320px]
-            sm:w-[360px]
-            lg:w-[390px]
-            xl:w-[420px]
+            w-full
             aspect-square
             rounded-full
             bg-[#beb49e]
@@ -80,20 +77,17 @@ export default function HeroImage({ hero }: Props) {
         {/* =========================================================
             2. INVISIBLE DIV: TALL CLIPPING CONTAINER
             - Same width & bottom-0 as the circle
-            - Generous top headroom (-top-[140px]) so head NEVER gets cropped
+            - Generous top headroom (-top-[35%]) scaling dynamically
             - Circular at bottom (rounded-b-full), Rectangular at top (rounded-t-none)
         ========================================================= */}
         <div
           className="
             absolute
-            -top-[140px]
+            -top-[30%]
             bottom-0
             left-1/2
             -translate-x-1/2
-            w-[320px]
-            sm:w-[360px]
-            lg:w-[390px]
-            xl:w-[420px]
+            w-full
             overflow-hidden
             rounded-b-full
             rounded-t-none
@@ -110,12 +104,12 @@ export default function HeroImage({ hero }: Props) {
             height={1400}
             priority
             className="
-              h-[118%]
+              h-[120%]
               w-auto
               max-w-none
               scale-[1.22]
               origin-bottom
-              translate-y-[calc(8%+50px)]
+              translate-y-[calc(8%+65px)]
               object-contain
               object-bottom
               drop-shadow-[0_15px_25px_rgba(0,0,0,0.25)]
