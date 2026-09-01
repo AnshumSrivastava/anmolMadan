@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { Instrument_Sans } from "next/font/google";
 import { Mail, Phone, ArrowUpRight } from "lucide-react";
+
 import ContactModal from "@/components/visitor/layout/ContactModal";
+import type { ContactLink } from "@/types/contact";
+import { renderContactIcon } from "@/components/shared/ContactIcons";
 
 /* =========================================================
    FONT
@@ -16,10 +19,14 @@ const footerFont = Instrument_Sans({
 });
 
 /* =========================================================
-   ICONS (INLINE SVG FOR CONSISTENCY)
+   INLINE ICONS
 ========================================================= */
 
-function LinkedInIcon({ className = "h-4 w-4" }: { className?: string }) {
+function LinkedInIcon({
+  className = "h-4 w-4",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       className={className}
@@ -32,7 +39,11 @@ function LinkedInIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
-function InstagramIcon({ className = "h-4 w-4" }: { className?: string }) {
+function InstagramIcon({
+  className = "h-4 w-4",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       className={className}
@@ -60,15 +71,17 @@ const scrollToSection = (id: string) => {
   });
 };
 
-import type { ContactLink } from "@/types/contact";
-import { renderContactIcon } from "@/components/shared/ContactIcons";
-
 /* =========================================================
    FOOTER
 ========================================================= */
 
-export default function Footer({ links = [] }: { links?: ContactLink[] }) {
-  const [isContactOpen, setIsContactOpen] = useState(false);
+export default function Footer({
+  links = [],
+}: {
+  links?: ContactLink[];
+}) {
+  const [isContactOpen, setIsContactOpen] =
+    useState(false);
 
   return (
     <footer
@@ -76,57 +89,118 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
         ${footerFont.className}
         border-t
         border-black/[0.08]
-        bg-white dark:bg-black
-        text-black dark:text-white
+        bg-white
+        text-black
+        dark:border-white/[0.08]
+        dark:bg-black
+        dark:text-white
       `}
     >
+
       {/* =====================================================
-          PRE-FOOTER CTA BANNER
+          PRE-FOOTER CTA
       ===================================================== */}
-      <div className="border-b border-black/[0.06] bg-neutral-900 text-white">
-        <div className="mx-auto flex max-w-[1500px] flex-col items-start justify-between gap-8 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:px-12 xl:px-16">
+
+      <div className="border-b border-white/[0.08] bg-neutral-900 text-white">
+        <div
+          className="
+            mx-auto
+            flex
+            max-w-[1500px]
+            flex-col
+            items-start
+            justify-between
+            gap-8
+            px-6
+            py-16
+            sm:px-8
+            lg:flex-row
+            lg:items-center
+            lg:px-12
+            xl:px-16
+          "
+        >
           <div className="max-w-2xl">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-400">
+            <span
+              className="
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.3em]
+                text-neutral-400
+              "
+            >
               Work Together
             </span>
-            <h3 className="mt-3 text-3xl font-medium tracking-[-0.03em] sm:text-4xl lg:text-5xl">
-              Ready to create an unforgettable session?
+
+            <h3
+              className="
+                mt-3
+                text-3xl
+                font-medium
+                tracking-[-0.03em]
+                sm:text-4xl
+                lg:text-5xl
+              "
+            >
+              Ready to create an unforgettable
+              session?
             </h3>
-            <p className="mt-4 text-sm sm:text-base text-neutral-400">
-              Available for corporate cybersecurity training, college workshops, and keynote speaking across India & online.
+
+            <p
+              className="
+                mt-4
+                text-sm
+                text-neutral-400
+                sm:text-base
+              "
+            >
+              Available for corporate cybersecurity
+              training, college workshops, and keynote
+              speaking across India & online.
             </p>
           </div>
 
+          {/* =================================================
+              BOOK A CALL
+          ================================================= */}
+
           <div className="flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              onClick={() => setIsContactOpen(true)}
+            <a
+              href="https://cal.com/anmolmadan"
+              target="_blank"
+              rel="noopener noreferrer"
               className="
                 inline-flex
                 items-center
                 gap-2
                 rounded-full
-                bg-white dark:bg-black
+                bg-white
                 px-8
                 py-4
                 text-xs
                 font-semibold
                 uppercase
                 tracking-[0.1em]
-                text-black dark:text-white
+                text-black
                 transition-all
                 duration-300
                 hover:scale-105
-                hover:bg-neutral-100 dark:bg-neutral-800
+                hover:bg-neutral-100
                 active:scale-95
-                cursor-pointer
               "
             >
-              Book a Call <ArrowUpRight className="h-4 w-4" />
-            </button>
+              Book a Call
+
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </div>
+
+      {/* =====================================================
+          MAIN FOOTER
+      ===================================================== */}
 
       <div
         className="
@@ -139,9 +213,10 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
           xl:px-16
         "
       >
-        {/* =====================================================
-            MAIN FOOTER GRID
-        ===================================================== */}
+
+        {/* ===================================================
+            FOOTER GRID
+        =================================================== */}
 
         <div
           className="
@@ -153,23 +228,28 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
             xl:gap-20
           "
         >
-          {/* ===================================================
+
+          {/* =================================================
               BRAND
-          =================================================== */}
+          ================================================= */}
 
           <div>
-            {/* Logo */}
             <button
               type="button"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
               className="
                 group
+                cursor-pointer
                 border-none
                 bg-transparent
                 p-0
                 text-left
                 outline-none
-                cursor-pointer
               "
             >
               <h3
@@ -178,10 +258,11 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
                   font-semibold
                   leading-none
                   tracking-[0.25em]
-                  text-black dark:text-white
+                  text-black
                   transition-opacity
                   duration-300
                   group-hover:opacity-60
+                  dark:text-white
                 "
               >
                 ANMOL
@@ -201,7 +282,6 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
               </p>
             </button>
 
-            {/* Description */}
             <div
               className="
                 mt-8
@@ -209,20 +289,35 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
                 space-y-2
                 text-[14px]
                 leading-6
-                text-neutral-500 dark:text-neutral-400
+                text-neutral-500
+                dark:text-neutral-400
               "
             >
-              <p className="font-medium text-neutral-800 dark:text-neutral-200">
-                Cybersecurity Trainer & Motivational Speaker
+              <p
+                className="
+                  font-medium
+                  text-neutral-800
+                  dark:text-neutral-200
+                "
+              >
+                Cybersecurity Trainer &
+                Motivational Speaker
               </p>
-              <p>Based in Chandigarh, India</p>
-              <p>Delivering sessions Pan-India & Online</p>
+
+              <p>
+                Based in Chandigarh, India
+              </p>
+
+              <p>
+                Delivering sessions Pan-India &
+                Online
+              </p>
             </div>
           </div>
 
-          {/* ===================================================
+          {/* =================================================
               EXPLORE
-          =================================================== */}
+          ================================================= */}
 
           <div>
             <h4
@@ -244,54 +339,79 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
                 flex-col
                 gap-3.5
                 text-[14px]
-                text-neutral-600 dark:text-neutral-400
+                text-neutral-600
+                dark:text-neutral-400
               "
             >
               <button
                 type="button"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
+                onClick={() =>
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  })
+                }
+                className="w-fit cursor-pointer border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white"
               >
                 Home
               </button>
 
               <button
                 type="button"
-                onClick={() => scrollToSection("#about")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
+                onClick={() =>
+                  scrollToSection("#about")
+                }
+                className="w-fit cursor-pointer border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white"
               >
                 About
               </button>
 
+               <button
+                type="button"
+                onClick={() =>
+                  scrollToSection("#testimonials")
+                }
+                className="w-fit cursor-pointer border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white"
+              >
+                Testimonials
+              </button>
+         <button
+                type="button"
+                onClick={() =>
+                  scrollToSection("#services")
+                }
+                className="w-fit cursor-pointer border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white"
+              >
+                Services
+              </button>
+
               <button
                 type="button"
-                onClick={() => scrollToSection("#vision")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
+                onClick={() =>
+                  scrollToSection("#vision")
+                }
+                className="w-fit cursor-pointer border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white"
               >
                 Vision
               </button>
 
               <button
                 type="button"
-                onClick={() => scrollToSection("#experience")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
+                onClick={() =>
+                  scrollToSection("#note")
+                }
+                className="w-fit cursor-pointer border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white"
               >
-                Experience
+                Notes
               </button>
 
-              <button
-                type="button"
-                onClick={() => scrollToSection("#testimonials")}
-                className="w-fit border-none bg-transparent p-0 text-left transition-colors duration-300 hover:text-black dark:hover:text-white cursor-pointer"
-              >
-                Testimonials
-              </button>
+             
             </div>
           </div>
 
-          {/* ===================================================
-              FOCUS AREAS
-          =================================================== */}
+          {/* =================================================
+              KEY EXPERTISE
+          ================================================= */}
 
           <div>
             <h4
@@ -312,7 +432,8 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
                 space-y-3.5
                 text-[14px]
                 leading-6
-                text-neutral-600 dark:text-neutral-400
+                text-neutral-600
+                dark:text-neutral-400
               "
             >
               <li>Corporate Cybersecurity</li>
@@ -323,9 +444,9 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
             </ul>
           </div>
 
-          {/* ===================================================
+          {/* =================================================
               CONNECT
-          =================================================== */}
+          ================================================= */}
 
           <div>
             <h4
@@ -344,66 +465,233 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
             <div className="flex flex-col gap-4">
               {links.length > 0 ? (
                 links.map((link) => {
-                  const isExternal = !link.url?.startsWith("mailto:") && !link.url?.startsWith("tel:");
+                  const isExternal =
+                    !link.url?.startsWith(
+                      "mailto:"
+                    ) &&
+                    !link.url?.startsWith(
+                      "tel:"
+                    );
+
                   return (
                     <a
                       key={link.id}
                       href={link.url}
-                      target={isExternal ? "_blank" : undefined}
-                      rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                      target={
+                        isExternal
+                          ? "_blank"
+                          : undefined
+                      }
+                      rel={
+                        isExternal
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="
+                        flex
+                        items-center
+                        gap-3
+                        text-sm
+                        text-neutral-600
+                        transition-colors
+                        duration-300
+                        hover:text-black
+                        dark:text-neutral-400
+                        dark:hover:text-white
+                      "
                     >
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:hover:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
-                        {renderContactIcon(link.icon_name, { size: 14 })}
+                      <div
+                        className="
+                          flex
+                          h-8
+                          w-8
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-full
+                          border
+                          border-neutral-200
+                          bg-neutral-50
+                          transition-colors
+                          duration-300
+                          hover:border-black
+                          hover:bg-black
+                          hover:text-white
+                          dark:border-neutral-800
+                          dark:bg-neutral-900
+                          dark:hover:border-white
+                          dark:hover:bg-white
+                          dark:hover:text-black
+                        "
+                      >
+                        {renderContactIcon(
+                          link.icon_name,
+                          { size: 14 }
+                        )}
                       </div>
-                      <span className="truncate">{link.label}</span>
+
+                      <span className="truncate">
+                        {link.label}
+                      </span>
                     </a>
                   );
                 })
               ) : (
                 <>
                   <a
-                    href="https://linkedin.com/in/anmol-madan"
+                    href="https://www.linkedin.com/in/anmolmadan7/"
                     target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                    rel="noopener noreferrer"
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                      text-sm
+                      text-neutral-600
+                      transition-colors
+                      duration-300
+                      hover:text-black
+                      dark:text-neutral-400
+                      dark:hover:text-white
+                    "
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                    <div
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-neutral-200
+                        bg-neutral-50
+                        dark:border-neutral-800
+                        dark:bg-neutral-900
+                      "
+                    >
                       <LinkedInIcon className="h-3.5 w-3.5" />
                     </div>
-                    <span>LinkedIn Profile</span>
+
+                    <span>
+                      LinkedIn Profile
+                    </span>
                   </a>
 
                   <a
-                    href="mailto:anmolmadan.official@gmail.com"
-                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                    href="mailto:anmolmadan20@gmail.com"
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                      text-sm
+                      text-neutral-600
+                      transition-colors
+                      duration-300
+                      hover:text-black
+                      dark:text-neutral-400
+                      dark:hover:text-white
+                    "
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                    <div
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-neutral-200
+                        bg-neutral-50
+                        dark:border-neutral-800
+                        dark:bg-neutral-900
+                      "
+                    >
                       <Mail className="h-3.5 w-3.5" />
                     </div>
-                    <span>anmolmadan.official@gmail.com</span>
+
+                    <span>
+                      anmolmadan20@gmail.com
+                    </span>
                   </a>
 
                   <a
                     href="tel:+919876543210"
-                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                      text-sm
+                      text-neutral-600
+                      transition-colors
+                      duration-300
+                      hover:text-black
+                      dark:text-neutral-400
+                      dark:hover:text-white
+                    "
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                    <div
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-neutral-200
+                        bg-neutral-50
+                        dark:border-neutral-800
+                        dark:bg-neutral-900
+                      "
+                    >
                       <Phone className="h-3.5 w-3.5" />
                     </div>
-                    <span>+91 98765 43210</span>
+
+                    <span>
+                      +91 98765 43210
+                    </span>
                   </a>
 
                   <a
                     href="https://instagram.com"
                     target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400 transition-colors duration-300 hover:text-black dark:hover:text-white"
+                    rel="noopener noreferrer"
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                      text-sm
+                      text-neutral-600
+                      transition-colors
+                      duration-300
+                      hover:text-black
+                      dark:text-neutral-400
+                      dark:hover:text-white
+                    "
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 hover:border-black dark:border-white hover:bg-black hover:text-white">
+                    <div
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-neutral-200
+                        bg-neutral-50
+                        dark:border-neutral-800
+                        dark:bg-neutral-900
+                      "
+                    >
                       <InstagramIcon className="h-3.5 w-3.5" />
                     </div>
-                    <span>Instagram Updates</span>
+
+                    <span>
+                      Instagram Updates
+                    </span>
                   </a>
                 </>
               )}
@@ -411,9 +699,9 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
           </div>
         </div>
 
-        {/* =====================================================
+        {/* =================================================
             BOTTOM
-        ===================================================== */}
+        ================================================= */}
 
         <div
           className="
@@ -421,6 +709,7 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
             border-t
             border-black/[0.08]
             pt-7
+            dark:border-white/[0.08]
           "
         >
           <div
@@ -436,10 +725,10 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
               sm:items-center
             "
           >
-            {/* Copyright */}
-            <p>© 2026 Anmol Madan. All Rights Reserved.</p>
+            <p>
+              © 2026 Anmol Madan. All Rights Reserved.
+            </p>
 
-            {/* Meta */}
             <div
               className="
                 flex
@@ -449,12 +738,19 @@ export default function Footer({ links = [] }: { links?: ContactLink[] }) {
               "
             >
               <span>anmolmadan.in</span>
-              <span className="text-neutral-200">•</span>
+              <span className="text-neutral-200 dark:text-neutral-700">
+                •
+              </span>
               <span>Chandigarh, India</span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* =====================================================
+          CONTACT MODAL
+      ===================================================== */}
+
       <ContactModal
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}

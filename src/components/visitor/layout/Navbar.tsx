@@ -30,12 +30,35 @@ const navbarFont = Instrument_Sans({
 ========================================================= */
 
 const navItems = [
-  { label: "About", href: "#about", id: "about" },
-  { label: "Testimonials", href: "#testimonials", id: "testimonials" },
-  { label: "Vision", href: "#vision", id: "vision" },
-  { label: "Experience", href: "#experience", id: "experience" },
-];
+  {
+    label: "About",
+    href: "#about",
+    id: "about",
+  },
 
+  {
+    label: "Testimonials",
+    href: "#testimonials",
+    id: "testimonials",
+  },
+
+      {
+    label: "Services",
+    href: "#services",
+    id: "services",
+  },
+  {
+    label: "Vision",
+    href: "#vision",
+    id: "vision",
+  },
+
+  {
+    label: "Note",
+    href: "#note",
+    id: "note",
+  },
+];
 /* =========================================================
    NAVBAR
 ========================================================= */
@@ -102,33 +125,84 @@ export default function Navbar() {
   const logoScale = useTransform(scrollY, [0, 300], [1, 0.88]);
   const contactBtnScale = useTransform(scrollY, [0, 300], [1, 0.92]);
 
-  /* =======================================================
-     ACTIVE SECTION DETECTION
-  ======================================================= */
+/* =======================================================
+   ACTIVE SECTION DETECTION
 
-  useEffect(() => {
-    const observerCallback: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
+   Determines the section closest to the top navigation
+   instead of relying on multiple IntersectionObserver
+   intersections.
+======================================================= */
 
-    const observer = new IntersectionObserver(observerCallback, {
-      rootMargin: "-45% 0px -50% 0px",
-      threshold: 0.1,
+useEffect(() => {
+  const updateActiveSection = () => {
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "section[id], div[id='hero']"
+      )
+    ).filter((section) =>
+      navItems.some((item) => item.id === section.id)
+    );
+
+    if (sections.length === 0) return;
+
+    /*
+      Position where we consider a section "active".
+      This sits roughly underneath the navbar.
+    */
+    const activationPoint = 140;
+
+    let closestSection = "";
+    let closestDistance = Infinity;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+
+      /*
+        Ignore sections that are completely below
+        the activation point.
+      */
+      if (rect.bottom < activationPoint) return;
+
+      const distance = Math.abs(
+        rect.top - activationPoint
+      );
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestSection = section.id;
+      }
     });
 
-    const sectionElements = document.querySelectorAll(
-      "section[id], div[id='hero']"
-    );
-    sectionElements.forEach((el) => observer.observe(el));
+    if (closestSection) {
+      setActiveSection(closestSection);
+    }
+  };
 
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  updateActiveSection();
+
+  window.addEventListener(
+    "scroll",
+    updateActiveSection,
+    { passive: true }
+  );
+
+  window.addEventListener(
+    "resize",
+    updateActiveSection
+  );
+
+  return () => {
+    window.removeEventListener(
+      "scroll",
+      updateActiveSection
+    );
+
+    window.removeEventListener(
+      "resize",
+      updateActiveSection
+    );
+  };
+}, []);
 
   /* =======================================================
      SMOOTH SCROLL
@@ -204,39 +278,47 @@ export default function Navbar() {
             style={{ scale: logoScale, transformOrigin: "left center" }}
             className="flex items-center justify-start"
           >
-            <button
-              type="button"
-              onClick={() => scrollToSection("#hero")}
-              aria-label="Go to homepage"
-              className="
-                relative
-                z-[110]
-                shrink-0
-                border-none
-                bg-transparent
-                p-0
-                text-left
-                outline-none
-                group
-                cursor-pointer
-              "
-            >
-              <Image
-                src="/anmol_logo.png"
-                alt="Anmol Madan"
-                width={120}
-                height={44}
-                className="
-                  h-8
-                  w-auto
-                  transition-opacity
-                  duration-300
-                  group-hover:opacity-70
-                  sm:h-[44px]
-                "
-                priority
-              />
-            </button>
+  <button
+  type="button"
+  onClick={() => {
+    setOpen(false);
+    setActiveSection("");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }}
+  aria-label="Go to homepage"
+  className="
+    relative
+    z-[110]
+    shrink-0
+    border-none
+    bg-transparent
+    p-0
+    text-left
+    outline-none
+    group
+    cursor-pointer
+  "
+>
+  <Image
+    src="/anmol_logo.png"
+    alt="Anmol Madan"
+    width={120}
+    height={44}
+    className="
+      h-8
+      w-auto
+      transition-opacity
+      duration-300
+      group-hover:opacity-70
+      sm:h-[44px]
+    "
+    priority
+  />
+</button>
           </motion.div>
 
           {/* =================================================

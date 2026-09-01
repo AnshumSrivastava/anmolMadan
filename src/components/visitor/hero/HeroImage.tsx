@@ -51,7 +51,7 @@ export default function HeroImage({ hero }: Props) {
         <div
           className="
             absolute
-            bottom-0
+            bottom-15
             left-1/2
             -translate-x-1/2
             w-full
@@ -83,8 +83,8 @@ export default function HeroImage({ hero }: Props) {
         <div
           className="
             absolute
-            -top-[30%]
-            bottom-0
+            -top-[40%]
+            bottom-15
             left-1/2
             -translate-x-1/2
             w-full
