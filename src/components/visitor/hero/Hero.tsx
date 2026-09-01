@@ -1,5 +1,6 @@
 import { getHero } from "@/services/hero/hero.service";
 import Reveal from "@/components/shared/Reveal";
+
 import HeroScrollWrapper from "./HeroScrollWrapper";
 import HeroBackground from "./HeroBackground";
 import HeroImage from "./HeroImage";
@@ -14,10 +15,6 @@ export default async function Hero() {
   const hero = await getHero();
 
   if (!hero) return null;
-
-  /* ==========================================================
-     STATS DATA
-  ========================================================== */
 
   const stats = [
     {
@@ -34,7 +31,8 @@ export default async function Hero() {
     },
   ];
 
-  const roleSubtitle = "Cybersecurity Expert · Motivational Speaker";
+  const roleSubtitle =
+    "Cybersecurity Expert · Motivational Speaker";
 
   return (
     <section
@@ -50,115 +48,242 @@ export default async function Hero() {
         dark:bg-black
       "
     >
-      {/* Background Atmosphere */}
       <HeroBackground />
 
-      {/* Hero Scroll Container */}
       <HeroScrollWrapper>
-        <div className="relative mx-auto flex h-full w-full max-w-[1560px] items-center px-6 sm:px-10 md:px-14 lg:px-18 xl:px-20">
-          <div className="grid h-full w-full grid-cols-1 lg:grid-cols-12 items-center gap-10 lg:gap-8 xl:gap-14">
+        {/* ==================================================
+            FIXED PROPORTIONAL CANVAS
+
+            Everything inside this container uses the same
+            16:9-ish proportional structure regardless of
+            viewport resolution.
+        ================================================== */}
+
+        <div
+          className="
+            relative
+            mx-auto
+            h-full
+            w-full
+            max-w-[1560px]
+
+            px-[5.5vw]
+            lg:px-[5vw]
+            xl:px-[4.5vw]
+          "
+        >
+          <div
+            className="
+              relative
+              flex
+              h-full
+              w-full
+              items-center
+            "
+          >
 
             {/* ==================================================
-                LEFT COLUMN (55-60% width): Unified Left-Aligned Stack
+                LEFT CONTENT
             ================================================== */}
-            <div className="flex flex-col gap-6 sm:gap-7 lg:col-span-7 text-left my-auto py-12 lg:py-0">
-              
-              {/* 1. Name */}
+
+            <div
+              className="
+                relative
+                z-20
+
+                flex
+                w-[55%]
+                flex-col
+
+                gap-[clamp(14px,1.5vh,24px)]
+
+                text-left
+              "
+            >
+
+              {/* NAME */}
+
               <Reveal delay={0.08}>
-                <HeroTitle title={hero.pre_heading || "ANMOL MADAN"} />
+                <HeroTitle
+                  title={
+                    hero.pre_heading ||
+                    "ANMOL MADAN"
+                  }
+                />
               </Reveal>
 
-              {/* 2. Role Line */}
+
+              {/* ROLE */}
+
               <Reveal delay={0.14}>
-                <p className="text-[clamp(13px,1.05vw,16px)] font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
+                <p
+                  className="
+                    text-[clamp(12px,1.05vw,17px)]
+                    font-semibold
+                    uppercase
+                    tracking-[0.16em]
+                    text-neutral-500
+                    dark:text-neutral-400
+                  "
+                >
                   {roleSubtitle}
                 </p>
               </Reveal>
 
-              {/* 3. Quote */}
+
+              {/* DESCRIPTION */}
+
               <Reveal delay={0.2}>
-                <p className="max-w-[580px] text-[clamp(14px,1.05vw,17px)] leading-[1.65] text-neutral-600 dark:text-neutral-400">
+                <p
+                  className="
+                    max-w-[clamp(430px,31vw,580px)]
+
+                    text-[clamp(13px,0.95vw,17px)]
+
+                    leading-[1.6]
+
+                    text-neutral-600
+                    dark:text-neutral-400
+                  "
+                >
                   {hero.description}
                 </p>
               </Reveal>
 
-              {/* 4. Stats Row */}
+
+              {/* STATS */}
+
               <Reveal delay={0.26}>
                 <HeroStats stats={stats} />
               </Reveal>
 
-              {/* 5. Buttons Row */}
+
+              {/* BUTTONS */}
+
               <Reveal delay={0.32}>
-                <div className="flex items-center gap-4 pt-1">
-                  {/* Primary Action */}
+                <div
+                  className="
+                    flex
+                    items-center
+                    gap-[clamp(10px,1vw,16px)]
+                    pt-1
+                  "
+                >
+
                   <a
-                    href="#contact"
+                    href="https://cal.com/anmolmadan"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="
                       inline-flex
                       items-center
                       justify-center
+
                       rounded-full
+
                       bg-neutral-950
-                      dark:bg-white
-                      px-7
-                      py-3.5
-                      text-xs
+
+                      px-[clamp(20px,1.8vw,28px)]
+                      py-[clamp(10px,0.9vh,14px)]
+
+                      text-[clamp(10px,0.65vw,12px)]
+
                       font-semibold
                       uppercase
                       tracking-[0.12em]
+
                       text-white
-                      dark:text-black
+
                       shadow-sm
+
                       transition-all
                       duration-200
+
                       hover:bg-neutral-800
-                      dark:hover:bg-neutral-200
                       active:scale-95
+
+                      dark:bg-white
+                      dark:text-black
+                      dark:hover:bg-neutral-200
                     "
                   >
                     Book a Call
                   </a>
 
-                  {/* Secondary Action */}
+
                   <a
                     href="#about"
                     className="
                       inline-flex
                       items-center
                       justify-center
+
                       rounded-full
+
                       border
                       border-neutral-300
-                      dark:border-neutral-700
+
                       bg-transparent
-                      px-7
-                      py-3.5
-                      text-xs
+
+                      px-[clamp(20px,1.8vw,28px)]
+                      py-[clamp(10px,0.9vh,14px)]
+
+                      text-[clamp(10px,0.65vw,12px)]
+
                       font-medium
                       uppercase
                       tracking-[0.12em]
+
                       text-neutral-700
-                      dark:text-neutral-300
+
                       transition-all
                       duration-200
+
                       hover:border-black
-                      dark:hover:border-white
                       hover:text-black
-                      dark:hover:text-white
+
                       active:scale-95
+
+                      dark:border-neutral-700
+                      dark:text-neutral-300
+
+                      dark:hover:border-white
+                      dark:hover:text-white
                     "
                   >
                     Learn More
                   </a>
+
                 </div>
               </Reveal>
 
             </div>
 
+
             {/* ==================================================
-                RIGHT COLUMN (40-45% width): Large Portrait Touching Bottom
+                RIGHT IMAGE AREA
+
+                IMPORTANT:
+                This is positioned relative to the SAME hero
+                canvas instead of independently using viewport
+                dimensions.
             ================================================== */}
-            <div className="flex items-end justify-center lg:justify-end lg:col-span-5 h-full w-full self-end pointer-events-none">
+
+            <div
+              className="
+                absolute
+
+                right-[2%]
+                top-1/2
+
+                z-10
+
+                h-[82%]
+                w-[45%]
+
+                -translate-y-1/2
+              "
+            >
               <HeroImage hero={hero} />
             </div>
 

@@ -13,85 +13,173 @@ export default function HeroImage({ hero }: Props) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.94, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className="relative flex h-full max-h-[82vh] w-full items-end justify-center lg:justify-end select-none pointer-events-none pb-3 sm:pb-6 pr-2 sm:pr-6"
+      initial={{
+        opacity: 0,
+        scale: 0.94,
+        y: 20,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.8,
+        delay: 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="
+        relative
+        flex
+        h-full
+        w-full
+        items-center
+        justify-center
+        lg:justify-end
+        pointer-events-none
+        select-none
+      "
     >
-      {/* Dynamic Responsive Container based on viewport height & width */}
-      <div className="relative flex h-[clamp(320px,56vh,480px)] w-[clamp(270px,46vh,410px)] items-end justify-center">
+      {/* =====================================================
+          MASTER AVATAR STAGE
 
-        {/* Ambient Depth Glow */}
+          Desktop/tablet sizing is based primarily on WIDTH.
+
+          This prevents a shorter laptop viewport from making
+          the avatar unnecessarily tiny.
+
+          Internal proportions remain completely fixed.
+      ===================================================== */}
+
+      <div
+        className="
+          relative
+          aspect-square
+          shrink-0
+
+          w-[clamp(360px,28vw,540px)]
+
+          translate-y-[1vh]
+        "
+      >
+
+        {/* =====================================================
+            AMBIENT GLOW
+        ===================================================== */}
+
         <div
           aria-hidden="true"
           className="
             absolute
-            bottom-0
             left-1/2
+            top-[56%]
+
+            h-[82%]
+            w-[82%]
+
             -translate-x-1/2
-            h-[90%]
-            w-[90%]
+            -translate-y-1/2
+
             rounded-full
+
             bg-radial
             from-neutral-400/20
             via-neutral-300/5
             to-transparent
+
+            blur-2xl
+
             dark:from-black/70
             dark:via-neutral-900/30
             dark:to-transparent
-            blur-2xl
           "
         />
 
-        {/* =========================================================
-            1. VISIBLE DIV: FULL CIRCLE BACKGROUND
-            - Dynamically scales with viewport height (aspect-square)
-            - Anchored at bottom-0 with clean border and natural shadow
-        ========================================================= */}
+        {/* =====================================================
+            CIRCLE
+        ===================================================== */}
+
         <div
           className="
             absolute
-            bottom-15
+
             left-1/2
+            top-[58%]
+
             -translate-x-1/2
-            w-full
+            -translate-y-1/2
+
             aspect-square
+            w-[84%]
+
             rounded-full
+
             bg-[#beb49e]
             dark:bg-[#2c2a26]
+
             border
             border-neutral-400/40
             dark:border-neutral-700/80
+
             shadow-[0_20px_45px_rgba(0,0,0,0.18)]
             dark:shadow-[0_25px_55px_rgba(0,0,0,0.85)]
+
             overflow-hidden
           "
         >
-          {/* Subtle radial lighting on the circular surface */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-radial from-white/20 via-transparent to-black/30 dark:from-white/5 dark:to-black/60 pointer-events-none"
+            className="
+              absolute
+              inset-0
+
+              bg-radial
+              from-white/20
+              via-transparent
+              to-black/30
+
+              dark:from-white/5
+              dark:to-black/60
+
+              pointer-events-none
+            "
           />
         </div>
 
-        {/* =========================================================
-            2. INVISIBLE DIV: TALL CLIPPING CONTAINER
-            - Same width & bottom-0 as the circle
-            - Generous top headroom (-top-[35%]) scaling dynamically
-            - Circular at bottom (rounded-b-full), Rectangular at top (rounded-t-none)
-        ========================================================= */}
+        {/* =====================================================
+            PERSON
+
+            IMPORTANT:
+
+            This geometry stays fixed relative to the stage.
+
+            Therefore:
+              circle/body ratio = same
+              head/circle ratio = same
+              body overlap = same
+
+            Only the whole stage scales.
+        ===================================================== */}
+
         <div
           className="
             absolute
-            -top-[40%]
-            bottom-15
+
             left-1/2
+            bottom-0
+
             -translate-x-1/2
-            w-full
+
+            w-[84%]
+            h-[118%]
+
             overflow-hidden
+
             rounded-b-full
             rounded-t-none
+
             pointer-events-none
+
             flex
             items-end
             justify-center
@@ -104,14 +192,27 @@ export default function HeroImage({ hero }: Props) {
             height={1400}
             priority
             className="
+              absolute
+
+              left-1/2
+              bottom-0
+
+              -translate-x-1/2
+
               h-[120%]
               w-auto
+
               max-w-none
+
               scale-[1.22]
+
               origin-bottom
+
               translate-y-[calc(8%+65px)]
+
               object-contain
               object-bottom
+
               drop-shadow-[0_15px_25px_rgba(0,0,0,0.25)]
               dark:drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)]
             "
