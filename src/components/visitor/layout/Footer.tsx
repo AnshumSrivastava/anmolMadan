@@ -83,6 +83,27 @@ export default function Footer({
   const [isContactOpen, setIsContactOpen] =
     useState(false);
 
+  const displayLinks =
+    links.length > 0
+      ? [
+          ...links,
+          ...(links.some(
+            (link) =>
+              link.id?.toLowerCase() === "instagram" ||
+              link.icon_name?.toLowerCase() === "instagram"
+          )
+            ? []
+            : [
+                {
+                  id: "instagram",
+                  label: "Instagram",
+                  icon_name: "Instagram",
+                  url: "https://www.instagram.com/anmolxmadan/",
+                },
+              ]),
+        ]
+      : [];
+
   return (
     <footer
       className={`
@@ -166,10 +187,9 @@ export default function Footer({
           ================================================= */}
 
           <div className="flex flex-wrap items-center gap-4">
-            <a
-              href="https://cal.com/anmolmadan"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => setIsContactOpen(true)}
               className="
                 inline-flex
                 items-center
@@ -193,7 +213,7 @@ export default function Footer({
               Book a Call
 
               <ArrowUpRight className="h-4 w-4" />
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -463,8 +483,8 @@ export default function Footer({
             </h4>
 
             <div className="flex flex-col gap-4">
-              {links.length > 0 ? (
-                links.map((link) => {
+              {displayLinks.length > 0 ? (
+                displayLinks.map((link) => {
                   const isExternal =
                     !link.url?.startsWith(
                       "mailto:"
@@ -655,7 +675,7 @@ export default function Footer({
                   </a>
 
                   <a
-                    href="https://instagram.com"
+                    href="https://www.instagram.com/anmolxmadan/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="

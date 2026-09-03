@@ -1,5 +1,7 @@
 import { getHero } from "@/services/hero/hero.service";
+
 import Reveal from "@/components/shared/Reveal";
+import CalButton from "@/components/shared/CalButton";
 
 import HeroScrollWrapper from "./HeroScrollWrapper";
 import HeroBackground from "./HeroBackground";
@@ -16,6 +18,10 @@ export default async function Hero() {
 
   if (!hero) return null;
 
+  /* ==========================================================
+     STATS
+  ========================================================== */
+
   const stats = [
     {
       number: hero.stat_1_number,
@@ -31,8 +37,16 @@ export default async function Hero() {
     },
   ];
 
+  /* ==========================================================
+     ROLE
+  ========================================================== */
+
   const roleSubtitle =
-    "Cybersecurity Expert · Motivational Speaker";
+    "Cybersecurity SPECIALIST · Motivational Speaker";
+
+  /* ==========================================================
+     RENDER
+  ========================================================== */
 
   return (
     <section
@@ -48,15 +62,19 @@ export default async function Hero() {
         dark:bg-black
       "
     >
+      {/* ======================================================
+          BACKGROUND
+      ====================================================== */}
+
       <HeroBackground />
+
+      {/* ======================================================
+          HERO SCROLL CONTAINER
+      ====================================================== */}
 
       <HeroScrollWrapper>
         {/* ==================================================
             FIXED PROPORTIONAL CANVAS
-
-            Everything inside this container uses the same
-            16:9-ish proportional structure regardless of
-            viewport resolution.
         ================================================== */}
 
         <div
@@ -66,7 +84,6 @@ export default async function Hero() {
             h-full
             w-full
             max-w-[1560px]
-
             px-[5.5vw]
             lg:px-[5vw]
             xl:px-[4.5vw]
@@ -81,7 +98,6 @@ export default async function Hero() {
               items-center
             "
           >
-
             {/* ==================================================
                 LEFT CONTENT
             ================================================== */}
@@ -90,126 +106,141 @@ export default async function Hero() {
               className="
                 relative
                 z-20
-
                 flex
                 w-[55%]
                 flex-col
-
-                gap-[clamp(14px,1.5vh,24px)]
-
                 text-left
               "
             >
-
-              {/* NAME */}
+              {/* ==================================================
+                  NAME + ROLE
+              ================================================== */}
 
               <Reveal delay={0.08}>
-                <HeroTitle
-                  title={
-                    hero.pre_heading ||
-                    "ANMOL MADAN"
-                  }
-                />
+                <div className="w-fit">
+                  {/* ==================================================
+                      NAME
+                  ================================================== */}
+
+                  <HeroTitle
+                    title={
+                      hero.pre_heading ||
+                      "ANMOL MADAN"
+                    }
+                  />
+
+                  {/* ==================================================
+                      ROLE
+
+                      ZERO GAP AFTER NAME
+                      EXTENDED HORIZONTAL LENGTH
+                  ================================================== */}
+
+                  <p
+                    className="
+                      mt-0
+                      whitespace-nowrap
+                      pl-[3px]
+                      text-[clamp(12px,0.9vw,15px)]
+                      font-semibold
+                      uppercase
+                      leading-[1]
+                      tracking-[0.34em]
+                      text-neutral-500
+                      dark:text-neutral-400
+                    "
+                  >
+                    Cybersecurity SPECIALIST
+                    <span className="mx-[8px]">·</span>
+                    Motivational Speaker
+                  </p>
+                </div>
               </Reveal>
 
+              {/* ==================================================
+                  DESCRIPTION
 
-              {/* ROLE */}
-
-              <Reveal delay={0.14}>
-                <p
-                  className="
-                    text-[clamp(12px,1.05vw,17px)]
-                    font-semibold
-                    uppercase
-                    tracking-[0.16em]
-                    text-neutral-500
-                    dark:text-neutral-400
-                  "
-                >
-                  {roleSubtitle}
-                </p>
-              </Reveal>
-
-
-              {/* DESCRIPTION */}
+                  CLEAR SPACE AFTER ROLE
+              ================================================== */}
 
               <Reveal delay={0.2}>
                 <p
                   className="
+                    mt-[32px]
                     max-w-[clamp(430px,31vw,580px)]
-
                     text-[clamp(13px,0.95vw,17px)]
-
                     leading-[1.6]
-
                     text-neutral-600
                     dark:text-neutral-400
+                    [text-align:justify]
+                    [text-justify:inter-word]
                   "
                 >
                   {hero.description}
                 </p>
               </Reveal>
 
+              {/* ==================================================
+                  STATS
 
-              {/* STATS */}
+                  CLEAR SPACE AFTER DESCRIPTION
+              ================================================== */}
 
               <Reveal delay={0.26}>
-                <HeroStats stats={stats} />
+                <div className="mt-[14px]">
+                  <HeroStats stats={stats} />
+                </div>
               </Reveal>
 
+              {/* ==================================================
+                  BUTTONS
 
-              {/* BUTTONS */}
+                  CLEAR SPACE AFTER STATS
+              ================================================== */}
 
               <Reveal delay={0.32}>
                 <div
                   className="
+                    mt-[14px]
                     flex
                     items-center
                     gap-[clamp(10px,1vw,16px)]
-                    pt-1
                   "
                 >
+                  {/* ==================================================
+                      BOOK A CALL
+                  ================================================== */}
 
-                  <a
-                    href="https://cal.com/anmolmadan"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <CalButton
                     className="
                       inline-flex
                       items-center
                       justify-center
-
                       rounded-full
-
                       bg-neutral-950
-
                       px-[clamp(20px,1.8vw,28px)]
                       py-[clamp(10px,0.9vh,14px)]
-
                       text-[clamp(10px,0.65vw,12px)]
-
                       font-semibold
                       uppercase
                       tracking-[0.12em]
-
                       text-white
-
                       shadow-sm
-
                       transition-all
                       duration-200
-
                       hover:bg-neutral-800
                       active:scale-95
-
                       dark:bg-white
                       dark:text-black
                       dark:hover:bg-neutral-200
                     "
                   >
                     Book a Call
-                  </a>
+                  </CalButton>
 
+                  {/* ==================================================
+                      LEARN MORE
+                  ================================================== */}
 
                   <a
                     href="#about"
@@ -217,76 +248,51 @@ export default async function Hero() {
                       inline-flex
                       items-center
                       justify-center
-
                       rounded-full
-
                       border
                       border-neutral-300
-
                       bg-transparent
-
                       px-[clamp(20px,1.8vw,28px)]
                       py-[clamp(10px,0.9vh,14px)]
-
                       text-[clamp(10px,0.65vw,12px)]
-
                       font-medium
                       uppercase
                       tracking-[0.12em]
-
                       text-neutral-700
-
                       transition-all
                       duration-200
-
                       hover:border-black
                       hover:text-black
-
                       active:scale-95
-
                       dark:border-neutral-700
                       dark:text-neutral-300
-
                       dark:hover:border-white
                       dark:hover:text-white
                     "
                   >
                     Learn More
                   </a>
-
                 </div>
               </Reveal>
-
             </div>
-
 
             {/* ==================================================
                 RIGHT IMAGE AREA
-
-                IMPORTANT:
-                This is positioned relative to the SAME hero
-                canvas instead of independently using viewport
-                dimensions.
             ================================================== */}
 
             <div
               className="
                 absolute
-
                 right-[2%]
                 top-1/2
-
                 z-10
-
                 h-[82%]
                 w-[45%]
-
                 -translate-y-1/2
               "
             >
               <HeroImage hero={hero} />
             </div>
-
           </div>
         </div>
       </HeroScrollWrapper>

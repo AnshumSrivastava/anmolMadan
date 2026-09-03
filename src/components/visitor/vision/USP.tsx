@@ -28,9 +28,22 @@ export default function USP({ vision }: Props) {
       {/* USP HEADER */}
       <div className="mb-8 flex items-center gap-3">
         <span className="h-px w-6 bg-neutral-400 dark:bg-neutral-600" />
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500 dark:text-neutral-400">
+
+        <p
+          className="
+            whitespace-nowrap
+            text-xs
+            font-semibold
+            uppercase
+            tracking-[0.32em]
+            text-neutral-500
+            dark:text-neutral-400
+          "
+        >
           What Sets Me Apart
         </p>
+
+        <span className="h-px w-6 bg-neutral-400 dark:bg-neutral-600" />
       </div>
 
       {/* USP GRID — Full 3-column width */}
@@ -46,18 +59,33 @@ export default function USP({ vision }: Props) {
               justify-between
               rounded-3xl
               border
-              border-neutral-200/90 dark:border-neutral-800
-              bg-white dark:bg-neutral-900/60
+              border-neutral-200/90
+              bg-white
               p-8
               transition-all
               duration-300
               hover:-translate-y-1.5
-              hover:border-black dark:hover:border-neutral-500
+              hover:border-black
               hover:shadow-xl
+              dark:border-neutral-800
+              dark:bg-neutral-900/60
+              dark:hover:border-neutral-500
             "
           >
             <div>
-              <span className="text-xs font-mono font-semibold tracking-widest text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">
+              <span
+                className="
+                  font-mono
+                  text-xs
+                  font-semibold
+                  tracking-widest
+                  text-neutral-400
+                  transition-colors
+                  duration-300
+                  group-hover:text-black
+                  dark:group-hover:text-white
+                "
+              >
                 {usp.number}
               </span>
 
@@ -65,7 +93,20 @@ export default function USP({ vision }: Props) {
                 {usp.title}
               </h3>
 
-              <div className="my-4 h-px w-10 bg-neutral-200 dark:bg-neutral-700 transition-all duration-300 group-hover:w-16 group-hover:bg-black dark:group-hover:bg-white" />
+              <div
+                className="
+                  my-4
+                  h-px
+                  w-10
+                  bg-neutral-200
+                  transition-all
+                  duration-300
+                  group-hover:w-16
+                  group-hover:bg-black
+                  dark:bg-neutral-700
+                  dark:group-hover:bg-white
+                "
+              />
 
               <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
                 {usp.description}

@@ -17,10 +17,23 @@ export default function VisionContent({ vision }: Props) {
     <div className="max-w-2xl text-left">
       {/* SECTION LABEL */}
       <div className="mb-6 flex items-center gap-3">
-        <span className="h-px w-6 bg-neutral-400" />
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500 dark:text-neutral-400">
+        <span className="h-px w-6 bg-neutral-400 dark:bg-neutral-600" />
+
+        <p
+          className="
+            whitespace-nowrap
+            text-xs
+            font-semibold
+            uppercase
+            tracking-[0.32em]
+            text-neutral-500
+            dark:text-neutral-400
+          "
+        >
           {vision.section_heading || "VISION & PURPOSE"}
         </p>
+
+        <span className="h-px w-6 bg-neutral-400 dark:bg-neutral-600" />
       </div>
 
       {/* MAIN HEADING */}
@@ -38,15 +51,18 @@ export default function VisionContent({ vision }: Props) {
         {vision.main_heading || "Cybersecurity Should Be Understood."}
       </h2>
 
+      {/* HEADING DIVIDER */}
+      <div className="mt-8 h-px w-16 bg-zinc-300 dark:bg-neutral-700" />
+
       {/* DESCRIPTION */}
       <p
         className="
           mt-8
           max-w-xl
           text-base
-          sm:text-lg
           leading-relaxed
           text-neutral-600 dark:text-neutral-400
+          sm:text-lg
           lg:text-xl
         "
       >

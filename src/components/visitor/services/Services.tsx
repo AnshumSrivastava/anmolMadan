@@ -3,6 +3,7 @@ import {
   getServicesSection,
   getServiceItems,
 } from "@/services/services/services.service";
+
 import ServicesHeader from "./ServicesHeader";
 import ServicesGrid from "./ServicesGrid";
 
@@ -27,7 +28,16 @@ export default async function Services() {
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-[#fafafa] dark:bg-neutral-950 py-20 lg:py-24 text-black dark:text-white"
+      className="
+        relative
+        overflow-hidden
+        bg-[#fafafa]
+        py-20
+        text-black
+        dark:bg-neutral-950
+        dark:text-white
+        lg:py-24
+      "
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <Reveal>
