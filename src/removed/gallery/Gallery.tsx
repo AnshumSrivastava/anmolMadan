@@ -3,32 +3,7 @@ import Reveal from "@/components/shared/Reveal";
 import GalleryHorizontal from "./GalleryHorizontal";
 import { Gallery as GalleryType } from "@/types/gallery";
 
-const fallbackGallery: GalleryType[] = [
-  {
-    id: "gal-1",
-    video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    caption: "Cybersecurity Workshop Feedback · Tech Conclave",
-    sort_order: 1,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: "gal-2",
-    video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    caption: "Keynote Response · Leadership Summit",
-    sort_order: 2,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: "gal-3",
-    video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    caption: "Corporate Training Delegate Reflections",
-    sort_order: 3,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-];
+const fallbackGallery: GalleryType[] = [];
 
 export default async function Gallery() {
   let items: GalleryType[] = [];

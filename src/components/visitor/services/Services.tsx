@@ -7,9 +7,19 @@ import {
 import ServicesHeader from "./ServicesHeader";
 import ServicesGrid from "./ServicesGrid";
 
-export default async function Services() {
-  const section = await getServicesSection();
-  const items = await getServiceItems();
+import { ServiceItem, ServiceSection } from "@/types/service";
+
+interface ServicesProps {
+  section?: ServiceSection | null;
+  items?: ServiceItem[];
+}
+
+export default async function Services({
+  section: initialSection,
+  items: initialItems,
+}: ServicesProps = {}) {
+  const section = initialSection !== undefined ? initialSection : await getServicesSection();
+  const items = initialItems !== undefined ? initialItems : await getServiceItems();
 
   const activeItems = items
     .filter((item) => item.is_active)

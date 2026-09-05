@@ -1,16 +1,19 @@
 import Reveal from "@/components/shared/Reveal";
 import { getGallery } from "@/services/gallery/gallery.service";
+import { Gallery } from "@/types/gallery";
 import VideoTestimonial from "./VideoTestimonial";
 
-const fallbackVideos = [
-  "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "https://www.youtube.com/embed/dQw4w9WgXcQ",
-];
+interface TestimonialsProps {
+  gallery?: Gallery[];
+}
 
-export default async function Testimonials() {
-  const gallery = await getGallery();
-  const validVideos = gallery.map(item => item.video).filter(Boolean);
-  const displayVideos = validVideos.length > 0 ? validVideos : fallbackVideos;
+export default async function Testimonials({ gallery: initialGallery }: TestimonialsProps = {}) {
+  const gallery = initialGallery !== undefined ? initialGallery : await getGallery();
+  const validVideos = (gallery || []).map((item) => item.video).filter(Boolean);
+
+  if (validVideos.length === 0) {
+    return null;
+  }
 
   return (
     <section
@@ -19,7 +22,7 @@ export default async function Testimonials() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal>
-          <VideoTestimonial videos={displayVideos} />
+          <VideoTestimonial videos={validVideos} />
         </Reveal>
       </div>
     </section>

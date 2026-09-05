@@ -1,8 +1,12 @@
 import { getAbout } from "@/services/about/about.service";
 import Audience from "./Audience";
 
-export default async function AudienceSection() {
-  const about = await getAbout();
+interface AudienceSectionProps {
+  about?: any;
+}
+
+export default async function AudienceSection({ about: initialAbout }: AudienceSectionProps = {}) {
+  const about = initialAbout !== undefined ? initialAbout : await getAbout();
 
   if (!about) return null;
 

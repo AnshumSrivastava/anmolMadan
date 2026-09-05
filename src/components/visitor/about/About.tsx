@@ -1,16 +1,16 @@
 import Image from "next/image";
 
 import { getAbout } from "@/services/about/about.service";
-import { getServiceItems } from "@/services/services/services.service";
 import Reveal from "@/components/shared/Reveal";
 
 import AboutContent from "./AboutContent";
-import Audience from "./Audience";
-import CTA from "./CTA";
 
-export default async function About() {
-  const about = await getAbout();
-  const services = await getServiceItems();
+interface AboutProps {
+  about?: any;
+}
+
+export default async function About({ about: initialAbout }: AboutProps = {}) {
+  const about = initialAbout !== undefined ? initialAbout : await getAbout();
 
   if (!about) return null;
 

@@ -5,8 +5,12 @@ import { Project } from "@/types/project";
 
 
 
-export default async function Experience() {
-  const experiences = await getProjects() || [];
+interface ExperienceProps {
+  experiences?: Project[];
+}
+
+export default async function Experience({ experiences: initialExperiences }: ExperienceProps = {}) {
+  const experiences = initialExperiences !== undefined ? initialExperiences : ((await getProjects()) || []);
 
   if (experiences.length === 0) return null;
 

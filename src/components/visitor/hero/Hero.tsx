@@ -13,8 +13,12 @@ import HeroTitle from "./HeroTitle";
    STRUCTURED 2-COLUMN HERO
 ========================================================== */
 
-export default async function Hero() {
-  const hero = await getHero();
+interface HeroProps {
+  hero?: any;
+}
+
+export default async function Hero({ hero: initialHero }: HeroProps = {}) {
+  const hero = initialHero !== undefined ? initialHero : await getHero();
 
   if (!hero) return null;
 
@@ -107,7 +111,8 @@ export default async function Hero() {
                 relative
                 z-20
                 flex
-                w-[55%]
+                w-full
+                lg:w-[55%]
                 flex-col
                 text-left
               "
@@ -139,19 +144,22 @@ export default async function Hero() {
                   <p
                     className="
                       mt-0
-                      whitespace-nowrap
+                      break-words
+                      sm:whitespace-nowrap
                       pl-[3px]
-                      text-[clamp(12px,0.9vw,15px)]
+                      text-[clamp(11px,0.9vw,15px)]
                       font-semibold
                       uppercase
-                      leading-[1]
-                      tracking-[0.34em]
+                      leading-[1.2]
+                      sm:leading-[1]
+                      tracking-[0.18em]
+                      sm:tracking-[0.34em]
                       text-neutral-500
                       dark:text-neutral-400
                     "
                   >
                     Cybersecurity SPECIALIST
-                    <span className="mx-[8px]">·</span>
+                    <span className="mx-[6px] sm:mx-[8px]">·</span>
                     Motivational Speaker
                   </p>
                 </div>
@@ -281,14 +289,27 @@ export default async function Hero() {
             ================================================== */}
 
             <div
+              style={{ transform: "translate(-30px, calc(-50% + 100px))" }}
               className="
                 absolute
-                right-[2%]
+                right-[-4%]
+                sm:right-[0%]
+                lg:right-[2%]
                 top-1/2
                 z-10
-                h-[82%]
-                w-[45%]
-                -translate-y-1/2
+                h-[72%]
+                sm:h-[80%]
+                lg:h-[82%]
+                w-[55%]
+                sm:w-[48%]
+                lg:w-[45%]
+                opacity-30
+                sm:opacity-60
+                lg:opacity-100
+                pointer-events-none
+                lg:pointer-events-auto
+                transition-opacity
+                duration-300
               "
             >
               <HeroImage hero={hero} />

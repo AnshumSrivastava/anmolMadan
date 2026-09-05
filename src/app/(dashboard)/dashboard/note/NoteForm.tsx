@@ -99,7 +99,7 @@ export default function NoteForm({ note }: Props) {
               name="heading"
               value={formData.heading ?? ""}
               onChange={handleChange}
-              placeholder="e.g. A Note from Anmol"
+              placeholder="e.g. A Note From Me to You"
               className="w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-zinc-600 focus:outline-none"
             />
           </div>
@@ -114,7 +114,7 @@ export default function NoteForm({ note }: Props) {
             name="quote"
             value={formData.quote ?? ""}
             onChange={handleChange}
-            placeholder="e.g. Technology changes every day, but human curiosity and vigilance remain our greatest defense."
+            placeholder="e.g. Technology moves fast, but the greatest defense will always be the instincts you and I build together."
             className="w-full resize-none rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-zinc-600 focus:outline-none"
           />
         </div>

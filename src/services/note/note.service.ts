@@ -4,10 +4,11 @@ import { Note } from "@/types/note";
 const DEFAULT_NOTE: Note = {
   id: "default-note",
   eyebrow: "Personal Philosophy",
-  heading: "A Note from Anmol",
-  quote: "Technology changes every day, but human curiosity and vigilance remain our greatest defense.",
+  heading: "A Note From Me to You",
+  quote:
+    "Technology moves fast, but the greatest defense will always be the instincts you and I build together.",
   body:
-    "When I first started in cybersecurity, I noticed something concerning: training was often treated as a compliance checklist—dry, intimidating, and easily forgotten. I believed there had to be a better way.\n\nMy mission has always been simple: demystify security, make it deeply engaging, and turn complex cyber concepts into practical instincts that anyone can apply. Whether speaking to hundreds in an auditorium or advising executive teams, I strive to inspire genuine care and digital confidence in every room I enter.",
+    "When I first stepped into cybersecurity, I noticed how detached and intimidating it felt. Most guidance treated you like a liability—burying real awareness under dry checklists that were easy to ignore. I knew you deserved something much better.\n\nMy goal with you is simple: cut through the jargon, remove the fear, and turn security into practical instincts you can trust every day. Whether we're in an auditorium together or having a one-on-one conversation, I'm here to build genuine confidence with you so you always feel in control of your digital world.",
   author_name: "Anmol Madan",
   author_title: "Cybersecurity Specialist & Motivational Speaker",
   is_visible: true,

@@ -49,7 +49,8 @@ export default function HeroImage({ hero }: Props) {
           relative
           aspect-square
           shrink-0
-          w-[clamp(360px,28vw,540px)]
+          w-[clamp(240px,30vw,540px)]
+          max-w-[90vw]
           translate-y-[1vh]
         "
       >
@@ -154,7 +155,7 @@ export default function HeroImage({ hero }: Props) {
             -translate-x-1/2
 
             w-[84%]
-            h-[118%]
+            h-[135%]
 
             overflow-hidden
 
@@ -174,6 +175,7 @@ export default function HeroImage({ hero }: Props) {
             width={1000}
             height={1400}
             priority
+            sizes="(max-width: 640px) 240px, (max-width: 1024px) 380px, 540px"
             className="
               absolute
 
@@ -182,16 +184,16 @@ export default function HeroImage({ hero }: Props) {
 
               -translate-x-1/2
 
-              h-[120%]
+              h-[125%]
               w-auto
 
               max-w-none
 
-              scale-[1.22]
+              scale-[1.12]
 
               origin-bottom
 
-              translate-y-[calc(8%+65px)]
+              translate-y-[calc(4%+68px)]
 
               object-contain
               object-bottom

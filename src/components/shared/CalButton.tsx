@@ -9,6 +9,8 @@ import { createPortal } from "react-dom";
 type CalButtonProps = {
   children?: React.ReactNode;
   className?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onMouseDown?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const EVENTS = {
@@ -29,6 +31,8 @@ type EventType = keyof typeof EVENTS;
 export default function CalButton({
   children = "Book a Call",
   className = "",
+  onClick,
+  onMouseDown,
 }: CalButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] =
@@ -450,7 +454,11 @@ export default function CalButton({
     <>
       <button
         type="button"
-        onClick={openModal}
+        onMouseDown={onMouseDown}
+        onClick={(e) => {
+          onClick?.(e);
+          openModal();
+        }}
         className={className}
       >
         {children}

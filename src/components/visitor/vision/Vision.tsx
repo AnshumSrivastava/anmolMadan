@@ -16,12 +16,14 @@ const visionFont = Josefin_Sans({
   weight: "400",
 });
 
-/* =========================================================
-   VISION
-========================================================= */
+import { Vision as VisionType } from "@/types/vision";
 
-export default async function Vision() {
-  const vision = await getVision();
+interface VisionProps {
+  vision?: VisionType | null;
+}
+
+export default async function Vision({ vision: initialVision }: VisionProps = {}) {
+  const vision = initialVision !== undefined ? initialVision : await getVision();
 
   if (!vision) return null;
 

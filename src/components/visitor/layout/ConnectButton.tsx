@@ -155,7 +155,7 @@ export default function ConnectButton({
 
   const isBookingLink = (link: {
     id: string;
-    label: string;
+    label?: string | null;
     href?: string;
     iconName?: string;
   }) => {
@@ -244,12 +244,12 @@ export default function ConnectButton({
                      CalButton needs to remain mounted.
                   ================================================= */
 
-                  if (booking) {
+                    if (booking) {
                     return (
                       <CalButton
                         key={link.id}
-                        onMouseDown={(event) => event.stopPropagation()}
-                        onClick={(event) => event.stopPropagation()}
+                        onMouseDown={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
+                        onClick={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
                         className="
                           flex
                           w-full
