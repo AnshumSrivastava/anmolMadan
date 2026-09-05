@@ -11,9 +11,17 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
     ],
   },
-
+  allowedDevOrigins: ["192.168.29.73", "localhost:3000"],
   experimental: {
     serverActions: {
       bodySizeLimit: "20mb",

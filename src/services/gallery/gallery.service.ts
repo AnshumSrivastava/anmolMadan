@@ -1,19 +1,22 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { Gallery } from "@/types/gallery";
 
 /* =====================================================
-   GET ALL IMAGES
+   GET ALL IMAGES / VIDEOS
 ===================================================== */
 
 export async function getGallery(): Promise<Gallery[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from("gallery")
     .select("*")
     .order("sort_order", { ascending: true });
 
-  if (error) throw error;
+  if (error) {
+    console.error("Error fetching gallery from Supabase:", error);
+    return [];
+  }
 
   return data ?? [];
 }
@@ -25,7 +28,7 @@ export async function getGallery(): Promise<Gallery[]> {
 export async function getGalleryById(
   id: string
 ): Promise<Gallery | null> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from("gallery")

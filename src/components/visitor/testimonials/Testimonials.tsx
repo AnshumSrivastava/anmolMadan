@@ -9,9 +9,9 @@ interface TestimonialsProps {
 
 export default async function Testimonials({ gallery: initialGallery }: TestimonialsProps = {}) {
   const gallery = initialGallery !== undefined ? initialGallery : await getGallery();
-  const validVideos = (gallery || []).map((item) => item.video).filter(Boolean);
+  const validGallery = (gallery || []).filter((item) => Boolean(item.video));
 
-  if (validVideos.length === 0) {
+  if (validGallery.length === 0) {
     return null;
   }
 
@@ -22,7 +22,10 @@ export default async function Testimonials({ gallery: initialGallery }: Testimon
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal>
-          <VideoTestimonial videos={validVideos} />
+          <VideoTestimonial
+            items={validGallery}
+            videos={validGallery.map((item) => item.video)}
+          />
         </Reveal>
       </div>
     </section>
