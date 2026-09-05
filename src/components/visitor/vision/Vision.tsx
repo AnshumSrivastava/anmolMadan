@@ -54,21 +54,31 @@ export default async function Vision() {
         ===================================================== */}
 
         <div
-          className={`grid items-center gap-16 ${vision.image_url ? "lg:grid-cols-2" : ""}`}
+          className={`
+            grid
+            items-center
+            gap-16
+            ${vision.image_url ? "lg:grid-cols-2" : ""}
+          `}
         >
           {/* ===================================================
-              LEFT — IMAGE (only if exists)
+              LEFT — CONTENT
           =================================================== */}
 
-          <VisionImage vision={vision} />
-
-          {/* ===================================================
-              RIGHT — CONTENT
-          =================================================== */}
-
-          <Reveal delay={0.15}>
+          <Reveal
+            delay={0.15}
+            className="order-2 lg:order-1"
+          >
             <VisionContent vision={vision} />
           </Reveal>
+
+          {/* ===================================================
+              RIGHT — IMAGE
+          =================================================== */}
+
+          <div className="order-1 lg:order-2">
+            <VisionImage vision={vision} />
+          </div>
         </div>
 
         {/* =====================================================
@@ -76,9 +86,7 @@ export default async function Vision() {
         ===================================================== */}
 
         <Reveal delay={0.25}>
-          <USP
-            vision={vision}
-          />
+          <USP vision={vision} />
         </Reveal>
       </div>
     </section>

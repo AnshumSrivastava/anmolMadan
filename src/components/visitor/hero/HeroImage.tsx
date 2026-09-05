@@ -42,13 +42,6 @@ export default function HeroImage({ hero }: Props) {
     >
       {/* =====================================================
           MASTER AVATAR STAGE
-
-          Desktop/tablet sizing is based primarily on WIDTH.
-
-          This prevents a shorter laptop viewport from making
-          the avatar unnecessarily tiny.
-
-          Internal proportions remain completely fixed.
       ===================================================== */}
 
       <div
@@ -56,9 +49,7 @@ export default function HeroImage({ hero }: Props) {
           relative
           aspect-square
           shrink-0
-
           w-[clamp(360px,28vw,540px)]
-
           translate-y-[1vh]
         "
       >
@@ -89,7 +80,7 @@ export default function HeroImage({ hero }: Props) {
 
             blur-2xl
 
-            dark:from-black/70
+            dark:from-white/20
             dark:via-neutral-900/30
             dark:to-transparent
           "
@@ -97,6 +88,8 @@ export default function HeroImage({ hero }: Props) {
 
         {/* =====================================================
             CIRCLE
+            LIGHT MODE  → BLACK
+            DARK MODE   → WHITE
         ===================================================== */}
 
         <div
@@ -114,15 +107,15 @@ export default function HeroImage({ hero }: Props) {
 
             rounded-full
 
-            bg-[#beb49e]
-            dark:bg-[#2c2a26]
+            bg-black
+            dark:bg-white
 
             border
-            border-neutral-400/40
-            dark:border-neutral-700/80
+            border-neutral-700/40
+            dark:border-white/60
 
             shadow-[0_20px_45px_rgba(0,0,0,0.18)]
-            dark:shadow-[0_25px_55px_rgba(0,0,0,0.85)]
+            dark:shadow-[0_25px_55px_rgba(255,255,255,0.15)]
 
             overflow-hidden
           "
@@ -134,12 +127,13 @@ export default function HeroImage({ hero }: Props) {
               inset-0
 
               bg-radial
-              from-white/20
+              from-white/10
               via-transparent
               to-black/30
 
-              dark:from-white/5
-              dark:to-black/60
+              dark:from-black/5
+              dark:via-transparent
+              dark:to-black/10
 
               pointer-events-none
             "
@@ -148,17 +142,6 @@ export default function HeroImage({ hero }: Props) {
 
         {/* =====================================================
             PERSON
-
-            IMPORTANT:
-
-            This geometry stays fixed relative to the stage.
-
-            Therefore:
-              circle/body ratio = same
-              head/circle ratio = same
-              body overlap = same
-
-            Only the whole stage scales.
         ===================================================== */}
 
         <div
