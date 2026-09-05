@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Instrument_Sans } from "next/font/google";
 import { Mail, Phone, ArrowUpRight } from "lucide-react";
 
-import ContactModal from "@/components/visitor/layout/ContactModal";
+import CalButton from "@/components/shared/CalButton";
 import type { ContactLink } from "@/types/contact";
 import { renderContactIcon } from "@/components/shared/ContactIcons";
 
@@ -51,7 +50,7 @@ function InstagramIcon({
       viewBox="0 0 24 24"
       aria-hidden="true"
     >
-      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.204-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
     </svg>
   );
 }
@@ -80,9 +79,6 @@ export default function Footer({
 }: {
   links?: ContactLink[];
 }) {
-  const [isContactOpen, setIsContactOpen] =
-    useState(false);
-
   const displayLinks =
     links.length > 0
       ? [
@@ -117,7 +113,6 @@ export default function Footer({
         dark:text-white
       `}
     >
-
       {/* =====================================================
           PRE-FOOTER CTA
       ===================================================== */}
@@ -187,9 +182,7 @@ export default function Footer({
           ================================================= */}
 
           <div className="flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              onClick={() => setIsContactOpen(true)}
+            <CalButton
               className="
                 inline-flex
                 items-center
@@ -211,9 +204,8 @@ export default function Footer({
               "
             >
               Book a Call
-
               <ArrowUpRight className="h-4 w-4" />
-            </button>
+            </CalButton>
           </div>
         </div>
       </div>
@@ -233,7 +225,6 @@ export default function Footer({
           xl:px-16
         "
       >
-
         {/* ===================================================
             FOOTER GRID
         =================================================== */}
@@ -248,7 +239,6 @@ export default function Footer({
             xl:gap-20
           "
         >
-
           {/* =================================================
               BRAND
           ================================================= */}
@@ -386,7 +376,7 @@ export default function Footer({
                 About
               </button>
 
-               <button
+              <button
                 type="button"
                 onClick={() =>
                   scrollToSection("#testimonials")
@@ -395,7 +385,8 @@ export default function Footer({
               >
                 Testimonials
               </button>
-         <button
+
+              <button
                 type="button"
                 onClick={() =>
                   scrollToSection("#services")
@@ -424,8 +415,6 @@ export default function Footer({
               >
                 Notes
               </button>
-
-             
             </div>
           </div>
 
@@ -486,21 +475,15 @@ export default function Footer({
               {displayLinks.length > 0 ? (
                 displayLinks.map((link) => {
                   const isExternal =
-                    !link.url?.startsWith(
-                      "mailto:"
-                    ) &&
-                    !link.url?.startsWith(
-                      "tel:"
-                    );
+                    !link.url?.startsWith("mailto:") &&
+                    !link.url?.startsWith("tel:");
 
                   return (
                     <a
                       key={link.id}
                       href={link.url}
                       target={
-                        isExternal
-                          ? "_blank"
-                          : undefined
+                        isExternal ? "_blank" : undefined
                       }
                       rel={
                         isExternal
@@ -558,6 +541,8 @@ export default function Footer({
                 })
               ) : (
                 <>
+                  {/* LINKEDIN */}
+
                   <a
                     href="https://www.linkedin.com/in/anmolmadan7/"
                     target="_blank"
@@ -598,6 +583,8 @@ export default function Footer({
                     </span>
                   </a>
 
+                  {/* EMAIL */}
+
                   <a
                     href="mailto:anmolmadan20@gmail.com"
                     className="
@@ -636,6 +623,8 @@ export default function Footer({
                     </span>
                   </a>
 
+                  {/* PHONE */}
+
                   <a
                     href="tel:+919876543210"
                     className="
@@ -673,6 +662,8 @@ export default function Footer({
                       +91 98765 43210
                     </span>
                   </a>
+
+                  {/* INSTAGRAM */}
 
                   <a
                     href="https://www.instagram.com/anmolxmadan/"
@@ -758,23 +749,40 @@ export default function Footer({
               "
             >
               <span>anmolmadan.in</span>
+
               <span className="text-neutral-200 dark:text-neutral-700">
                 •
               </span>
-              <span>Chandigarh, India</span>
+
+              <span>
+                Chandigarh, India
+              </span>
+
+              <span className="text-neutral-200 dark:text-neutral-700">
+                •
+              </span>
+
+              <CalButton
+                className="
+                  inline-flex
+                  items-center
+                  gap-1
+                  text-[11px]
+                  text-neutral-400
+                  transition-colors
+                  duration-300
+                  hover:text-black
+                  dark:text-neutral-500
+                  dark:hover:text-white
+                "
+              >
+                Book a Call
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </CalButton>
             </div>
           </div>
         </div>
       </div>
-
-      {/* =====================================================
-          CONTACT MODAL
-      ===================================================== */}
-
-      <ContactModal
-        isOpen={isContactOpen}
-        onClose={() => setIsContactOpen(false)}
-      />
     </footer>
   );
 }
