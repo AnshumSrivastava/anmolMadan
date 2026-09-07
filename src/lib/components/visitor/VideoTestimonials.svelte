@@ -140,9 +140,11 @@
 					<div class="relative mx-auto w-full py-4 overflow-hidden">
 						<div class="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8">
 							<!-- LEFT CARD -->
-							<div
+							<button
+								type="button"
 								onclick={prev}
-								class="w-[200px] sm:w-[250px] lg:w-[280px] shrink-0 cursor-pointer group transition-all duration-500"
+								class="w-[200px] sm:w-[250px] lg:w-[280px] shrink-0 cursor-pointer group transition-all duration-500 text-left border-none bg-transparent p-0"
+								aria-label="Previous testimonial"
 							>
 								<div
 									class="relative aspect-[9/16] w-full overflow-hidden rounded-[22px] border border-neutral-200/90 dark:border-neutral-800 bg-neutral-900 shadow-md scale-[0.92] sm:scale-[0.94] opacity-50 group-hover:opacity-85 group-hover:scale-[0.96] transition-all duration-500"
@@ -171,7 +173,7 @@
 										<span>#{leftIndex + 1}</span>
 									</div>
 								</div>
-							</div>
+							</button>
 
 							<!-- MIDDLE CARD (IN FOCUS) -->
 							<div class="w-[260px] sm:w-[320px] lg:w-[350px] shrink-0 z-10">
@@ -187,9 +189,11 @@
 											class="absolute inset-0 h-full w-full border-none"
 										></iframe>
 									{:else}
-										<div
+										<button
+											type="button"
 											onclick={() => (isPlaying = true)}
-											class="relative h-full w-full cursor-pointer overflow-hidden bg-neutral-900"
+											class="relative h-full w-full cursor-pointer overflow-hidden bg-neutral-900 border-none p-0 text-left"
+											aria-label="Play testimonial video"
 										>
 											<img
 												src={getThumbnailUrl(centerVideoId)}
@@ -218,7 +222,7 @@
 													</p>
 												</div>
 											{/if}
-										</div>
+										</button>
 									{/if}
 
 									<!-- Bottom-left Number Pill -->
@@ -268,9 +272,11 @@
 							</div>
 
 							<!-- RIGHT CARD -->
-							<div
+							<button
+								type="button"
 								onclick={next}
-								class="w-[200px] sm:w-[250px] lg:w-[280px] shrink-0 cursor-pointer group transition-all duration-500"
+								class="w-[200px] sm:w-[250px] lg:w-[280px] shrink-0 cursor-pointer group transition-all duration-500 text-left border-none bg-transparent p-0"
+								aria-label="Next testimonial"
 							>
 								<div
 									class="relative aspect-[9/16] w-full overflow-hidden rounded-[22px] border border-neutral-200/90 dark:border-neutral-800 bg-neutral-900 shadow-md scale-[0.92] sm:scale-[0.94] opacity-50 group-hover:opacity-85 group-hover:scale-[0.96] transition-all duration-500"
@@ -299,7 +305,7 @@
 										<span>#{rightIndex + 1}</span>
 									</div>
 								</div>
-							</div>
+							</button>
 						</div>
 
 						<!-- Indicator dots -->
@@ -325,10 +331,19 @@
 						<div
 							class="fixed inset-0 z-[200] flex items-center justify-center bg-black/85 p-4 backdrop-blur-md sm:p-6"
 							onclick={() => (isModalOpen = false)}
+							onkeydown={(e) => {
+								if (e.key === 'Escape') isModalOpen = false;
+							}}
+							role="dialog"
+							aria-modal="true"
+							tabindex="-1"
 						>
+							<!-- svelte-ignore a11y_click_events_have_key_events -->
+							<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 							<div
 								class="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-6 shadow-2xl sm:p-8"
 								onclick={(e) => e.stopPropagation()}
+								role="document"
 							>
 								<!-- Modal Header -->
 								<div

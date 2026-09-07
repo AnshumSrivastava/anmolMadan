@@ -62,12 +62,19 @@
 	<div
 		class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-6"
 		onclick={handleClose}
+		onkeydown={(e) => {
+			if (e.key === 'Escape') handleClose();
+		}}
 		role="dialog"
 		aria-modal="true"
+		tabindex="-1"
 	>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			class="relative flex flex-col w-full max-w-2xl h-[90vh] max-h-[750px] overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl transition-all"
 			onclick={(e) => e.stopPropagation()}
+			role="document"
 		>
 			<!-- Top Bar -->
 			<div
