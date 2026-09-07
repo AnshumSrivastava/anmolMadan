@@ -12,6 +12,7 @@ export interface VisionData {
 	closingStatement: string;
 	imageUrl: string;
 	fallbackImageUrl: string;
+	images?: { url: string; alt: string; focal?: string; zoom?: string }[];
 }
 
 export const visionData: VisionData = {
@@ -38,7 +39,25 @@ export const visionData: VisionData = {
 		}
 	],
 	closingStatement: "Anyone can teach a concept. I focus on making it stay with you.",
-	imageUrl: "/images/vision_illustration.png",
+	imageUrl: "/images/vision_boardroom.jpg",
 	fallbackImageUrl:
-		"https://qtwduupxhsxrsniicswk.supabase.co/storage/v1/object/public/vision/vision-08489cd1-4f9c-4d84-ac4d-ef93b8ca9222.png"
+		"https://qtwduupxhsxrsniicswk.supabase.co/storage/v1/object/public/vision/vision-08489cd1-4f9c-4d84-ac4d-ef93b8ca9222.png",
+	images: [
+		{
+			url: "/images/vision_boardroom.jpg",
+			alt: "Anmol Madan interactive boardroom training",
+			focal: "50% 40%"
+		},
+		{
+			url: "/images/vision_auditorium.jpg",
+			alt: "Anmol Madan speaking in seminar auditorium",
+			focal: "45% 45%"
+		},
+		{
+			url: "/images/vision_lab.jpg",
+			alt: "Anmol Madan hands-on cybersecurity workshop",
+			focal: "42% 35%",
+			zoom: "1.4"
+		}
+	]
 };
