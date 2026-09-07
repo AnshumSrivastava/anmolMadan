@@ -40,17 +40,19 @@
 				{#each experiences as exp, index}
 					<Reveal delay={0.1 + index * 0.08} className="h-full">
 						<article
-							class="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-8 shadow-sm"
+							class="flex flex-col justify-between h-full rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-8 lg:p-10 shadow-sm transition-all hover:border-black/30 dark:hover:border-white/30"
 						>
-							<h3 class="text-2xl font-bold text-black dark:text-white">
-								{exp.lessonTitle}
-							</h3>
-							<p class="mt-2 text-sm text-neutral-500">
-								{exp.institutionName} · {exp.duration}
-							</p>
-							<p class="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
-								{exp.description}
-							</p>
+							<div>
+								<h3 class="text-2xl font-bold text-black dark:text-white">
+									{exp.lessonTitle}
+								</h3>
+								<p class="mt-2 text-sm text-neutral-500">
+									{exp.institutionName} · {exp.duration}
+								</p>
+								<p class="mt-4 text-sm sm:text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+									{exp.description}
+								</p>
+							</div>
 						</article>
 					</Reveal>
 				{/each}

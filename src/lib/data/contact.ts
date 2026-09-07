@@ -2,7 +2,7 @@ export interface ContactLink {
 	id: string;
 	label: string;
 	url: string;
-	iconName: "Linkedin" | "Mail" | "Phone" | "Calendar" | "Instagram" | "MessageCircle";
+	iconName: "Linkedin" | "Mail" | "Phone" | "Calendar" | "Instagram" | "MessageCircle" | "WhatsApp";
 	sortOrder?: number;
 }
 
@@ -33,39 +33,46 @@ export const contactData: ContactData = {
 	instagram: "https://www.instagram.com/anmolxmadan/",
 	links: [
 		{
+			id: "whatsapp",
+			label: "+91 6283603879 (WhatsApp)",
+			url: "https://wa.me/916283603879",
+			iconName: "WhatsApp",
+			sortOrder: 1
+		},
+		{
 			id: "linkedin",
 			label: "Anmol Madan",
 			url: "https://www.linkedin.com/in/anmolmadan7/",
 			iconName: "Linkedin",
-			sortOrder: 1
+			sortOrder: 2
 		},
 		{
 			id: "email",
 			label: "anmolmadan20@gmail.com",
 			url: "mailto:anmolmadan20@gmail.com",
 			iconName: "Mail",
-			sortOrder: 2
+			sortOrder: 3
 		},
 		{
 			id: "phone",
 			label: "+91 6283603879",
 			url: "tel:+916283603879",
 			iconName: "Phone",
-			sortOrder: 3
+			sortOrder: 4
 		},
 		{
 			id: "booking",
 			label: "Book a call",
 			url: "https://cal.com/anmolmadan",
 			iconName: "Calendar",
-			sortOrder: 4
+			sortOrder: 5
 		},
 		{
 			id: "instagram",
 			label: "Instagram",
 			url: "https://www.instagram.com/anmolxmadan/",
 			iconName: "Instagram",
-			sortOrder: 5
+			sortOrder: 6
 		}
 	]
 };

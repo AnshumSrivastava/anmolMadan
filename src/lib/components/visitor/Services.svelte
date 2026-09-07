@@ -21,7 +21,7 @@
 	id="services"
 	class="relative overflow-hidden bg-[#fafafa] py-20 text-black dark:bg-neutral-950 dark:text-white lg:py-24"
 >
-	<div class="mx-auto max-w-7xl px-6 lg:px-8">
+	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
 		<!-- HEADER -->
 		<Reveal>
 			<div class="max-w-3xl">
@@ -51,7 +51,7 @@
 			{#each sortedItems as item, index}
 				<Reveal delay={index * 0.08} className="h-full">
 					<article
-						class="group relative flex h-full min-h-[520px] flex-col justify-between overflow-hidden rounded-[28px] border border-neutral-200/90 bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-black hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/60 dark:hover:border-neutral-500 sm:p-10"
+						class="group relative flex h-full min-h-[460px] lg:min-h-[470px] flex-col justify-between overflow-hidden rounded-[28px] border border-neutral-200/90 bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-black hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/60 dark:hover:border-neutral-500 sm:p-10"
 					>
 						<div>
 							<!-- NUMBER & BADGE -->
@@ -89,7 +89,7 @@
 							<div class="my-7 h-px bg-neutral-100 dark:bg-neutral-800"></div>
 
 							<!-- POINTS -->
-							<div class="min-h-[120px] space-y-3.5">
+							<div class="space-y-3.5 lg:space-y-4">
 								{#each item.points as point}
 									<div class="flex items-start gap-3">
 										<div

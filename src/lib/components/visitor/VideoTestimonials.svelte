@@ -60,7 +60,7 @@
 		id="testimonials"
 		class="relative overflow-hidden bg-[#fafafa] dark:bg-neutral-950 py-20 lg:py-24 text-black dark:text-white"
 	>
-		<div class="mx-auto max-w-7xl px-6 lg:px-10">
+		<div class="mx-auto max-w-[1440px] px-6 lg:px-10">
 			<Reveal>
 				<div class="w-full">
 					<!-- HEADER & CONTROLS -->
@@ -138,12 +138,12 @@
 
 					<!-- PORTRAIT CAROUSEL -->
 					<div class="relative mx-auto w-full py-4 overflow-hidden">
-						<div class="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8">
+						<div class="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8 xl:gap-10">
 							<!-- LEFT CARD -->
 							<button
 								type="button"
 								onclick={prev}
-								class="w-[200px] sm:w-[250px] lg:w-[280px] shrink-0 cursor-pointer group transition-all duration-500 text-left border-none bg-transparent p-0"
+								class="w-[200px] sm:w-[250px] lg:w-[280px] xl:w-[330px] 2xl:w-[360px] shrink-0 cursor-pointer group transition-all duration-500 text-left border-none bg-transparent p-0"
 								aria-label="Previous testimonial"
 							>
 								<div
@@ -176,7 +176,7 @@
 							</button>
 
 							<!-- MIDDLE CARD (IN FOCUS) -->
-							<div class="w-[260px] sm:w-[320px] lg:w-[350px] shrink-0 z-10">
+							<div class="w-[260px] sm:w-[320px] lg:w-[350px] xl:w-[410px] 2xl:w-[450px] shrink-0 z-10">
 								<div
 									class="group relative aspect-[9/16] w-full overflow-hidden rounded-[26px] border-2 border-black dark:border-white bg-neutral-950 shadow-[0_25px_60px_rgba(0,0,0,0.22)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.8)] ring-4 ring-black/5 dark:ring-white/10 scale-100 transition-all duration-500"
 								>
@@ -275,7 +275,7 @@
 							<button
 								type="button"
 								onclick={next}
-								class="w-[200px] sm:w-[250px] lg:w-[280px] shrink-0 cursor-pointer group transition-all duration-500 text-left border-none bg-transparent p-0"
+								class="w-[200px] sm:w-[250px] lg:w-[280px] xl:w-[330px] 2xl:w-[360px] shrink-0 cursor-pointer group transition-all duration-500 text-left border-none bg-transparent p-0"
 								aria-label="Next testimonial"
 							>
 								<div

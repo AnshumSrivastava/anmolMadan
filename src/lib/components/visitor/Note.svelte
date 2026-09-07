@@ -15,7 +15,7 @@
 		id="note"
 		class="relative overflow-hidden bg-white dark:bg-black py-20 lg:py-24 text-black dark:text-white"
 	>
-		<div class="mx-auto max-w-7xl px-6 lg:px-8">
+		<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
 			<Reveal>
 				<!-- Note Container with Real Paper Dog-Ear Fold Effect -->
 				<div
@@ -123,44 +123,93 @@
 						</div>
 					</div>
 
-					<!-- Main Heading -->
-					<h2
-						class="mt-8 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl"
-					>
-						{note.heading || "A Note From Me to You"}
-					</h2>
+					<!-- 2-COLUMN LAYOUT ON LARGE SCREENS -->
+					<div class="lg:grid lg:grid-cols-[1.25fr_0.75fr] lg:gap-14 xl:gap-16 lg:items-stretch mt-8">
+						<!-- LEFT COLUMN: Heading, Quote, Paragraphs -->
+						<div class="flex flex-col justify-between">
+							<div>
+								<!-- Main Heading -->
+								<h2
+									class="text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl"
+								>
+									{note.heading || "A Note From Me to You"}
+								</h2>
 
-					<!-- Featured Quote Callout -->
-					{#if note.quote}
-						<blockquote
-							class="mt-8 rounded-2xl border-l-2 border-neutral-900 dark:border-neutral-100 bg-black/[0.02] dark:bg-white/[0.02] py-4 pl-6 pr-4 text-lg font-medium italic text-neutral-800 dark:text-neutral-200 sm:text-xl leading-relaxed"
-						>
-							&ldquo;{note.quote}&rdquo;
-						</blockquote>
-					{/if}
+								<!-- Featured Quote Callout -->
+								{#if note.quote}
+									<blockquote
+										class="mt-8 rounded-2xl border-l-2 border-neutral-900 dark:border-neutral-100 bg-black/[0.02] dark:bg-white/[0.02] py-4 pl-6 pr-4 text-lg font-medium italic text-neutral-800 dark:text-neutral-200 sm:text-xl leading-relaxed"
+									>
+										&ldquo;{note.quote}&rdquo;
+									</blockquote>
+								{/if}
 
-					<!-- Body Text -->
-					<div
-						class="mt-8 space-y-5 text-base sm:text-lg leading-relaxed text-neutral-700 dark:text-neutral-300"
-					>
-						{#each note.paragraphs as p}
-							<p>{p}</p>
-						{/each}
-					</div>
+								<!-- Body Text -->
+								<div
+									class="mt-8 space-y-5 text-base sm:text-lg leading-relaxed text-neutral-700 dark:text-neutral-300"
+								>
+									{#each note.paragraphs as p}
+										<p>{p}</p>
+									{/each}
+								</div>
+							</div>
 
-					<!-- Author Signature Line -->
-					<div
-						class="mt-12 flex items-center justify-between border-t border-neutral-200/80 dark:border-neutral-800 pt-8"
-					>
-						<div>
-							<h3 class="text-xl font-bold text-black dark:text-white tracking-tight">
-								{note.authorName || "Anmol Madan"}
-							</h3>
-							<p
-								class="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1"
+							<!-- Mobile Author Signature Line (hidden on lg+) -->
+							<div
+								class="mt-12 flex items-center justify-between border-t border-neutral-200/80 dark:border-neutral-800 pt-8 lg:hidden"
 							>
-								{note.authorTitle || "Cybersecurity Specialist & Motivational Speaker"}
-							</p>
+								<div>
+									<h3 class="text-xl font-bold text-black dark:text-white tracking-tight">
+										{note.authorName || "Anmol Madan"}
+									</h3>
+									<p
+										class="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1"
+									>
+										{note.authorTitle || "Cybersecurity Specialist & Motivational Speaker"}
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- RIGHT COLUMN: Desktop Author & Guiding Principle Card -->
+						<div
+							class="hidden lg:flex flex-col justify-between rounded-3xl border border-neutral-200/80 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/50 p-8 xl:p-10 relative overflow-hidden backdrop-blur-sm shadow-sm"
+						>
+							<!-- Decorative watermark quote -->
+							<div
+								aria-hidden="true"
+								class="absolute -bottom-8 -right-4 text-[200px] font-serif font-black leading-none text-neutral-950/[0.04] dark:text-white/[0.03] select-none pointer-events-none"
+							>
+								&rdquo;
+							</div>
+
+							<div class="relative z-10 space-y-5">
+								<div
+									class="inline-flex items-center gap-2 rounded-full border border-neutral-200/90 dark:border-neutral-800 bg-neutral-100/80 dark:bg-neutral-800/80 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300"
+								>
+									<span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+									Guiding Principle
+								</div>
+
+								<p class="text-xl xl:text-2xl font-bold text-black dark:text-white leading-snug tracking-tight">
+									"Security is not a one-time setup — it is a continuous, empowering culture."
+								</p>
+
+								<p class="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+									Every session, keynote, and workshop is crafted to turn complex security concepts into memorable, instinctual habits that protect individuals and organizations.
+								</p>
+							</div>
+
+							<div class="relative z-10 pt-8 border-t border-neutral-200/80 dark:border-neutral-800 mt-8">
+								<h3 class="text-2xl font-bold text-black dark:text-white tracking-tight">
+									{note.authorName || "Anmol Madan"}
+								</h3>
+								<p
+									class="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1.5"
+								>
+									{note.authorTitle || "Cybersecurity Specialist & Motivational Speaker"}
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>

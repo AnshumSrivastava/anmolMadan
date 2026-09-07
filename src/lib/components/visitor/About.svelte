@@ -46,7 +46,7 @@
 	id="about"
 	class="relative overflow-hidden bg-white dark:bg-black py-20 text-black dark:text-white lg:py-24"
 >
-	<div class="mx-auto max-w-7xl px-6 lg:px-8">
+	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
 		<Reveal>
 			<div
 				class="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 xl:gap-24"
@@ -165,12 +165,12 @@
 			<div class="mt-14 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4 pt-10 border-t border-zinc-200/80 dark:border-neutral-800">
 				{#each about.credentials as cred}
 					<div
-						class="rounded-2xl border border-zinc-200/80 dark:border-neutral-800/80 bg-zinc-50/50 dark:bg-neutral-900/30 p-5 transition-all hover:border-black/30 dark:hover:border-white/30"
+						class="flex flex-col justify-between rounded-2xl border border-zinc-200/80 dark:border-neutral-800/80 bg-zinc-50/50 dark:bg-neutral-900/30 p-5 sm:p-6 lg:p-7 transition-all hover:border-black/30 dark:hover:border-white/30"
 					>
-						<div class="text-lg sm:text-xl font-bold text-black dark:text-white tracking-tight">
+						<div class="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">
 							{cred.title}
 						</div>
-						<div class="mt-1 text-xs sm:text-sm text-zinc-500 dark:text-neutral-400">
+						<div class="mt-2 text-xs sm:text-sm text-zinc-500 dark:text-neutral-400">
 							{cred.subtitle}
 						</div>
 					</div>

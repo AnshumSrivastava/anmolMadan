@@ -37,11 +37,11 @@
 					Work Together
 				</span>
 
-				<h3
+				<h2
 					class="mt-3 text-3xl font-medium tracking-[-0.03em] sm:text-4xl lg:text-5xl text-white"
 				>
 					Ready to create an unforgettable session?
-				</h3>
+				</h2>
 
 				<p class="mt-4 text-sm text-neutral-400 sm:text-base">
 					Available for corporate cybersecurity training, college workshops, and keynote
@@ -68,7 +68,7 @@
 		class="mx-auto max-w-[1500px] px-6 py-20 sm:px-8 lg:px-12 xl:px-16"
 	>
 		<div
-			class="grid gap-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.7fr_0.8fr_1fr] lg:gap-12 xl:gap-20"
+			class="grid gap-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.7fr_0.8fr_1fr] lg:gap-12 xl:gap-14"
 		>
 			<!-- BRAND -->
 			<div>
@@ -77,11 +77,11 @@
 					onclick={scrollToTop}
 					class="group cursor-pointer border-none bg-transparent p-0 text-left outline-none"
 				>
-					<h3
+					<div
 						class="text-[26px] font-semibold leading-none tracking-[0.25em] text-black transition-opacity duration-300 group-hover:opacity-60 dark:text-white"
 					>
 						ANMOL
-					</h3>
+					</div>
 					<p
 						class="mt-1.5 text-[8px] font-medium leading-none tracking-[0.48em] text-neutral-400"
 					>
@@ -98,15 +98,45 @@
 					<p>Based in Chandigarh, India</p>
 					<p>Delivering sessions Pan-India & Online</p>
 				</div>
+
+				<div class="mt-6 flex items-center gap-2.5">
+					<a
+						href="https://www.linkedin.com/in/anmolmadan"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="LinkedIn"
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 transition-colors hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white"
+					>
+						<SocialIcons name="Linkedin" size={13} class="h-3.5 w-3.5" />
+					</a>
+					<a
+						href="https://wa.me/919914444589"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="WhatsApp"
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 transition-colors hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white"
+					>
+						<SocialIcons name="WhatsApp" size={13} class="h-3.5 w-3.5" />
+					</a>
+					<a
+						href="https://www.instagram.com/anmolmadanofficial"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="Instagram"
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 transition-colors hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white"
+					>
+						<SocialIcons name="Instagram" size={13} class="h-3.5 w-3.5" />
+					</a>
+				</div>
 			</div>
 
 			<!-- EXPLORE -->
 			<div>
-				<h4
+				<h3
 					class="mb-7 text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-400"
 				>
 					Explore
-				</h4>
+				</h3>
 
 				<div
 					class="flex flex-col gap-3.5 text-[14px] text-neutral-600 dark:text-neutral-400"
@@ -158,11 +188,11 @@
 
 			<!-- KEY EXPERTISE -->
 			<div>
-				<h4
+				<h3
 					class="mb-7 text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-400"
 				>
 					Key Expertise
-				</h4>
+				</h3>
 
 				<ul
 					class="space-y-3.5 text-[14px] leading-6 text-neutral-600 dark:text-neutral-400"
@@ -177,11 +207,11 @@
 
 			<!-- CONNECT DIRECTLY -->
 			<div>
-				<h4
+				<h3
 					class="mb-7 text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-400"
 				>
 					Connect Directly
-				</h4>
+				</h3>
 
 				<div class="flex flex-col gap-4">
 					{#each links as link}
@@ -214,6 +244,8 @@
 										<SocialIcons name="Linkedin" size={14} class="h-3.5 w-3.5" />
 									{:else if link.iconName === "Instagram"}
 										<SocialIcons name="Instagram" size={14} class="h-3.5 w-3.5" />
+									{:else if link.iconName === "WhatsApp"}
+										<SocialIcons name="WhatsApp" size={14} class="h-3.5 w-3.5" />
 									{:else if link.iconName === "Mail"}
 										<Mail size={14} />
 									{:else if link.iconName === "Phone"}

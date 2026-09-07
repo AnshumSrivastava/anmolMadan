@@ -14,12 +14,15 @@
 	import CalModal from "$lib/components/shared/CalModal.svelte";
 
 	let isCalOpen = $state(false);
+	let selectedService: string | null = $state(null);
 
 	function handleOpenCal() {
+		selectedService = null;
 		isCalOpen = true;
 	}
 
 	function handleRequestService(serviceTitle: string) {
+		selectedService = serviceTitle;
 		isCalOpen = true;
 	}
 </script>
@@ -49,4 +52,11 @@
 <ConnectButton links={siteData.contact.links} onBookCall={handleOpenCal} />
 
 <!-- CAL.COM SCHEDULING MODAL -->
-<CalModal isOpen={isCalOpen} onClose={() => (isCalOpen = false)} />
+<CalModal
+	isOpen={isCalOpen}
+	requestedService={selectedService}
+	onClose={() => {
+		isCalOpen = false;
+		selectedService = null;
+	}}
+/>

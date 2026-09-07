@@ -52,7 +52,7 @@
 	id="vision"
 	class="font-['Josefin_Sans',sans-serif] relative overflow-hidden bg-white dark:bg-black py-20 lg:py-24 text-black dark:text-white"
 >
-	<div class="mx-auto max-w-7xl px-6 lg:px-8">
+	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
 		<!-- MAIN VISION: 2-COLUMN -->
 		<div class="grid items-center gap-16 {vision.imageUrl ? 'lg:grid-cols-2' : ''}">
 			<!-- LEFT — CONTENT -->
@@ -96,7 +96,7 @@
 				<div
 					onmouseenter={() => (isPaused = true)}
 					onmouseleave={() => (isPaused = false)}
-					class="group relative z-10 w-full max-w-[560px] aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-black/30 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-white/30 select-none"
+					class="group relative z-10 w-full max-w-[560px] lg:max-w-[620px] aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-black/30 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-white/30 select-none"
 				>
 					{#each slides as slide, i}
 						<div
@@ -161,10 +161,10 @@
 		<!-- USPs (3 Pillars) -->
 		<Reveal delay={0.25}>
 			<div class="mt-20 border-t border-neutral-200/80 dark:border-neutral-800 pt-16">
-				<div class="grid gap-8 md:grid-cols-3">
+				<div class="grid gap-8 md:grid-cols-3 items-stretch">
 					{#each vision.usps as usp, index}
 						<div
-							class="rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 p-8 transition-all hover:border-black dark:hover:border-white"
+							class="flex flex-col justify-between rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 p-8 transition-all hover:border-black dark:hover:border-white"
 						>
 							<span
 								class="text-xs font-mono font-semibold text-neutral-400 dark:text-neutral-500 tracking-wider"

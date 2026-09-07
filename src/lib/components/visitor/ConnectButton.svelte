@@ -49,7 +49,7 @@
 	<!-- POPUP MENU -->
 	{#if isOpen}
 		<div
-			class="absolute bottom-full right-0 mb-3 w-64 rounded-2xl bg-white p-2 shadow-[0_10px_40px_rgba(0,0,0,0.15)] ring-1 ring-black/5 dark:bg-neutral-950 dark:ring-white/10 animate-in fade-in zoom-in-95 duration-200"
+			class="absolute bottom-full right-0 mb-3 w-72 rounded-2xl bg-white p-2 shadow-[0_10px_40px_rgba(0,0,0,0.15)] ring-1 ring-black/5 dark:bg-neutral-950 dark:ring-white/10 animate-in fade-in zoom-in-95 duration-200"
 		>
 			<div class="flex flex-col gap-1">
 				{#each links as link}
@@ -68,7 +68,7 @@
 							>
 								<Calendar size={16} />
 							</span>
-							<span class="truncate">Book a call</span>
+							<span class="truncate">{link.label}</span>
 						</button>
 					{:else}
 						{@const isSpecial = link.url.startsWith("mailto:") || link.url.startsWith("tel:")}
@@ -86,6 +86,8 @@
 									<SocialIcons name="Linkedin" size={16} class="h-4 w-4" />
 								{:else if link.iconName === "Instagram"}
 									<SocialIcons name="Instagram" size={16} class="h-4 w-4" />
+								{:else if link.iconName === "WhatsApp"}
+									<SocialIcons name="WhatsApp" size={16} class="h-4 w-4" />
 								{:else if link.iconName === "Mail"}
 									<Mail size={16} />
 								{:else if link.iconName === "Phone"}

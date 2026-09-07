@@ -5,9 +5,10 @@
 	interface Props {
 		isOpen: boolean;
 		onClose: () => void;
+		requestedService?: string | null;
 	}
 
-	let { isOpen, onClose }: Props = $props();
+	let { isOpen, onClose, requestedService = null }: Props = $props();
 
 	type EventType = "15" | "30";
 
@@ -29,6 +30,9 @@
 
 	$effect(() => {
 		if (isOpen) {
+			if (requestedService) {
+				selectedEvent = "30";
+			}
 			isDark = document.documentElement.classList.contains("dark");
 			const prevOverflow = document.body.style.overflow;
 			document.body.style.overflow = "hidden";
@@ -96,6 +100,9 @@
 							{selectedEvent ? EVENTS[selectedEvent].title : "Book a Meeting"}
 						</h3>
 						<p class="text-xs text-neutral-500 dark:text-neutral-400">
+							{#if requestedService}
+								<span class="font-semibold text-neutral-800 dark:text-neutral-200">Regarding: {requestedService}</span> · 
+							{/if}
 							{selectedEvent ? EVENTS[selectedEvent].description : "Choose a meeting duration"}
 						</p>
 					</div>

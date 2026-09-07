@@ -49,7 +49,7 @@
 		>
 			<div class="relative flex h-full w-full items-center">
 				<!-- LEFT CONTENT -->
-				<div class="relative z-20 flex w-full lg:w-[55%] flex-col text-left">
+				<div class="relative z-20 flex w-full lg:w-[55%] xl:w-[58%] flex-col text-left">
 					<!-- NAME + ROLE -->
 					<Reveal delay={0.08}>
 						<div class="w-fit">
@@ -69,7 +69,7 @@
 					<!-- DESCRIPTION -->
 					<Reveal delay={0.2}>
 						<p
-							class="mt-[32px] max-w-[clamp(430px,31vw,580px)] text-[clamp(13px,0.95vw,17px)] leading-[1.6] text-neutral-600 dark:text-neutral-400 [text-align:justify] [text-justify:inter-word]"
+							class="mt-[32px] max-w-full sm:max-w-[clamp(430px,31vw,580px)] text-[clamp(13px,0.95vw,17px)] leading-[1.6] text-neutral-600 dark:text-neutral-400 text-left sm:[text-align:justify] sm:[text-justify:inter-word]"
 						>
 							{hero.description}
 						</p>

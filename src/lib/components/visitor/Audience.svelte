@@ -14,7 +14,7 @@
 	id="audience"
 	class="relative overflow-hidden bg-white dark:bg-black py-20 lg:py-24 text-black dark:text-white"
 >
-	<div class="mx-auto max-w-7xl px-6 lg:px-8 space-y-12">
+	<div class="mx-auto max-w-[1400px] px-6 lg:px-8 space-y-12">
 		<Reveal>
 			<div class="text-center">
 				<!-- SECTION LABEL -->
@@ -29,11 +29,11 @@
 				</div>
 
 				<!-- MAIN HEADING -->
-				<h3
+				<h2
 					class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl md:text-5xl"
 				>
 					Helping People Across Industries
-				</h3>
+				</h2>
 
 				<!-- HEADING DIVIDER -->
 				<div class="mx-auto mt-4 h-px w-16 bg-zinc-300 dark:bg-neutral-700"></div>
@@ -41,11 +41,11 @@
 		</Reveal>
 
 		<!-- AUDIENCE CARDS -->
-		<div class="grid gap-6 lg:grid-cols-3">
+		<div class="grid gap-6 lg:gap-8 lg:grid-cols-3">
 			{#each audience as item, index}
-				<Reveal delay={index * 0.1}>
+				<Reveal delay={index * 0.1} className="h-full">
 					<div
-						class="group h-full rounded-3xl border border-zinc-200 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-black hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/60 dark:hover:border-neutral-500"
+						class="group flex flex-col justify-between h-full rounded-3xl border border-zinc-200 bg-white p-8 lg:p-10 transition-all duration-500 hover:-translate-y-2 hover:border-black hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/60 dark:hover:border-neutral-500"
 					>
 						<!-- ICON BADGE -->
 						<div
@@ -67,9 +67,9 @@
 						</div>
 
 						<!-- CARD TITLE -->
-						<h4 class="text-2xl font-bold text-black dark:text-white">
+						<h3 class="text-2xl font-bold text-black dark:text-white">
 							{item.title}
-						</h4>
+						</h3>
 
 						<!-- CARD DIVIDER -->
 						<div
@@ -77,7 +77,7 @@
 						></div>
 
 						<!-- CARD DESCRIPTION -->
-						<p class="text-sm leading-relaxed text-zinc-600 dark:text-neutral-400">
+						<p class="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-neutral-400">
 							{item.description}
 						</p>
 					</div>
