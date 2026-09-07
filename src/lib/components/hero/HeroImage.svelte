@@ -50,7 +50,7 @@
 				src={currentSrc}
 				{alt}
 				onerror={handleError}
-				class="absolute left-1/2 bottom-0 -translate-x-1/2 h-[125%] w-auto max-w-none scale-[1.12] origin-bottom translate-y-[calc(4%+68px)] object-contain object-bottom drop-shadow-[0_15px_25px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)]"
+				class="absolute left-1/2 bottom-0 -translate-x-1/2 h-[125%] w-auto max-w-none scale-[1.12] origin-bottom translate-y-[calc(4%+78px)] object-contain object-bottom drop-shadow-[0_15px_25px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)]"
 			/>
 		</div>
 	</div>
