@@ -20,11 +20,11 @@
 </script>
 
 <div
-	class="relative flex h-full w-full items-center justify-center lg:justify-end pointer-events-none select-none animate-in fade-in zoom-in-95 duration-800"
+	class="relative flex h-full w-full items-center justify-center pointer-events-none select-none animate-in fade-in zoom-in-95 duration-800"
 >
 	<!-- MASTER AVATAR STAGE -->
 	<div
-		class="relative aspect-square shrink-0 w-[clamp(240px,30vw,540px)] max-w-[90vw] translate-y-[1vh]"
+		class="relative aspect-square shrink-0 w-[clamp(280px,32vw,540px)] max-w-[90vw] translate-y-[1vh]"
 	>
 		<!-- AMBIENT GLOW -->
 		<div

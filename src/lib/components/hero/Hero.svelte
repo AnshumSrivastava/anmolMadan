@@ -45,11 +45,11 @@
 		style="filter: blur({blurPx}px); opacity: {opacity}; transform: scale({scale}) translateY({translateY}px); transform-origin: center center;"
 	>
 		<div
-			class="relative mx-auto h-full w-full max-w-[1560px] px-[5.5vw] lg:px-[5vw] xl:px-[4.5vw]"
+			class="relative mx-auto h-full w-full max-w-[1400px] px-6 lg:px-8"
 		>
 			<div class="relative flex h-full w-full items-center">
 				<!-- LEFT CONTENT -->
-				<div class="relative z-20 flex w-full lg:w-[55%] xl:w-[58%] flex-col text-left">
+				<div class="relative z-20 flex w-full lg:w-[54%] xl:w-[54%] flex-col text-left">
 					<!-- NAME + ROLE -->
 					<Reveal delay={0.08}>
 						<div class="w-fit">
@@ -69,7 +69,7 @@
 					<!-- DESCRIPTION -->
 					<Reveal delay={0.2}>
 						<p
-							class="mt-[32px] max-w-full sm:max-w-[clamp(430px,31vw,580px)] text-[clamp(13px,0.95vw,17px)] leading-[1.6] text-neutral-600 dark:text-neutral-400 text-left sm:[text-align:justify] sm:[text-justify:inter-word]"
+							class="mt-[28px] max-w-full sm:max-w-[500px] lg:max-w-[520px] xl:max-w-[560px] text-[clamp(13px,0.95vw,17px)] leading-[1.6] text-neutral-600 dark:text-neutral-400 text-left sm:[text-align:justify] sm:[text-justify:inter-word]"
 						>
 							{hero.description}
 						</p>
@@ -107,8 +107,8 @@
 
 				<!-- RIGHT IMAGE AREA -->
 				<div
-					style="transform: translate(-30px, calc(-50% + 100px));"
-					class="absolute right-[-4%] sm:right-[0%] lg:right-[2%] top-1/2 z-10 h-[72%] sm:h-[80%] lg:h-[82%] w-[55%] sm:w-[48%] lg:w-[45%] opacity-30 sm:opacity-60 lg:opacity-100 pointer-events-none lg:pointer-events-auto transition-opacity duration-300"
+					style="transform: translate(0, calc(-50% + 100px));"
+					class="absolute right-[-4%] sm:right-[0%] lg:right-[1%] xl:right-[3%] top-1/2 z-10 h-[72%] sm:h-[80%] lg:h-[82%] w-[55%] sm:w-[48%] lg:w-[46%] opacity-30 sm:opacity-60 lg:opacity-100 pointer-events-none lg:pointer-events-auto transition-opacity duration-300"
 				>
 					<HeroImage
 						heroImage={hero.heroImage}

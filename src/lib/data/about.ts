@@ -28,10 +28,11 @@ export const aboutData: AboutData = {
 	sectionHeading: "HOW I DO IT",
 	mainHeading: "More Than Just a Trainer.",
 	paragraph1:
-		"I chose cybersecurity because I realized how deeply our lives depend on technology — and how easily that trust can be exploited.",
+		"I didn't choose cybersecurity because it was just another career in technology. I chose it because I realized how much of our lives depend on technology — and how easily that trust can be exploited.",
 	paragraph2:
-		"The best way to learn is to experience it. That's why I bring cybersecurity beyond the classroom through interactive sessions, practical demonstrations, and real-world scenarios.",
-	paragraph3: "",
+		"The best way to learn something is to experience it. That's why I don't want cybersecurity to remain something people only hear about in a classroom.",
+	paragraph3:
+		"I help students, professionals, and organizations build practical cybersecurity awareness and skills. Through workshops, awareness sessions, hands-on activities, and real-world learning, I create experiences that go beyond the classroom.",
 	imageUrl: "/images/about_signature.png",
 	fallbackImageUrl:
 		"https://qtwduupxhsxrsniicswk.supabase.co/storage/v1/object/public/about/about-b18b7b97-f4e6-4d00-9958-2d898909bb99.png",
