@@ -28,7 +28,7 @@ export const aboutData: AboutData = {
 	sectionHeading: "HOW I DO IT",
 	mainHeading: "More Than Just a Trainer.",
 	paragraph1:
-		"I didn't choose cybersecurity because it was just another career in technology. I chose it because I realized how much of our lives depend on technology — and how easily that trust can be exploited.",
+		"I didn't choose cybersecurity because it was just another career in technology. I chose it because I realized how much of our lives depend on technology, and how easily that trust can be exploited.",
 	paragraph2:
 		"The best way to learn something is to experience it. That's why I don't want cybersecurity to remain something people only hear about in a classroom.",
 	paragraph3:
@@ -81,13 +81,13 @@ export const aboutData: AboutData = {
 		{
 			title: "Organizations & Institutions",
 			description:
-				"Schools, colleges, universities — I work with institutions to build awareness programs that give students real-world knowledge they can actually use.",
+				"Schools, colleges, universities: I work with institutions to build awareness programs that give students real-world knowledge they can actually use.",
 			iconName: "GraduationCap"
 		},
 		{
 			title: "Corporates & MNCs",
 			description:
-				"I help teams understand and respond to cyber threats — through awareness sessions, workshops, and speaking engagements that make security feel relevant, not theoretical.",
+				"I help teams understand and respond to cyber threats through awareness sessions, workshops, and speaking engagements that make security feel relevant, not theoretical.",
 			iconName: "Users"
 		}
 	]

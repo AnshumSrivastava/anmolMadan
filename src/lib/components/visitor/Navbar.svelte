@@ -97,8 +97,9 @@
 </script>
 
 <!-- NAVBAR CONTAINER -->
+<!-- NAVBAR CONTAINER -->
 <nav
-	class="fixed inset-x-0 z-[100] pointer-events-none transition-all duration-300 ease-out font-['Instrument_Sans',sans-serif]"
+	class="fixed inset-x-0 z-[100] pointer-events-none transition-all duration-300 ease-out font-sans"
 	style="top: {isMobile ? (scrollY > 50 ? 8 : 0) : topOffset}px;"
 >
 	<div
@@ -119,7 +120,7 @@
 			? '255, 255, 255'
 			: '0, 0, 0'}, {borderOpacity}); box-shadow: 0 10px 30px rgba(0, 0, 0, {shadowOpacity});"
 	>
-		<!-- LEFT: LOGO -->
+		<!-- LEFT: LOGO (BLACK & WHITE) -->
 		<div class="flex flex-1 items-center justify-start">
 			<button
 				type="button"
@@ -130,19 +131,19 @@
 				<img
 					src="/anmol_logo.png"
 					alt="Anmol Madan"
-					class="h-7 sm:h-8 lg:h-9 w-auto transition-all duration-300 group-hover:opacity-75"
+					class="h-7 sm:h-8 lg:h-9 w-auto grayscale contrast-125 dark:invert dark:grayscale transition-all duration-300 group-hover:opacity-75"
 				/>
 			</button>
 		</div>
 
 		<!-- CENTER: DESKTOP NAV ITEMS -->
-		<div class="hidden lg:flex shrink-0 items-center justify-center gap-7 xl:gap-8">
+		<div class="hidden lg:flex shrink-0 items-center justify-center gap-7 xl:gap-8 font-sans">
 			{#each navItems as item}
 				{@const isActive = activeSection === item.id}
 				<button
 					type="button"
 					onclick={() => scrollTo(item.href)}
-					class="group relative whitespace-nowrap border-none bg-transparent p-0 text-[11px] font-semibold uppercase tracking-[0.18em] outline-none transition-colors duration-300 cursor-pointer {isActive
+					class="group relative whitespace-nowrap border-none bg-transparent p-0 text-[12px] font-semibold uppercase tracking-[0.16em] outline-none transition-colors duration-300 cursor-pointer {isActive
 						? 'text-black dark:text-white'
 						: 'text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white'}"
 				>
@@ -160,12 +161,13 @@
 
 		<!-- RIGHT: ACTIONS -->
 		<div class="flex flex-1 items-center justify-end gap-3">
-			<!-- Book a Call Button -->
+			<!-- Book a Call Button with Icon -->
 			<button
 				type="button"
 				onclick={onBookCall}
-				class="hidden sm:inline-flex items-center gap-2 rounded-full bg-black dark:bg-white px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-white dark:text-black transition-all duration-200 hover:opacity-85 active:scale-95 cursor-pointer shadow-sm"
+				class="hidden sm:inline-flex items-center gap-2 rounded-full bg-black dark:bg-white px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-white dark:text-black transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-sm"
 			>
+				<Calendar size={14} class="stroke-[2.2]" />
 				<span>Book a Call</span>
 			</button>
 

@@ -23,7 +23,7 @@ export const servicesData: ServicesSectionData = {
 	sectionHeading: "WAYS WE CAN WORK TOGETHER",
 	mainHeading: "Ways We Can Work Together",
 	description:
-		"Not everyone learns the same way. Neither should cybersecurity. Whether you're looking for personal guidance, an interactive workshop, or a practical learning experience — I offer different ways to make cybersecurity relevant to you.",
+		"Not everyone learns the same way. Neither should cybersecurity. Whether you're looking for personal guidance, an interactive workshop, or a practical learning experience: I offer different ways to make cybersecurity relevant to you.",
 	items: [
 		{
 			id: "935df2c2-28ca-416f-8edd-d76bef73e0eb",

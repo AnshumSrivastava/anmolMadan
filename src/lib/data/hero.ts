@@ -31,15 +31,15 @@ export const heroData: HeroData = {
 	stats: [
 		{
 			number: "100000+",
-			label: "Students Taught"
+			label: "Students"
 		},
 		{
 			number: "1000+",
-			label: "Sessions Delivered"
+			label: "Sessions"
 		},
 		{
 			number: "50+",
-			label: "Organisations Trained"
+			label: "Organisations"
 		}
 	]
 };

@@ -33,46 +33,39 @@ export const contactData: ContactData = {
 	instagram: "https://www.instagram.com/anmolxmadan/",
 	links: [
 		{
-			id: "whatsapp",
-			label: "+91 6283603879 (WhatsApp)",
-			url: "https://wa.me/916283603879",
-			iconName: "WhatsApp",
-			sortOrder: 1
-		},
-		{
-			id: "linkedin",
-			label: "Anmol Madan",
-			url: "https://www.linkedin.com/in/anmolmadan7/",
-			iconName: "Linkedin",
-			sortOrder: 2
-		},
-		{
 			id: "email",
 			label: "anmolmadan20@gmail.com",
 			url: "mailto:anmolmadan20@gmail.com",
 			iconName: "Mail",
-			sortOrder: 3
+			sortOrder: 1
 		},
 		{
 			id: "phone",
 			label: "+91 6283603879",
 			url: "tel:+916283603879",
 			iconName: "Phone",
+			sortOrder: 2
+		},
+		{
+			id: "linkedin",
+			label: "Anmol Madan",
+			url: "https://www.linkedin.com/in/anmolmadan7/",
+			iconName: "Linkedin",
+			sortOrder: 3
+		},
+		{
+			id: "instagram",
+			label: "anmolxmadan",
+			url: "https://www.instagram.com/anmolxmadan/",
+			iconName: "Instagram",
 			sortOrder: 4
 		},
 		{
 			id: "booking",
-			label: "Book a call",
+			label: "Book a Call",
 			url: "https://cal.com/anmolmadan",
 			iconName: "Calendar",
 			sortOrder: 5
-		},
-		{
-			id: "instagram",
-			label: "Instagram",
-			url: "https://www.instagram.com/anmolxmadan/",
-			iconName: "Instagram",
-			sortOrder: 6
 		}
 	]
 };

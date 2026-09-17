@@ -11,34 +11,30 @@
 </script>
 
 <svelte:head>
-	<title>Anmol Madan — Cybersecurity Trainer & Motivational Speaker</title>
+	<title>Anmol Madan · Cybersecurity Trainer & Motivational Speaker</title>
 	<meta
 		name="description"
-		content="Official portfolio of Anmol Madan, certified Cybersecurity Specialist & Motivational Speaker based in Chandigarh, India. Corporate training, keynotes, and workshops across India and online."
+		content="Official website of Anmol Madan. Empowering the next generation through people-first cybersecurity education, keynote speaking, and hands-on workshops across India."
 	/>
-	<meta
-		name="keywords"
-		content="Anmol Madan, Cybersecurity Trainer, Motivational Speaker, Corporate Training, Cybersecurity Specialist, Chandigarh, Speaker India, Ethical Hacking"
-	/>
-	<link rel="canonical" href="https://anmolmadan.in" />
+	<meta name="keywords" content="Anmol Madan, Cybersecurity Trainer, Motivational Speaker, Ethical Hacking, Security Awareness, Keynote Speaker India" />
+	<meta name="author" content="Anmol Madan" />
+	<meta name="robots" content="index, follow" />
 
-	<!-- OpenGraph / Facebook / LinkedIn -->
+	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://anmolmadan.in" />
-	<meta property="og:site_name" content="Anmol Madan" />
-	<meta property="og:title" content="Anmol Madan — Cybersecurity Trainer & Motivational Speaker" />
+	<meta property="og:url" content="https://anmolmadan.in/" />
+	<meta property="og:title" content="Anmol Madan · Cybersecurity Trainer & Motivational Speaker" />
 	<meta
 		property="og:description"
-		content="Transforming classrooms and boardrooms with memorable cybersecurity sessions and motivational keynotes."
+		content="Empowering the next generation through people-first cybersecurity education, keynote speaking, and hands-on workshops across India."
 	/>
-	<meta property="og:image" content="https://anmolmadan.in/images/hero_portrait.png" />
-	<meta property="og:image:alt" content="Anmol Madan — Cybersecurity Specialist & Motivational Speaker" />
-	<meta property="og:locale" content="en_IN" />
+	<meta property="og:image" content="https://anmolmadan.in/images/about_signature.png" />
+	<meta property="og:image:alt" content="Anmol Madan · Cybersecurity Specialist & Motivational Speaker" />
 
-	<!-- Twitter / X -->
+	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:url" content="https://anmolmadan.in" />
-	<meta name="twitter:title" content="Anmol Madan — Cybersecurity Trainer & Motivational Speaker" />
+	<meta name="twitter:url" content="https://anmolmadan.in/" />
+	<meta name="twitter:title" content="Anmol Madan · Cybersecurity Trainer & Motivational Speaker" />
 	<meta
 		name="twitter:description"
 		content="Transforming classrooms and boardrooms with memorable cybersecurity sessions and motivational keynotes."

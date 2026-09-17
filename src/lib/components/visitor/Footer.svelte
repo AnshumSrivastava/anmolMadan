@@ -23,7 +23,7 @@
 </script>
 
 <footer
-	class="font-['Instrument_Sans',sans-serif] border-t border-black/[0.08] bg-white text-black dark:border-white/[0.08] dark:bg-black dark:text-white"
+	class="border-t border-black/[0.08] bg-white text-black dark:border-white/[0.08] dark:bg-black dark:text-white font-sans"
 >
 	<!-- PRE-FOOTER CTA -->
 	<div class="border-b border-white/[0.08] bg-neutral-900 text-white">
@@ -38,7 +38,7 @@
 				</span>
 
 				<h2
-					class="mt-3 text-3xl font-medium tracking-[-0.03em] sm:text-4xl lg:text-5xl text-white"
+					class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-white"
 				>
 					Ready to create an unforgettable session?
 				</h2>
@@ -110,7 +110,7 @@
 						<SocialIcons name="Linkedin" size={13} class="h-3.5 w-3.5" />
 					</a>
 					<a
-						href="https://wa.me/919914444589"
+						href="https://wa.me/916283603879"
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label="WhatsApp"
@@ -119,7 +119,7 @@
 						<SocialIcons name="WhatsApp" size={13} class="h-3.5 w-3.5" />
 					</a>
 					<a
-						href="https://www.instagram.com/anmolmadanofficial"
+						href="https://www.instagram.com/anmolxmadan"
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label="Instagram"
@@ -205,7 +205,7 @@
 				</ul>
 			</div>
 
-			<!-- CONNECT DIRECTLY -->
+			<!-- CONNECT DIRECTLY (Ref 8: 1 Email, 2 Phone + WhatsApp, 3 LinkedIn, 4 Instagram, 5 Book a Call) -->
 			<div>
 				<h3
 					class="mb-7 text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-400"
@@ -230,32 +230,46 @@
 								<span class="truncate">{link.label}</span>
 							</button>
 						{:else}
-							{@const isSpecial = link.url.startsWith("mailto:") || link.url.startsWith("tel:")}
-							<a
-								href={link.url}
-								target={isSpecial ? undefined : "_blank"}
-								rel={isSpecial ? undefined : "noopener noreferrer"}
-								class="flex items-center gap-3 text-sm text-neutral-600 transition-colors duration-300 hover:text-black dark:text-neutral-400 dark:hover:text-white"
-							>
-								<div
-									class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900"
+							{@const isPhone = link.id === "phone"}
+							<div class="flex items-center justify-between gap-2">
+								<a
+									href={link.url}
+									target={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "_blank"}
+									rel={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "noopener noreferrer"}
+									class="flex items-center gap-3 text-sm text-neutral-600 transition-colors duration-300 hover:text-black dark:text-neutral-400 dark:hover:text-white truncate"
 								>
-									{#if link.iconName === "Linkedin"}
-										<SocialIcons name="Linkedin" size={14} class="h-3.5 w-3.5" />
-									{:else if link.iconName === "Instagram"}
-										<SocialIcons name="Instagram" size={14} class="h-3.5 w-3.5" />
-									{:else if link.iconName === "WhatsApp"}
-										<SocialIcons name="WhatsApp" size={14} class="h-3.5 w-3.5" />
-									{:else if link.iconName === "Mail"}
-										<Mail size={14} />
-									{:else if link.iconName === "Phone"}
-										<Phone size={14} />
-									{:else}
-										<Calendar size={14} />
-									{/if}
-								</div>
-								<span class="truncate">{link.label}</span>
-							</a>
+									<div
+										class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900"
+									>
+										{#if link.iconName === "Linkedin"}
+											<SocialIcons name="Linkedin" size={14} class="h-3.5 w-3.5" />
+										{:else if link.iconName === "Instagram"}
+											<SocialIcons name="Instagram" size={14} class="h-3.5 w-3.5" />
+										{:else if link.iconName === "Mail"}
+											<Mail size={14} />
+										{:else if link.iconName === "Phone"}
+											<Phone size={14} />
+										{:else}
+											<Calendar size={14} />
+										{/if}
+									</div>
+									<span class="truncate">{link.label}</span>
+								</a>
+
+								{#if isPhone}
+									<!-- Accompanying WhatsApp icon for Phone (Ref 8) -->
+									<a
+										href="https://wa.me/916283603879"
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label="WhatsApp"
+										title="Chat on WhatsApp"
+										class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 hover:text-white transition-colors"
+									>
+										<SocialIcons name="WhatsApp" size={12} class="h-3 w-3" />
+									</a>
+								{/if}
+							</div>
 						{/if}
 					{/each}
 				</div>

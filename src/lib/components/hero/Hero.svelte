@@ -39,84 +39,90 @@
 	<!-- BACKGROUND -->
 	<HeroBackground />
 
-	<!-- SCROLL TRANSFORM WRAPPER -->
+	<!-- SCROLL TRANSFORM WRAPPER — full height, flex column -->
 	<div
-		class="relative h-full w-full will-change-transform"
+		class="relative flex h-full w-full flex-col will-change-transform"
 		style="filter: blur({blurPx}px); opacity: {opacity}; transform: scale({scale}) translateY({translateY}px); transform-origin: center center;"
 	>
-		<div
-			class="relative mx-auto h-full w-full max-w-[1400px] px-6 lg:px-8"
-		>
-			<div class="relative flex h-full w-full items-center">
-				<!-- LEFT CONTENT -->
-				<div class="relative z-20 flex w-full lg:w-[54%] xl:w-[54%] flex-col text-left">
-					<!-- NAME + ROLE -->
-					<Reveal delay={0.08}>
-						<div class="w-fit">
-							<HeroTitle title={hero.preHeading || "ANMOL MADAN"} />
+		<!-- ① MAIN ZONE — grows to fill all space above stats, content centred inside -->
+		<div class="relative flex flex-1 items-center overflow-hidden">
+			<div class="relative mx-auto w-full max-w-[1400px] px-6 lg:px-8">
+				<div class="relative flex w-full items-center">
 
-							<!-- ROLE -->
-							<p
-								class="mt-0 break-words sm:whitespace-nowrap pl-[3px] text-[clamp(11px,0.9vw,15px)] font-semibold uppercase leading-[1.2] sm:leading-[1] tracking-[0.18em] sm:tracking-[0.34em] text-neutral-500 dark:text-neutral-400"
+					<!-- LEFT CONTENT -->
+					<div class="relative z-20 flex w-full lg:w-[52%] xl:w-[50%] flex-col text-left">
+						<!-- NAME + ROLE -->
+						<Reveal delay={0.08}>
+							<div class="w-fit">
+								<HeroTitle title={hero.preHeading || "ANMOL MADAN"} />
+
+								<!-- ROLE -->
+								<p
+									class="mt-2 break-words sm:whitespace-nowrap pl-[3px] text-[clamp(11px,0.9vw,15px)] font-semibold uppercase leading-[1.2] sm:leading-[1] tracking-[0.18em] sm:tracking-[0.34em] text-neutral-500 dark:text-neutral-400"
+								>
+									Cybersecurity SPECIALIST
+									<span class="mx-[6px] sm:mx-[8px]">·</span>
+									Motivational Speaker
+								</p>
+							</div>
+						</Reveal>
+
+						<!-- DESCRIPTION -->
+						<Reveal delay={0.2}>
+							<div
+								class="mt-7 sm:mt-8 space-y-4 sm:space-y-5 max-w-full sm:max-w-[520px] lg:max-w-[540px] text-[14px] sm:text-[15px] lg:text-[16px] xl:text-[17px] leading-[1.75] text-neutral-600 dark:text-neutral-400 text-left sm:text-justify [text-justify:inter-word]"
 							>
-								Cybersecurity SPECIALIST
-								<span class="mx-[6px] sm:mx-[8px]">·</span>
-								Motivational Speaker
-							</p>
-						</div>
-					</Reveal>
+								<p>
+									Behind every device is a person. Behind every identity is a life. Behind every piece of data is something worth protecting.
+								</p>
+								<p>
+									That's why my approach to cybersecurity has always been people-first — because we're not protecting technology from people. We're protecting people through technology.
+								</p>
+							</div>
+						</Reveal>
 
-					<!-- DESCRIPTION -->
-					<Reveal delay={0.2}>
-						<p
-							class="mt-[28px] max-w-full sm:max-w-[500px] lg:max-w-[520px] xl:max-w-[560px] text-[clamp(13px,0.95vw,17px)] leading-[1.6] text-neutral-600 dark:text-neutral-400 text-left sm:[text-align:justify] sm:[text-justify:inter-word]"
-						>
-							{hero.description}
-						</p>
-					</Reveal>
+						<!-- BUTTONS -->
+						<Reveal delay={0.3}>
+							<div class="mt-8 sm:mt-10 flex items-center gap-3 sm:gap-4">
+								<button
+									type="button"
+									onclick={onBookCall}
+									class="inline-flex items-center justify-center rounded-full bg-neutral-950 px-5 sm:px-6 lg:px-7 py-2.5 sm:py-3 lg:py-3.5 text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm transition-all duration-200 hover:bg-neutral-800 active:scale-95 dark:bg-white dark:text-black dark:hover:bg-neutral-200 cursor-pointer"
+								>
+									{hero.buttonText || "Book a Call"}
+								</button>
 
-					<!-- STATS -->
-					<Reveal delay={0.26}>
-						<div class="mt-[14px]">
-							<HeroStats stats={hero.stats} />
-						</div>
-					</Reveal>
+								<a
+									href="#about"
+									class="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-transparent px-5 sm:px-6 lg:px-7 py-2.5 sm:py-3 lg:py-3.5 text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.14em] text-neutral-700 transition-all duration-200 hover:border-black hover:text-black active:scale-95 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white"
+								>
+									Learn More
+								</a>
+							</div>
+						</Reveal>
 
-					<!-- BUTTONS -->
-					<Reveal delay={0.32}>
-						<div class="mt-[18px] flex items-center gap-[clamp(10px,1vw,16px)]">
-							<!-- BOOK A CALL -->
-							<button
-								type="button"
-								onclick={onBookCall}
-								class="inline-flex items-center justify-center rounded-full bg-neutral-950 px-[clamp(20px,1.8vw,28px)] py-[clamp(10px,0.9vh,14px)] text-[clamp(10px,0.65vw,12px)] font-semibold uppercase tracking-[0.12em] text-white shadow-sm transition-all duration-200 hover:bg-neutral-800 active:scale-95 dark:bg-white dark:text-black dark:hover:bg-neutral-200 cursor-pointer"
-							>
-								{hero.buttonText || "Book a Call"}
-							</button>
+						<!-- STATS — credential row anchored below buttons -->
+						<Reveal delay={0.42}>
+							<div class="mt-8 sm:mt-10 pt-6 sm:pt-7 border-t border-neutral-200 dark:border-neutral-800">
+								<HeroStats stats={hero.stats} />
+							</div>
+						</Reveal>
+					</div>
 
-							<!-- LEARN MORE -->
-							<a
-								href="#about"
-								class="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-transparent px-[clamp(20px,1.8vw,28px)] py-[clamp(10px,0.9vh,14px)] text-[clamp(10px,0.65vw,12px)] font-medium uppercase tracking-[0.12em] text-neutral-700 transition-all duration-200 hover:border-black hover:text-black active:scale-95 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white"
-							>
-								Learn More
-							</a>
-						</div>
-					</Reveal>
-				</div>
+					<!-- RIGHT IMAGE AREA — portrait centred in the main zone -->
+					<div
+						class="absolute right-[-4%] sm:right-[0%] lg:right-[1%] xl:right-[3%] top-1/2 -translate-y-[46%] z-10 h-[88%] sm:h-[90%] lg:h-[92%] w-[55%] sm:w-[48%] lg:w-[46%] opacity-30 sm:opacity-60 lg:opacity-100 pointer-events-none lg:pointer-events-auto transition-opacity duration-300"
+					>
+						<HeroImage
+							heroImage={hero.heroImage}
+							fallbackHeroImage={hero.fallbackHeroImage}
+							alt={hero.preHeading || "Anmol Madan"}
+						/>
+					</div>
 
-				<!-- RIGHT IMAGE AREA -->
-				<div
-					style="transform: translate(0, calc(-50% + 100px));"
-					class="absolute right-[-4%] sm:right-[0%] lg:right-[1%] xl:right-[3%] top-1/2 z-10 h-[72%] sm:h-[80%] lg:h-[82%] w-[55%] sm:w-[48%] lg:w-[46%] opacity-30 sm:opacity-60 lg:opacity-100 pointer-events-none lg:pointer-events-auto transition-opacity duration-300"
-				>
-					<HeroImage
-						heroImage={hero.heroImage}
-						fallbackHeroImage={hero.fallbackHeroImage}
-						alt={hero.preHeading || "Anmol Madan"}
-					/>
 				</div>
 			</div>
 		</div>
+
 	</div>
 </section>

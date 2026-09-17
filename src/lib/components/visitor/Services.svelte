@@ -22,11 +22,11 @@
 	class="relative overflow-hidden bg-[#fafafa] py-20 text-black dark:bg-neutral-950 dark:text-white lg:py-24"
 >
 	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
-		<!-- HEADER -->
+		<!-- HEADER (Ref 22 & G4) -->
 		<Reveal>
 			<div class="max-w-3xl">
 				<div class="flex items-center gap-3">
-					<span class="h-px w-6 bg-neutral-400 dark:bg-neutral-600"></span>
+					<span class="section-mini-line"></span>
 					<p
 						class="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500 dark:text-neutral-400"
 					>
@@ -35,12 +35,15 @@
 				</div>
 
 				<h2
-					class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl"
+					class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
 				>
 					{services.mainHeading || "Ways We Can Work Together"}
 				</h2>
 
-				<p class="mt-4 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+				<!-- Heading divider line (Ref 22 & G4/G5) -->
+				<div class="my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
+
+				<p class="text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-[17px] body-copy">
 					{services.description}
 				</p>
 			</div>

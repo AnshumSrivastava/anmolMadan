@@ -18,7 +18,7 @@
 			<div class="mb-16 max-w-3xl">
 				<Reveal>
 					<div class="flex items-center gap-3">
-						<span class="h-px w-6 bg-neutral-400"></span>
+						<span class="section-mini-line"></span>
 						<p
 							class="text-xs font-semibold uppercase tracking-[0.35em] text-neutral-400"
 						>
@@ -29,10 +29,12 @@
 
 				<Reveal delay={0.08}>
 					<h2
-						class="mt-6 text-4xl font-medium leading-[1.02] tracking-[-0.04em] text-black dark:text-white sm:text-5xl lg:text-6xl"
+						class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
 					>
 						Work that made an impact.
 					</h2>
+
+					<div class="my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
 				</Reveal>
 			</div>
 
@@ -49,7 +51,7 @@
 								<p class="mt-2 text-sm text-neutral-500">
 									{exp.institutionName} · {exp.duration}
 								</p>
-								<p class="mt-4 text-sm sm:text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+								<p class="mt-4 text-sm sm:text-base leading-relaxed text-neutral-600 dark:text-neutral-400 body-copy">
 									{exp.description}
 								</p>
 							</div>

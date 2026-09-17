@@ -108,7 +108,7 @@
 						class="flex items-center justify-between gap-4 border-b border-neutral-200/80 dark:border-neutral-800 pb-8"
 					>
 						<div class="flex items-center gap-3">
-							<span class="h-px w-6 bg-neutral-400 dark:bg-neutral-600"></span>
+							<span class="section-mini-line"></span>
 							<p
 								class="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500 dark:text-neutral-400"
 							>
@@ -144,9 +144,9 @@
 									</blockquote>
 								{/if}
 
-								<!-- Body Text -->
+								<!-- Body Text (G9: justified) -->
 								<div
-									class="mt-8 space-y-5 text-base sm:text-lg leading-relaxed text-neutral-700 dark:text-neutral-300"
+									class="mt-8 space-y-5 text-base sm:text-[17px] leading-relaxed text-neutral-700 dark:text-neutral-300 body-copy"
 								>
 									{#each note.paragraphs as p}
 										<p>{p}</p>
@@ -192,7 +192,7 @@
 								</div>
 
 								<p class="text-xl xl:text-2xl font-bold text-black dark:text-white leading-snug tracking-tight">
-									"Security is not a one-time setup — it is a continuous, empowering culture."
+									"Security is not a one-time setup: it is a continuous, empowering culture."
 								</p>
 
 								<p class="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">

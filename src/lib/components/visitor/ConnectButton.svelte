@@ -71,33 +71,49 @@
 							<span class="truncate">{link.label}</span>
 						</button>
 					{:else}
-						{@const isSpecial = link.url.startsWith("mailto:") || link.url.startsWith("tel:")}
-						<a
-							href={link.url}
-							target={isSpecial ? undefined : "_blank"}
-							rel={isSpecial ? undefined : "noopener noreferrer"}
-							onclick={() => (isOpen = false)}
-							class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-black dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-white"
-						>
-							<span
-								class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-black dark:bg-neutral-800 dark:text-white"
+						{@const isPhone = link.id === "phone"}
+						<div class="flex items-center justify-between rounded-xl px-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+							<a
+								href={link.url}
+								target={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "_blank"}
+								rel={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "noopener noreferrer"}
+								onclick={() => (isOpen = false)}
+								class="flex flex-1 items-center gap-3 px-2 py-2.5 text-sm font-medium text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white truncate"
 							>
-								{#if link.iconName === "Linkedin"}
-									<SocialIcons name="Linkedin" size={16} class="h-4 w-4" />
-								{:else if link.iconName === "Instagram"}
-									<SocialIcons name="Instagram" size={16} class="h-4 w-4" />
-								{:else if link.iconName === "WhatsApp"}
-									<SocialIcons name="WhatsApp" size={16} class="h-4 w-4" />
-								{:else if link.iconName === "Mail"}
-									<Mail size={16} />
-								{:else if link.iconName === "Phone"}
-									<Phone size={16} />
-								{:else}
-									<MessageCircle size={16} />
-								{/if}
-							</span>
-							<span class="truncate">{link.label}</span>
-						</a>
+								<span
+									class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-black dark:bg-neutral-800 dark:text-white"
+								>
+									{#if link.iconName === "Linkedin"}
+										<SocialIcons name="Linkedin" size={16} class="h-4 w-4" />
+									{:else if link.iconName === "Instagram"}
+										<SocialIcons name="Instagram" size={16} class="h-4 w-4" />
+									{:else if link.iconName === "WhatsApp"}
+										<SocialIcons name="WhatsApp" size={16} class="h-4 w-4" />
+									{:else if link.iconName === "Mail"}
+										<Mail size={16} />
+									{:else if link.iconName === "Phone"}
+										<Phone size={16} />
+									{:else}
+										<MessageCircle size={16} />
+									{/if}
+								</span>
+								<span class="truncate">{link.label}</span>
+							</a>
+
+							{#if isPhone}
+								<a
+									href="https://wa.me/916283603879"
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label="WhatsApp"
+									title="WhatsApp"
+									onclick={() => (isOpen = false)}
+									class="mr-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 hover:text-white transition-colors"
+								>
+									<SocialIcons name="WhatsApp" size={13} class="h-3.5 w-3.5" />
+								</a>
+							{/if}
+						</div>
 					{/if}
 				{/each}
 			</div>

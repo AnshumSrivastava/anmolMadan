@@ -17,26 +17,26 @@
 	<div class="mx-auto max-w-[1400px] px-6 lg:px-8 space-y-12">
 		<Reveal>
 			<div class="text-center">
-				<!-- SECTION LABEL -->
+				<!-- SECTION LABEL (Ref 20 & G4) -->
 				<div class="flex items-center justify-center gap-3">
-					<span class="h-px w-6 bg-zinc-400 dark:bg-neutral-600"></span>
+					<span class="section-mini-line"></span>
 					<p
-						class="whitespace-nowrap text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400 dark:text-neutral-400"
+						class="whitespace-nowrap text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400 dark:text-neutral-500"
 					>
 						Who I Work With
 					</p>
-					<span class="h-px w-6 bg-zinc-400 dark:bg-neutral-600"></span>
+					<span class="section-mini-line"></span>
 				</div>
 
 				<!-- MAIN HEADING -->
 				<h2
-					class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl md:text-5xl"
+					class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl md:text-5xl leading-tight"
 				>
 					Helping People Across Industries
 				</h2>
 
-				<!-- HEADING DIVIDER -->
-				<div class="mx-auto mt-4 h-px w-16 bg-zinc-300 dark:bg-neutral-700"></div>
+				<!-- HEADING DIVIDER (G5: consistent with other sections) -->
+				<div class="mx-auto my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
 			</div>
 		</Reveal>
 
@@ -73,11 +73,11 @@
 
 						<!-- CARD DIVIDER -->
 						<div
-							class="my-5 h-px w-12 bg-zinc-300 transition-all duration-500 group-hover:w-20 group-hover:bg-black dark:bg-neutral-700 dark:group-hover:bg-white"
+							class="my-5 h-[1.5px] w-12 bg-zinc-400 dark:bg-neutral-500 transition-all duration-500 group-hover:w-20 group-hover:bg-black dark:group-hover:bg-white"
 						></div>
 
-						<!-- CARD DESCRIPTION -->
-						<p class="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-neutral-400">
+						<!-- CARD DESCRIPTION (G9: justified text) -->
+						<p class="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-neutral-400 body-copy">
 							{item.description}
 						</p>
 					</div>

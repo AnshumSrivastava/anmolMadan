@@ -66,20 +66,19 @@
 					<!-- HEADER & CONTROLS -->
 					<div class="flex flex-col justify-between gap-6 pb-12 sm:flex-row sm:items-end">
 						<div class="max-w-2xl">
-							<!-- Eyebrow -->
+							<!-- Eyebrow: Standard single short line (Ref 18 & 19 / G4) -->
 							<div class="flex items-center gap-3">
-								<span class="h-px w-8 bg-neutral-400 dark:bg-neutral-600"></span>
+								<span class="section-mini-line"></span>
 								<p
 									class="text-xs font-semibold uppercase tracking-[0.24em] text-neutral-500 dark:text-neutral-400"
 								>
 									Live Reactions
 								</p>
-								<span class="h-px w-8 bg-neutral-400 dark:bg-neutral-600"></span>
 							</div>
 
-							<!-- Heading -->
+							<!-- Heading: Matched to About section's font and size treatment (Ref 21) -->
 							<h3
-								class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-[2.65rem] leading-[1.15]"
+								class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
 							>
 								Hear from the{" "}
 								<span class="font-light italic text-neutral-700 dark:text-neutral-300">
@@ -87,8 +86,10 @@
 								</span>
 							</h3>
 
+							<div class="my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
+
 							<p
-								class="mt-4 text-sm sm:text-base leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-xl"
+								class="text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-[17px] max-w-xl body-copy"
 							>
 								Real student reactions, genuine feedback, and live moments captured
 								during interactive cybersecurity training sessions.

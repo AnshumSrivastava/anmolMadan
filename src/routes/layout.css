@@ -7,8 +7,6 @@
 	--foreground: #010000;
 	--font-geist-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	--font-geist-mono: "Geist Mono", monospace;
-	--font-josefin: "Josefin Sans", sans-serif;
-	--font-instrument: "Instrument Sans", sans-serif;
 }
 
 @theme inline {
@@ -16,8 +14,6 @@
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
-	--font-josefin: var(--font-josefin);
-	--font-instrument: var(--font-instrument);
 }
 
 .dark {
@@ -33,7 +29,38 @@ html {
 body {
 	background: var(--background);
 	color: var(--foreground);
+	font-family: var(--font-geist-sans);
 	overflow-x: hidden;
+}
+
+/* Global utility for consistent justified body copy */
+.body-copy {
+	text-align: justify;
+	text-justify: inter-word;
+}
+
+/* Global mini-heading line standard (G4) */
+.section-mini-line {
+	width: 24px;
+	height: 1.5px;
+	background-color: rgb(161 161 170); /* zinc-400 */
+	display: inline-block;
+	flex-shrink: 0;
+}
+.dark .section-mini-line {
+	background-color: rgb(115 115 115); /* neutral-500 */
+}
+
+/* Global heading underline standard (G5) */
+.heading-underline {
+	height: 1.5px;
+	width: 4rem;
+	background-color: rgb(161 161 170);
+	border: none;
+	margin: 1.25rem 0;
+}
+.dark .heading-underline {
+	background-color: rgb(115 115 115);
 }
 
 /* Custom scrollbar */

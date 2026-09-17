@@ -28,11 +28,11 @@
 				<!-- LEFT — CONTENT (TEXT + 4 BLOCKS) -->
 				<div class="relative z-10 flex flex-col justify-between">
 					<div>
-						<!-- Section Label -->
+						<!-- Section Label with standardized G4 mini-line -->
 						<div class="flex items-center gap-3">
-							<span class="h-px w-6 bg-zinc-400 dark:bg-neutral-600"></span>
+							<span class="section-mini-line"></span>
 							<p
-								class="text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400 dark:text-neutral-400"
+								class="text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400 dark:text-neutral-500"
 							>
 								{about.sectionHeading || "HOW I DO IT"}
 							</p>
@@ -40,16 +40,16 @@
 
 						<!-- Main Heading -->
 						<h2
-							class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl"
+							class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
 						>
 							{about.mainHeading || "More Than Just a Trainer."}
 						</h2>
 
-						<!-- Divider -->
-						<div class="my-6 h-px w-16 bg-zinc-300 dark:bg-neutral-700"></div>
+						<!-- Divider Line (Ref 12: identical color as mini-heading line, no visible break) -->
+						<div class="my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
 
-						<!-- Paragraphs -->
-						<div class="space-y-4 text-base leading-relaxed text-zinc-600 dark:text-neutral-400 sm:text-lg">
+						<!-- Paragraphs with Justified Alignment (G9) & Standardized Size (G3) -->
+						<div class="space-y-4 text-base leading-relaxed text-zinc-600 dark:text-neutral-400 sm:text-[17px] body-copy">
 							{#if about.paragraph1}
 								<p>{about.paragraph1}</p>
 							{/if}
@@ -62,16 +62,14 @@
 						</div>
 					</div>
 
-					<!-- Credentials Grid (4 BLOCKS) -->
-					<div class="mt-8 grid grid-cols-2 gap-4 sm:gap-5 pt-6 border-t border-zinc-200/80 dark:border-neutral-800">
+					<!-- Ref 24: Removed unnecessary boxed containers, replacing with clean stats strip -->
+					<div class="mt-8 grid grid-cols-2 gap-6 sm:gap-8 pt-6 border-t border-zinc-200 dark:border-neutral-800">
 						{#each about.credentials as cred}
-							<div
-								class="rounded-2xl border border-zinc-200/80 dark:border-neutral-800/80 bg-zinc-50/50 dark:bg-neutral-900/30 p-4 sm:p-5 transition-all hover:border-black/30 dark:hover:border-white/30"
-							>
-								<div class="text-lg sm:text-xl font-bold text-black dark:text-white tracking-tight">
+							<div class="flex flex-col">
+								<div class="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">
 									{cred.title}
 								</div>
-								<div class="mt-1 text-xs sm:text-sm text-zinc-500 dark:text-neutral-400">
+								<div class="mt-1 text-sm text-zinc-500 dark:text-neutral-400 font-medium">
 									{cred.subtitle}
 								</div>
 							</div>

@@ -50,36 +50,52 @@
 
 <section
 	id="vision"
-	class="font-['Josefin_Sans',sans-serif] relative overflow-hidden bg-white dark:bg-black py-20 lg:py-24 text-black dark:text-white"
+	class="relative overflow-hidden bg-white dark:bg-black py-20 lg:py-24 text-black dark:text-white font-sans"
 >
 	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
-		<!-- MAIN VISION: 2-COLUMN -->
-		<div class="grid items-center gap-16 {vision.imageUrl ? 'lg:grid-cols-2' : ''}">
+		<!-- MAIN VISION: 2-COLUMN MATCHING ABOUT SECTION LAYOUT (Ref 14) -->
+		<div class="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20">
 			<!-- LEFT — CONTENT -->
-			<Reveal delay={0.15} className="order-2 lg:order-1">
-				<div>
-					<div class="flex items-center gap-3">
-						<span class="h-px w-6 bg-neutral-400 dark:bg-neutral-600"></span>
-						<p
-							class="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500 dark:text-neutral-400 font-sans"
+			<Reveal delay={0.15}>
+				<div class="relative z-10 flex flex-col justify-between h-full">
+					<div>
+						<div class="flex items-center gap-3">
+							<span class="section-mini-line"></span>
+							<p
+								class="text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400 dark:text-neutral-500"
+							>
+								{vision.sectionHeading || "MY VISION"}
+							</p>
+						</div>
+
+						<h2
+							class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
 						>
-							{vision.sectionHeading || "MY VISION"}
+							{vision.mainHeading || "Cybersecurity should become a mindset, not just a skill."}
+						</h2>
+
+						<div class="my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
+
+						<p
+							class="text-base leading-relaxed text-zinc-600 dark:text-neutral-400 sm:text-[17px] body-copy"
+						>
+							{vision.description}
 						</p>
 					</div>
 
-					<h2
-						class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
-					>
-						{vision.mainHeading || "Cybersecurity should become a mindset, not just a skill."}
-					</h2>
-
-					<div class="my-6 h-px w-16 bg-neutral-300 dark:bg-neutral-700"></div>
-
-					<p
-						class="text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg font-sans"
-					>
-						{vision.description}
-					</p>
+					<!-- Pillars Summary matching About section credentials grid -->
+					<div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 pt-6 border-t border-zinc-200 dark:border-neutral-800">
+						{#each vision.usps as usp, index}
+							<div class="flex flex-col">
+								<span class="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500 tracking-wider">
+									0{index + 1}
+								</span>
+								<h3 class="mt-1 text-base font-bold text-black dark:text-white tracking-tight">
+									{usp.title}
+								</h3>
+							</div>
+						{/each}
+					</div>
 				</div>
 			</Reveal>
 
