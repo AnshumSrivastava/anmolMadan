@@ -41,9 +41,9 @@
 
 <div
 	bind:this={element}
-	class="transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] {className} {isVisible
+	class="transition-opacity duration-300 sm:transition-all sm:duration-700 sm:ease-[cubic-bezier(0.16,1,0.3,1)] {className} {isVisible
 		? 'opacity-100 translate-y-0'
-		: 'opacity-0 translate-y-8'}"
+		: 'opacity-0 sm:translate-y-8'}"
 	style="transition-delay: {delay}s;"
 >
 	{@render children()}

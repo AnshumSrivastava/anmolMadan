@@ -22,8 +22,9 @@
 >
 	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
 		<Reveal>
+			<!-- DESKTOP VERSION (Identical to original) -->
 			<div
-				class="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20"
+				class="hidden lg:grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20"
 			>
 				<!-- LEFT — CONTENT (TEXT + 4 BLOCKS) -->
 				<div class="relative z-10 flex flex-col justify-between">
@@ -94,6 +95,49 @@
 							onerror={handleError}
 							class="h-full w-full object-cover object-[28%_35%] transition-transform duration-700 ease-out group-hover:scale-105"
 						/>
+					</div>
+				</div>
+			</div>
+
+			<!-- MOBILE VERSION -->
+			<div class="flex flex-col lg:hidden space-y-6">
+				<div>
+					<p class="text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+						{about.sectionHeading || "HOW I DO IT"}
+					</p>
+					<h2 class="mt-2 text-2xl font-bold tracking-tight text-black dark:text-white leading-tight">
+						{about.mainHeading || "More Than Just a Trainer."}
+					</h2>
+				</div>
+
+				<div class="space-y-4 text-[13px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+					{#if about.paragraph1}
+						<p>{about.paragraph1}</p>
+					{/if}
+					{#if about.paragraph2}
+						<p>{about.paragraph2}</p>
+					{/if}
+					{#if about.paragraph3}
+						<p>{about.paragraph3}</p>
+					{/if}
+				</div>
+
+				<!-- Credentials -->
+				<div class="-mx-6">
+					<div
+						class="flex gap-2.5 overflow-x-auto px-6 pb-2 scrollbar-none"
+						style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
+					>
+						{#each about.credentials as cred}
+							<div class="shrink-0 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 py-2.5 px-3.5 min-w-[120px]">
+								<div class="text-lg font-bold text-black dark:text-white tracking-tight">
+									{cred.title}
+								</div>
+								<div class="mt-0.5 text-[10px] font-medium text-neutral-500 dark:text-neutral-400">
+									{cred.subtitle}
+								</div>
+							</div>
+						{/each}
 					</div>
 				</div>
 			</div>

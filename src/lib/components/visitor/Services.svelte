@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ServicesSectionData } from "$lib/data/services";
 	import Reveal from "$lib/components/shared/Reveal.svelte";
-	import { ArrowRight, Check } from "@lucide/svelte";
+	import { ArrowRight, Check, ChevronDown, ChevronUp } from "@lucide/svelte";
 
 	interface Props {
 		services: ServicesSectionData;
@@ -9,6 +9,8 @@
 	}
 
 	let { services, onRequestService }: Props = $props();
+
+	let expandedService = $state<number | null>(0);
 
 	let sortedItems = $derived(
 		(services.items || [])
@@ -49,8 +51,8 @@
 			</div>
 		</Reveal>
 
-		<!-- GRID OF CARDS -->
-		<div class="mt-12 lg:mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		<!-- DESKTOP GRID OF CARDS -->
+		<div class="mt-12 lg:mt-16 hidden lg:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{#each sortedItems as item, index}
 				<Reveal delay={index * 0.08} className="h-full">
 					<article
@@ -123,6 +125,86 @@
 						</button>
 					</article>
 				</Reveal>
+			{/each}
+		</div>
+
+		<!-- MOBILE SERVICES ACCORDION (Vertical Stack with Tap-to-Expand) -->
+		<div class="mt-8 flex lg:hidden flex-col gap-3">
+			{#each sortedItems as item, index}
+				{@const isExpanded = expandedService === index}
+				<div
+					class="overflow-hidden rounded-2xl border transition-all duration-200 {isExpanded
+						? 'border-neutral-900 bg-white dark:border-white dark:bg-neutral-900 shadow-md ring-1 ring-neutral-900/10 dark:ring-white/10'
+						: 'border-neutral-200/90 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/40'}"
+				>
+					<!-- Accordion Header Trigger -->
+					<button
+						type="button"
+						onclick={() => (expandedService = isExpanded ? null : index)}
+						class="flex w-full items-center justify-between p-4 text-left cursor-pointer"
+					>
+						<div class="flex items-center gap-3">
+							<span
+								class="font-mono text-xs font-bold {isExpanded
+									? 'text-black dark:text-white'
+									: 'text-neutral-400 dark:text-neutral-500'}"
+							>
+								{String(index + 1).padStart(2, "0")}
+							</span>
+							<div>
+								<div class="flex items-center gap-2">
+									<h3 class="text-base font-bold text-black dark:text-white tracking-tight">
+										{item.title}
+									</h3>
+									{#if item.badge}
+										<span class="rounded-full bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 text-[8.5px] font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+											{item.badge}
+										</span>
+									{/if}
+								</div>
+							</div>
+						</div>
+
+						<div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+							{#if isExpanded}
+								<ChevronUp size={15} />
+							{:else}
+								<ChevronDown size={15} />
+							{/if}
+						</div>
+					</button>
+
+					<!-- Expandable Drawer Body -->
+					{#if isExpanded}
+						<div class="border-t border-neutral-100 dark:border-neutral-800/80 px-4 pb-5 pt-3">
+							<p class="text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
+								{item.description}
+							</p>
+
+							<div class="mt-3.5 space-y-2">
+								{#each item.points as point}
+									<div class="flex items-start gap-2">
+										<div class="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black">
+											<Check class="h-2 w-2 stroke-[3]" />
+										</div>
+										<p class="text-[11.5px] leading-snug text-neutral-700 dark:text-neutral-300 font-medium">
+											{point}
+										</p>
+									</div>
+								{/each}
+							</div>
+
+							<button
+								type="button"
+								onclick={() => onRequestService(item.title)}
+								class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-black dark:bg-white py-2.5 text-xs font-bold uppercase tracking-wider text-white dark:text-black shadow-sm active:scale-95 transition-transform"
+							>
+								<span>{item.buttonText || "Request Service"}</span>
+								<ArrowRight class="h-3.5 w-3.5" />
+							</button>
+						</div>
+					{/if}
+				</div>
 			{/each}
 		</div>
 	</div>

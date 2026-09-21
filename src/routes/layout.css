@@ -77,3 +77,42 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	background: rgba(150, 150, 150, 0.5);
 }
+
+/* ========================================================================= */
+/* MOBILE PERFORMANCE OPTIMIZATIONS                                          */
+/* Keep PC identical; reduce GPU strain, backdrop-filter and reflows on mobile */
+/* ========================================================================= */
+@media (max-width: 1023px) {
+	/* Avoid expensive real-time backdrop blur repaints on mobile mobile GPU */
+	.backdrop-blur-xl,
+	.backdrop-blur-2xl,
+	.backdrop-blur-md,
+	.backdrop-blur-sm,
+	.backdrop-blur-lg {
+		-webkit-backdrop-filter: none !important;
+		backdrop-filter: none !important;
+	}
+
+	/* Disable continuous CSS filter blur calculations on mobile */
+	.mobile-no-filter {
+		filter: none !important;
+		-webkit-filter: none !important;
+	}
+
+	/* Hardware acceleration for scroll containers */
+	.snap-x {
+		-webkit-overflow-scrolling: touch;
+		transform: translateZ(0);
+		will-change: scroll-position;
+	}
+
+	/* Content visibility allows the browser to skip offscreen rendering work */
+	#services,
+	#vision,
+	#note,
+	#experience,
+	footer {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 600px;
+	}
+}

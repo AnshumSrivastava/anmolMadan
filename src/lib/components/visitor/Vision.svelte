@@ -53,162 +53,245 @@
 	class="relative overflow-hidden bg-white dark:bg-black py-20 lg:py-24 text-black dark:text-white font-sans"
 >
 	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
-		<!-- MAIN VISION: 2-COLUMN MATCHING ABOUT SECTION LAYOUT (Ref 14) -->
-		<div class="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20">
-			<!-- LEFT — CONTENT -->
-			<Reveal delay={0.15}>
-				<div class="relative z-10 flex flex-col justify-between h-full">
-					<div>
-						<div class="flex items-center gap-3">
-							<span class="section-mini-line"></span>
-							<p
-								class="text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400 dark:text-neutral-500"
+		<!-- ===================================================== -->
+		<!-- DESKTOP VISION (Original Untouched)                   -->
+		<!-- ===================================================== -->
+		<div class="hidden lg:block">
+			<!-- MAIN VISION: 2-COLUMN MATCHING ABOUT SECTION LAYOUT (Ref 14) -->
+			<div class="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20">
+				<!-- LEFT — CONTENT -->
+				<Reveal delay={0.15}>
+					<div class="relative z-10 flex flex-col justify-between h-full">
+						<div>
+							<div class="flex items-center gap-3">
+								<span class="section-mini-line"></span>
+								<p
+									class="text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400 dark:text-neutral-500"
+								>
+									{vision.sectionHeading || "MY VISION"}
+								</p>
+							</div>
+
+							<h2
+								class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
 							>
-								{vision.sectionHeading || "MY VISION"}
+								{vision.mainHeading || "Cybersecurity should become a mindset, not just a skill."}
+							</h2>
+
+							<div class="my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
+
+							<p
+								class="text-base leading-relaxed text-zinc-600 dark:text-neutral-400 sm:text-[17px] body-copy"
+							>
+								{vision.description}
 							</p>
 						</div>
 
-						<h2
-							class="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl lg:text-5xl leading-tight"
-						>
-							{vision.mainHeading || "Cybersecurity should become a mindset, not just a skill."}
-						</h2>
-
-						<div class="my-6 h-[1.5px] w-16 bg-zinc-400 dark:bg-neutral-500"></div>
-
-						<p
-							class="text-base leading-relaxed text-zinc-600 dark:text-neutral-400 sm:text-[17px] body-copy"
-						>
-							{vision.description}
-						</p>
+						<!-- Pillars Summary matching About section credentials grid -->
+						<div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 pt-6 border-t border-zinc-200 dark:border-neutral-800">
+							{#each vision.usps as usp, index}
+								<div class="flex flex-col">
+									<span class="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500 tracking-wider">
+										0{index + 1}
+									</span>
+									<h3 class="mt-1 text-base font-bold text-black dark:text-white tracking-tight">
+										{usp.title}
+									</h3>
+								</div>
+							{/each}
+						</div>
 					</div>
+				</Reveal>
 
-					<!-- Pillars Summary matching About section credentials grid -->
-					<div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 pt-6 border-t border-zinc-200 dark:border-neutral-800">
+				<!-- RIGHT — AUTOSCROLL PHOTO CAROUSEL -->
+				<div class="flex justify-center items-center">
+					<!-- Ambient Glow -->
+					<div
+						aria-hidden="true"
+						class="absolute left-1/2 top-1/2 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/[0.025] blur-[90px] dark:bg-white/[0.02]"
+					></div>
+
+					<!-- Carousel Frame -->
+					<!-- svelte-ignore a11y_no_static_element_interactions -->
+					<div
+						onmouseenter={() => (isPaused = true)}
+						onmouseleave={() => (isPaused = false)}
+						class="group relative z-10 w-full max-w-[560px] lg:max-w-[620px] aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-black/30 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-white/30 select-none"
+					>
+						{#each slides as slide, i}
+							<div
+								class="absolute inset-0 transition-all duration-700 ease-in-out {i === currentIndex
+									? 'opacity-100 scale-100 pointer-events-auto z-10'
+									: 'opacity-0 scale-105 pointer-events-none z-0'}"
+							>
+								<img
+									src={slide.url}
+									alt={slide.alt || "Vision"}
+									class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+									style="object-position: {slide.focal || 'center center'}; {slide.zoom ? `transform: scale(${slide.zoom});` : ''}"
+								/>
+							</div>
+						{/each}
+
+						<!-- Gradient Overlay at bottom for contrast -->
+						<div
+							class="pointer-events-none absolute inset-0 z-20 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-80"
+						></div>
+
+						<!-- Navigation Buttons (visible on hover or focus) -->
+						{#if slides.length > 1}
+							<button
+								type="button"
+								onclick={prevSlide}
+								aria-label="Previous slide"
+								class="absolute left-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md opacity-0 transition-all hover:bg-black/70 group-hover:opacity-100 cursor-pointer"
+							>
+								<ChevronLeft size={18} />
+							</button>
+							<button
+								type="button"
+								onclick={nextSlide}
+								aria-label="Next slide"
+								class="absolute right-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md opacity-0 transition-all hover:bg-black/70 group-hover:opacity-100 cursor-pointer"
+							>
+								<ChevronRight size={18} />
+							</button>
+
+							<!-- Indicator Dots -->
+							<div
+								class="absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1.5"
+							>
+								{#each slides as _, idx}
+									<button
+										type="button"
+										onclick={() => goToSlide(idx)}
+										aria-label="Go to slide {idx + 1}"
+										class="h-1.5 rounded-full transition-all duration-300 cursor-pointer {idx ===
+										currentIndex
+											? 'w-6 bg-white shadow-sm'
+											: 'w-1.5 bg-white/50 hover:bg-white/80'}"
+									></button>
+								{/each}
+							</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+
+			<!-- USPs (3 Pillars) -->
+			<Reveal delay={0.25}>
+				<div class="mt-20 border-t border-neutral-200/80 dark:border-neutral-800 pt-16">
+					<div class="grid gap-8 md:grid-cols-3 items-stretch">
 						{#each vision.usps as usp, index}
-							<div class="flex flex-col">
-								<span class="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500 tracking-wider">
+							<div
+								class="flex flex-col justify-between rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 p-8 transition-all hover:border-black dark:hover:border-white"
+							>
+								<span
+									class="text-xs font-mono font-semibold text-neutral-400 dark:text-neutral-500 tracking-wider"
+								>
 									0{index + 1}
 								</span>
-								<h3 class="mt-1 text-base font-bold text-black dark:text-white tracking-tight">
+								<h3 class="mt-3 text-xl font-bold text-black dark:text-white">
 									{usp.title}
 								</h3>
+								<p
+									class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 font-sans"
+								>
+									{usp.description}
+								</p>
 							</div>
 						{/each}
 					</div>
-				</div>
-			</Reveal>
 
-			<!-- RIGHT — AUTOSCROLL PHOTO CAROUSEL -->
-			<div class="order-1 lg:order-2 flex justify-center items-center">
-				<!-- Ambient Glow -->
-				<div
-					aria-hidden="true"
-					class="absolute left-1/2 top-1/2 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/[0.025] blur-[90px] dark:bg-white/[0.02]"
-				></div>
-
-				<!-- Carousel Frame -->
-				<!-- svelte-ignore a11y_no_static_element_interactions -->
-				<div
-					onmouseenter={() => (isPaused = true)}
-					onmouseleave={() => (isPaused = false)}
-					class="group relative z-10 w-full max-w-[560px] lg:max-w-[620px] aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-black/30 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-white/30 select-none"
-				>
-					{#each slides as slide, i}
-						<div
-							class="absolute inset-0 transition-all duration-700 ease-in-out {i === currentIndex
-								? 'opacity-100 scale-100 pointer-events-auto z-10'
-								: 'opacity-0 scale-105 pointer-events-none z-0'}"
-						>
-							<img
-								src={slide.url}
-								alt={slide.alt || "Vision"}
-								class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-								style="object-position: {slide.focal || 'center center'}; {slide.zoom ? `transform: scale(${slide.zoom});` : ''}"
-							/>
-						</div>
-					{/each}
-
-					<!-- Gradient Overlay at bottom for contrast -->
-					<div
-						class="pointer-events-none absolute inset-0 z-20 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-80"
-					></div>
-
-					<!-- Navigation Buttons (visible on hover or focus) -->
-					{#if slides.length > 1}
-						<button
-							type="button"
-							onclick={prevSlide}
-							aria-label="Previous slide"
-							class="absolute left-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md opacity-0 transition-all hover:bg-black/70 group-hover:opacity-100 cursor-pointer"
-						>
-							<ChevronLeft size={18} />
-						</button>
-						<button
-							type="button"
-							onclick={nextSlide}
-							aria-label="Next slide"
-							class="absolute right-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md opacity-0 transition-all hover:bg-black/70 group-hover:opacity-100 cursor-pointer"
-						>
-							<ChevronRight size={18} />
-						</button>
-
-						<!-- Indicator Dots -->
-						<div
-							class="absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1.5"
-						>
-							{#each slides as _, idx}
-								<button
-									type="button"
-									onclick={() => goToSlide(idx)}
-									aria-label="Go to slide {idx + 1}"
-									class="h-1.5 rounded-full transition-all duration-300 cursor-pointer {idx ===
-									currentIndex
-										? 'w-6 bg-white shadow-sm'
-										: 'w-1.5 bg-white/50 hover:bg-white/80'}"
-								></button>
-							{/each}
+					{#if vision.closingStatement}
+						<div class="mt-12 text-center">
+							<blockquote
+								class="text-xl sm:text-2xl font-medium italic text-neutral-800 dark:text-neutral-200"
+							>
+								&ldquo;{vision.closingStatement}&rdquo;
+							</blockquote>
 						</div>
 					{/if}
 				</div>
-			</div>
+			</Reveal>
 		</div>
 
-		<!-- USPs (3 Pillars) -->
-		<Reveal delay={0.25}>
-			<div class="mt-20 border-t border-neutral-200/80 dark:border-neutral-800 pt-16">
-				<div class="grid gap-8 md:grid-cols-3 items-stretch">
+		<!-- ===================================================== -->
+		<!-- MOBILE VISION (Clean Minimal Layout)                  -->
+		<!-- ===================================================== -->
+		<div class="block lg:hidden space-y-6">
+			<!-- Header -->
+			<div>
+				<p class="text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+					{vision.sectionHeading || "MY VISION"}
+				</p>
+				<h2 class="mt-2 text-2xl font-bold tracking-tight text-black dark:text-white leading-tight">
+					{vision.mainHeading || "Cybersecurity should become a mindset, not just a skill."}
+				</h2>
+			</div>
+
+			<!-- Visual Feature Card -->
+			<div class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl bg-neutral-950 shadow-md">
+				{#each slides as slide, i}
+					<div
+						class="absolute inset-0 transition-opacity duration-700 {i === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}"
+					>
+						<img
+							src={slide.url}
+							alt={slide.alt || "Vision"}
+							class="h-full w-full object-cover"
+							style="object-position: {slide.focal || 'center center'};"
+						/>
+					</div>
+				{/each}
+				<div class="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+				<!-- Overlaid Vision Description -->
+				<div class="absolute bottom-4 inset-x-4 z-30 text-white">
+					<p class="text-xs leading-relaxed text-neutral-200 line-clamp-3">
+						{vision.description}
+					</p>
+				</div>
+			</div>
+
+			<!-- Pillars List / Carousel -->
+			<div class="-mx-6 pt-1">
+				<div class="px-6 mb-2">
+					<span class="text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+						Core Pillars
+					</span>
+				</div>
+
+				<div
+					class="flex gap-3 overflow-x-auto px-6 pb-2 snap-x snap-mandatory scrollbar-none"
+					style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
+				>
 					{#each vision.usps as usp, index}
-						<div
-							class="flex flex-col justify-between rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 p-8 transition-all hover:border-black dark:hover:border-white"
-						>
-							<span
-								class="text-xs font-mono font-semibold text-neutral-400 dark:text-neutral-500 tracking-wider"
-							>
-								0{index + 1}
-							</span>
-							<h3 class="mt-3 text-xl font-bold text-black dark:text-white">
-								{usp.title}
-							</h3>
-							<p
-								class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 font-sans"
-							>
-								{usp.description}
-							</p>
+						<div class="snap-start shrink-0 w-[78vw] max-w-[280px] rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/60 p-4 flex flex-col justify-between">
+							<div>
+								<span class="font-mono text-[10px] text-neutral-400 dark:text-neutral-500">
+									0{index + 1}
+								</span>
+								<h3 class="mt-1.5 text-sm font-bold text-black dark:text-white tracking-tight">
+									{usp.title}
+								</h3>
+								<p class="mt-1.5 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
+									{usp.description}
+								</p>
+							</div>
 						</div>
 					{/each}
 				</div>
-
-				{#if vision.closingStatement}
-					<div class="mt-12 text-center">
-						<blockquote
-							class="text-xl sm:text-2xl font-medium italic text-neutral-800 dark:text-neutral-200"
-						>
-							&ldquo;{vision.closingStatement}&rdquo;
-						</blockquote>
-					</div>
-				{/if}
 			</div>
-		</Reveal>
+
+			<!-- Closing Statement -->
+			{#if vision.closingStatement}
+				<div class="rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/40 p-4 text-center">
+					<p class="text-xs font-medium italic text-neutral-700 dark:text-neutral-300 leading-relaxed">
+						&ldquo;{vision.closingStatement}&rdquo;
+					</p>
+				</div>
+			{/if}
+		</div>
 	</div>
 </section>

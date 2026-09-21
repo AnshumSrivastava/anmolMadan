@@ -137,8 +137,8 @@
 						</div>
 					</div>
 
-					<!-- PORTRAIT CAROUSEL -->
-					<div class="relative mx-auto w-full py-4 overflow-hidden">
+					<!-- DESKTOP 3-CARD CAROUSEL -->
+					<div class="relative mx-auto w-full py-4 overflow-hidden hidden lg:block">
 						<div class="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8 xl:gap-10">
 							<!-- LEFT CARD -->
 							<button
@@ -324,6 +324,123 @@
 										: 'w-2 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-500'}"
 								></button>
 							{/each}
+						</div>
+					</div>
+
+					<!-- MOBILE REEL CAROUSEL (Tactile Peek Deck) -->
+					<div class="block lg:hidden mt-6 -mx-6">
+						<div
+							class="flex gap-4 overflow-x-auto px-6 pb-4 snap-x snap-mandatory scrollbar-none"
+							style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
+						>
+							{#each items as item, index}
+								{@const videoId = extractYouTubeId(item.url)}
+								{@const isThisPlaying = isPlaying && index === centerIndex}
+
+								<div
+									class="relative shrink-0 w-[78vw] max-w-[320px] aspect-[9/15] rounded-[28px] overflow-hidden border border-neutral-200/90 dark:border-neutral-800 bg-neutral-900 shadow-xl snap-center select-none"
+								>
+									{#if isThisPlaying}
+										<iframe
+											src={getEmbedUrl(videoId, true)}
+											title={item.caption || `Student Reaction #${index + 1}`}
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+											allowfullscreen
+											class="absolute inset-0 h-full w-full border-none z-20"
+										></iframe>
+									{:else}
+										<!-- Thumbnail & Overlay -->
+										<div class="relative h-full w-full">
+											<img
+												src={getThumbnailUrl(videoId)}
+												alt={item.caption || `Student Reaction #${index + 1}`}
+												class="h-full w-full object-cover brightness-95"
+											/>
+											<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/40"></div>
+
+											<!-- Top Header Tag -->
+											<div class="absolute top-4 inset-x-4 z-10 flex items-center justify-between">
+												<span class="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-3 py-1 text-[9px] font-mono font-bold tracking-wider text-white">
+													REACTION #{String(index + 1).padStart(2, "0")}
+												</span>
+												<span class="text-[9px] font-mono text-white/60">
+													{index + 1}/{count}
+												</span>
+											</div>
+
+											<!-- Center Play Button -->
+											<div class="absolute inset-0 z-10 flex items-center justify-center">
+												<button
+													type="button"
+													onclick={() => {
+														active = index;
+														isPlaying = true;
+													}}
+													aria-label="Play reaction video"
+													class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-black shadow-2xl active:scale-90 transition-transform cursor-pointer"
+												>
+													<Play size={24} fill="currentColor" class="ml-1" />
+												</button>
+											</div>
+
+											<!-- Bottom Caption & Actions -->
+											<div class="absolute bottom-4 inset-x-4 z-10 flex items-end justify-between gap-3 text-white">
+												<div class="flex-1">
+													{#if item.caption}
+														<p class="text-xs font-semibold leading-snug text-white/95 line-clamp-2">
+															{item.caption}
+														</p>
+													{/if}
+													<p class="mt-1 text-[9px] font-mono text-white/50 uppercase tracking-wider">
+														Live Student Feedback
+													</p>
+												</div>
+
+												<button
+													type="button"
+													onclick={(e) => {
+														e.stopPropagation();
+														active = index;
+														handleShare();
+													}}
+													class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 bg-black/50 backdrop-blur-md text-white active:scale-95 transition-transform cursor-pointer"
+													aria-label="Share video"
+												>
+													{#if copied && index === centerIndex}
+														<Check size={14} class="text-emerald-400" />
+													{:else}
+														<Share2 size={14} />
+													{/if}
+												</button>
+											</div>
+										</div>
+									{/if}
+								</div>
+							{/each}
+						</div>
+
+						<!-- Mobile Controls & Archive Button -->
+						<div class="flex items-center justify-between px-6 mt-3">
+							<!-- Page Indicator Pill -->
+							<div class="flex items-center gap-1.5">
+								{#each items as _, i}
+									<div
+										class="h-1.5 rounded-full transition-all duration-300 {i === (centerIndex % count)
+											? 'w-6 bg-black dark:bg-white'
+											: 'w-1.5 bg-neutral-300 dark:bg-neutral-700'}"
+									></div>
+								{/each}
+							</div>
+
+							<!-- Archive Button -->
+							<button
+								type="button"
+								onclick={() => (isModalOpen = true)}
+								class="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 dark:border-neutral-700 px-3.5 py-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-black dark:text-white active:scale-95 transition-transform cursor-pointer"
+							>
+								<Grid2x2 size={12} />
+								<span>All Reactions ({count})</span>
+							</button>
 						</div>
 					</div>
 
