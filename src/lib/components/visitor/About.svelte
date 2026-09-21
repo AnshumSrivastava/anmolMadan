@@ -22,8 +22,9 @@
 >
 	<div class="mx-auto max-w-[1400px] px-6 lg:px-8">
 		<Reveal>
+			<!-- DESKTOP VERSION (Identical to original) -->
 			<div
-				class="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20"
+				class="hidden lg:grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20"
 			>
 				<!-- LEFT — CONTENT (TEXT + 4 BLOCKS) -->
 				<div class="relative z-10 flex flex-col justify-between">
@@ -95,6 +96,65 @@
 							class="h-full w-full object-cover object-[28%_35%] transition-transform duration-700 ease-out group-hover:scale-105"
 						/>
 					</div>
+				</div>
+			</div>
+
+			<!-- MOBILE VERSION (Remade Native-App Card Stack Style) -->
+			<div class="flex flex-col gap-6 lg:hidden">
+				<!-- Header block with badge -->
+				<div>
+					<div class="flex items-center gap-2">
+						<span class="h-1 w-5 rounded-full bg-black dark:bg-white"></span>
+						<p class="text-[10px] font-bold uppercase tracking-[0.26em] text-neutral-400 dark:text-neutral-500">
+							{about.sectionHeading || "HOW I DO IT"}
+						</p>
+					</div>
+
+					<h2 class="mt-2.5 text-2xl font-black tracking-tight text-black dark:text-white leading-tight">
+						{about.mainHeading || "More Than Just a Trainer."}
+					</h2>
+				</div>
+
+				<!-- Mobile Portrait Card (Aspect ratio curated for smartphone screens) -->
+				<div class="relative w-full aspect-[4/3] overflow-hidden rounded-2xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 shadow-md">
+					<img
+						src={currentImg}
+						alt={about.mainHeading || "Anmol Madan"}
+						onerror={handleError}
+						class="h-full w-full object-cover object-[28%_35%]"
+					/>
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+					<div class="absolute bottom-3 left-3 right-3 text-white">
+						<p class="text-[10px] font-semibold uppercase tracking-widest opacity-80">Methodology</p>
+						<p class="text-sm font-bold tracking-tight">Protecting People Through Understanding</p>
+					</div>
+				</div>
+
+				<!-- Text Description Card -->
+				<div class="rounded-2xl border border-neutral-100 dark:border-neutral-900 bg-neutral-50/70 dark:bg-neutral-900/40 p-5 space-y-3.5 text-[13px] leading-relaxed text-neutral-700 dark:text-neutral-300">
+					{#if about.paragraph1}
+						<p>{about.paragraph1}</p>
+					{/if}
+					{#if about.paragraph2}
+						<p>{about.paragraph2}</p>
+					{/if}
+					{#if about.paragraph3}
+						<p>{about.paragraph3}</p>
+					{/if}
+				</div>
+
+				<!-- Credentials Grid as 2x2 Clean Chips -->
+				<div class="grid grid-cols-2 gap-2.5 pt-2">
+					{#each about.credentials as cred}
+						<div class="rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-900 p-3.5 shadow-sm">
+							<div class="text-lg font-black text-black dark:text-white tracking-tight">
+								{cred.title}
+							</div>
+							<div class="mt-0.5 text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
+								{cred.subtitle}
+							</div>
+						</div>
+					{/each}
 				</div>
 			</div>
 		</Reveal>

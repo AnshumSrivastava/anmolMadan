@@ -38,7 +38,8 @@
 				</Reveal>
 			</div>
 
-			<div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+			<!-- DESKTOP GRID -->
+			<div class="hidden md:grid gap-8 md:grid-cols-2 xl:grid-cols-3">
 				{#each experiences as exp, index}
 					<Reveal delay={0.1 + index * 0.08} className="h-full">
 						<article
@@ -57,6 +58,26 @@
 							</div>
 						</article>
 					</Reveal>
+				{/each}
+			</div>
+
+			<!-- MOBILE TIMELINE STACK -->
+			<div class="flex flex-col gap-4 md:hidden">
+				{#each experiences as exp}
+					<div class="rounded-2xl border border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
+						<span class="inline-block rounded-full bg-neutral-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
+							{exp.duration}
+						</span>
+						<h3 class="mt-2 text-lg font-bold text-black dark:text-white tracking-tight">
+							{exp.lessonTitle}
+						</h3>
+						<p class="mt-0.5 text-xs font-medium text-neutral-500">
+							{exp.institutionName}
+						</p>
+						<p class="mt-2.5 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
+							{exp.description}
+						</p>
+					</div>
 				{/each}
 			</div>
 		</div>

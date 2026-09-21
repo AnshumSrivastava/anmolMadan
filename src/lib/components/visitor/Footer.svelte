@@ -65,10 +65,11 @@
 
 	<!-- MAIN FOOTER -->
 	<div
-		class="mx-auto max-w-[1500px] px-6 py-20 sm:px-8 lg:px-12 xl:px-16"
+		class="mx-auto max-w-[1500px] px-6 py-16 sm:px-8 lg:px-12 xl:px-16"
 	>
+		<!-- DESKTOP FOOTER GRID -->
 		<div
-			class="grid gap-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.7fr_0.8fr_1fr] lg:gap-12 xl:gap-14"
+			class="hidden sm:grid gap-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.7fr_0.8fr_1fr] lg:gap-12 xl:gap-14"
 		>
 			<!-- BRAND -->
 			<div>
@@ -205,7 +206,7 @@
 				</ul>
 			</div>
 
-			<!-- CONNECT DIRECTLY (Ref 8: 1 Email, 2 Phone + WhatsApp, 3 LinkedIn, 4 Instagram, 5 Book a Call) -->
+			<!-- CONNECT DIRECTLY -->
 			<div>
 				<h3
 					class="mb-7 text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-400"
@@ -257,7 +258,6 @@
 								</a>
 
 								{#if isPhone}
-									<!-- Accompanying WhatsApp icon for Phone (Ref 8) -->
 									<a
 										href="https://wa.me/916283603879"
 										target="_blank"
@@ -276,12 +276,100 @@
 			</div>
 		</div>
 
+		<!-- MOBILE FOOTER (Compact Single-Column Design) -->
+		<div class="flex flex-col gap-6 sm:hidden">
+			<!-- Brand header with quick socials -->
+			<div class="flex items-center justify-between">
+				<div>
+					<div class="text-xl font-extrabold tracking-[0.2em] text-black dark:text-white">
+						ANMOL MADAN
+					</div>
+					<p class="text-[9px] font-semibold uppercase tracking-[0.24em] text-neutral-400 mt-0.5">
+						Cybersecurity & Keynotes
+					</p>
+				</div>
+
+				<div class="flex items-center gap-2">
+					<a
+						href="https://www.linkedin.com/in/anmolmadan"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="LinkedIn"
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"
+					>
+						<SocialIcons name="Linkedin" size={13} class="h-3.5 w-3.5" />
+					</a>
+					<a
+						href="https://wa.me/916283603879"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="WhatsApp"
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"
+					>
+						<SocialIcons name="WhatsApp" size={13} class="h-3.5 w-3.5" />
+					</a>
+					<a
+						href="https://www.instagram.com/anmolxmadan"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="Instagram"
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"
+					>
+						<SocialIcons name="Instagram" size={13} class="h-3.5 w-3.5" />
+					</a>
+				</div>
+			</div>
+
+			<!-- Mobile direct contact chip list -->
+			<div class="space-y-2 pt-2">
+				{#each links as link}
+					{@const isBooking = link.id === "booking" || link.url.includes("cal.com")}
+					{#if isBooking}
+						<button
+							type="button"
+							onclick={onBookCall}
+							class="flex w-full items-center justify-between rounded-xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/40 px-3.5 py-2.5 text-xs font-semibold text-neutral-800 dark:text-neutral-200 cursor-pointer"
+						>
+							<div class="flex items-center gap-2.5">
+								<Calendar size={13} />
+								<span>{link.label}</span>
+							</div>
+							<span class="text-[10px] uppercase font-bold text-neutral-400">Schedule →</span>
+						</button>
+					{:else}
+						<a
+							href={link.url}
+							target={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "_blank"}
+							rel={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "noopener noreferrer"}
+							class="flex items-center justify-between rounded-xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/40 px-3.5 py-2.5 text-xs font-semibold text-neutral-800 dark:text-neutral-200"
+						>
+							<div class="flex items-center gap-2.5 truncate">
+								{#if link.iconName === "Linkedin"}
+									<SocialIcons name="Linkedin" size={13} class="h-3 w-3" />
+								{:else if link.iconName === "Instagram"}
+									<SocialIcons name="Instagram" size={13} class="h-3 w-3" />
+								{:else if link.iconName === "Mail"}
+									<Mail size={13} />
+								{:else if link.iconName === "Phone"}
+									<Phone size={13} />
+								{:else}
+									<Calendar size={13} />
+								{/if}
+								<span class="truncate">{link.label}</span>
+							</div>
+							<span class="text-[10px] text-neutral-400">Open ↗</span>
+						</a>
+					{/if}
+				{/each}
+			</div>
+		</div>
+
 		<!-- BOTTOM BAR -->
 		<div
-			class="mt-16 flex flex-col items-center justify-between gap-4 border-t border-neutral-200/80 dark:border-neutral-800 pt-8 sm:flex-row text-xs text-neutral-500 dark:text-neutral-400"
+			class="mt-12 flex flex-col items-center justify-between gap-2 border-t border-neutral-200/80 dark:border-neutral-800 pt-6 sm:flex-row text-[11px] text-neutral-500 dark:text-neutral-400 pb-16 sm:pb-0"
 		>
 			<p>© {new Date().getFullYear()} Anmol Madan. All rights reserved.</p>
-			<p class="text-neutral-400">Cybersecurity Specialist & Motivational Speaker</p>
+			<p class="text-neutral-400">Cybersecurity Specialist & Speaker</p>
 		</div>
 	</div>
 </footer>

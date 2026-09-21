@@ -156,14 +156,14 @@
 
 							<!-- Mobile Author Signature Line (hidden on lg+) -->
 							<div
-								class="mt-12 flex items-center justify-between border-t border-neutral-200/80 dark:border-neutral-800 pt-8 lg:hidden"
+								class="mt-8 flex items-center justify-between border-t border-neutral-200/80 dark:border-neutral-800 pt-6 lg:hidden"
 							>
 								<div>
-									<h3 class="text-xl font-bold text-black dark:text-white tracking-tight">
+									<h3 class="text-lg font-bold text-black dark:text-white tracking-tight">
 										{note.authorName || "Anmol Madan"}
 									</h3>
 									<p
-										class="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1"
+										class="text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 mt-0.5"
 									>
 										{note.authorTitle || "Cybersecurity Specialist & Motivational Speaker"}
 									</p>

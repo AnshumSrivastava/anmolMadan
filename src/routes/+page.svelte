@@ -11,6 +11,7 @@
 	import Experience from "$lib/components/visitor/Experience.svelte";
 	import Footer from "$lib/components/visitor/Footer.svelte";
 	import ConnectButton from "$lib/components/visitor/ConnectButton.svelte";
+	import BottomNav from "$lib/components/mobile/BottomNav.svelte";
 	import CalModal from "$lib/components/shared/CalModal.svelte";
 
 	let isCalOpen = $state(false);
@@ -36,7 +37,7 @@
 <!-- ELEVATED CARD STACK (Pulls up over hero on scroll) -->
 <main
 	id="main-content"
-	class="relative z-10 mt-[100dvh] min-h-screen w-full rounded-t-[32px] sm:rounded-t-[44px] lg:rounded-t-[52px] bg-white dark:bg-black shadow-[0_-25px_60px_rgba(0,0,0,0.15)] transition-shadow duration-500"
+	class="relative z-10 mt-[100dvh] min-h-screen w-full rounded-t-[28px] sm:rounded-t-[44px] lg:rounded-t-[52px] bg-white dark:bg-black shadow-[0_-25px_60px_rgba(0,0,0,0.15)] transition-shadow duration-500"
 >
 	<About about={siteData.about} />
 	<VideoTestimonials items={siteData.testimonials} />
@@ -47,6 +48,9 @@
 	<Experience experiences={siteData.experiences} />
 	<Footer links={siteData.contact.links} onBookCall={handleOpenCal} />
 </main>
+
+<!-- MOBILE FLOATING BOTTOM NAV BAR -->
+<BottomNav onBookCall={handleOpenCal} />
 
 <!-- STICKY CONNECT BUTTON & MENU -->
 <ConnectButton links={siteData.contact.links} onBookCall={handleOpenCal} />

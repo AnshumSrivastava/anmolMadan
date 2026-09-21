@@ -40,8 +40,8 @@
 			</div>
 		</Reveal>
 
-		<!-- AUDIENCE CARDS -->
-		<div class="grid gap-6 lg:gap-8 lg:grid-cols-3">
+		<!-- DESKTOP AUDIENCE CARDS -->
+		<div class="hidden lg:grid gap-6 lg:gap-8 lg:grid-cols-3">
 			{#each audience as item, index}
 				<Reveal delay={index * 0.1} className="h-full">
 					<div
@@ -82,6 +82,27 @@
 						</p>
 					</div>
 				</Reveal>
+			{/each}
+		</div>
+
+		<!-- MOBILE AUDIENCE STACK -->
+		<div class="flex flex-col gap-3 lg:hidden">
+			{#each audience as item}
+				<div class="flex items-start gap-4 rounded-2xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/40 p-4">
+					<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-black text-white dark:bg-white dark:text-black">
+						{#if item.iconName === "Building2"}
+							<Building2 class="h-5 w-5" />
+						{:else if item.iconName === "GraduationCap"}
+							<GraduationCap class="h-5 w-5" />
+						{:else}
+							<Users class="h-5 w-5" />
+						{/if}
+					</div>
+					<div>
+						<h3 class="text-base font-bold text-black dark:text-white">{item.title}</h3>
+						<p class="mt-1 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">{item.description}</p>
+					</div>
+				</div>
 			{/each}
 		</div>
 	</div>

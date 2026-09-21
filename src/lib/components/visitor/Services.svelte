@@ -49,8 +49,8 @@
 			</div>
 		</Reveal>
 
-		<!-- GRID OF CARDS -->
-		<div class="mt-12 lg:mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		<!-- DESKTOP GRID OF CARDS -->
+		<div class="mt-12 lg:mt-16 hidden lg:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{#each sortedItems as item, index}
 				<Reveal delay={index * 0.08} className="h-full">
 					<article
@@ -124,6 +124,72 @@
 					</article>
 				</Reveal>
 			{/each}
+		</div>
+
+		<!-- MOBILE HORIZONTAL SNAP CAROUSEL (Thumb-friendly Card Carousel) -->
+		<div class="mt-8 flex lg:hidden flex-col gap-3">
+			<div class="flex items-center justify-between px-1">
+				<p class="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
+					Swipe to explore ({sortedItems.length} formats)
+				</p>
+				<span class="text-[10px] font-medium text-neutral-400">← Scroll →</span>
+			</div>
+
+			<div
+				class="flex gap-4 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none -mx-6 px-6"
+				style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
+			>
+				{#each sortedItems as item, index}
+					<article
+						class="snap-center shrink-0 w-[84vw] max-w-[320px] rounded-3xl border border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm flex flex-col justify-between"
+					>
+						<div>
+							<div class="flex items-center justify-between">
+								<span class="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500">
+									{String(index + 1).padStart(2, "0")}
+								</span>
+								{#if item.badge}
+									<span class="rounded-full border border-neutral-200 bg-neutral-100/70 dark:border-neutral-800 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+										{item.badge}
+									</span>
+								{/if}
+							</div>
+
+							<h3 class="mt-4 text-xl font-black text-black dark:text-white tracking-tight leading-snug">
+								{item.title}
+							</h3>
+
+							<p class="mt-2 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400 line-clamp-3">
+								{item.description}
+							</p>
+
+							<div class="my-4 h-px bg-neutral-100 dark:bg-neutral-800"></div>
+
+							<div class="space-y-2.5">
+								{#each item.points as point}
+									<div class="flex items-start gap-2">
+										<div class="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-black/5 dark:bg-white/10 text-black dark:text-white">
+											<Check class="h-2.5 w-2.5" />
+										</div>
+										<p class="text-[11px] leading-snug text-neutral-700 dark:text-neutral-300">
+											{point}
+										</p>
+									</div>
+								{/each}
+							</div>
+						</div>
+
+						<button
+							type="button"
+							onclick={() => onRequestService(item.title)}
+							class="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 dark:bg-white py-3 text-xs font-bold uppercase tracking-wider text-white dark:text-black shadow-sm active:scale-95 transition-transform"
+						>
+							<span>{item.buttonText || "Let's Talk"}</span>
+							<ArrowRight class="h-3.5 w-3.5" />
+						</button>
+					</article>
+				{/each}
+			</div>
 		</div>
 	</div>
 </section>

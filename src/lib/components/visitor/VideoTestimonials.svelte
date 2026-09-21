@@ -137,8 +137,8 @@
 						</div>
 					</div>
 
-					<!-- PORTRAIT CAROUSEL -->
-					<div class="relative mx-auto w-full py-4 overflow-hidden">
+					<!-- DESKTOP 3-CARD CAROUSEL -->
+					<div class="relative mx-auto w-full py-4 overflow-hidden hidden lg:block">
 						<div class="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8 xl:gap-10">
 							<!-- LEFT CARD -->
 							<button
@@ -324,6 +324,126 @@
 										: 'w-2 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-500'}"
 								></button>
 							{/each}
+						</div>
+					</div>
+
+					<!-- MOBILE IMMERSIVE SINGLE-CARD CAROUSEL (Touch & Full-Width) -->
+					<div class="block lg:hidden mt-4">
+						<div class="relative w-full max-w-[340px] mx-auto">
+							<div
+								class="group relative aspect-[9/16] w-full overflow-hidden rounded-3xl border-2 border-black dark:border-white bg-neutral-950 shadow-2xl ring-2 ring-black/5 dark:ring-white/10"
+							>
+								{#if isPlaying}
+									<iframe
+										src={getEmbedUrl(centerVideoId, true)}
+										title={centerItem?.caption || `Student Reaction #${centerIndex + 1}`}
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+										allowfullscreen
+										class="absolute inset-0 h-full w-full border-none"
+									></iframe>
+								{:else}
+									<button
+										type="button"
+										onclick={() => (isPlaying = true)}
+										class="relative h-full w-full cursor-pointer overflow-hidden bg-neutral-900 border-none p-0 text-left"
+										aria-label="Play video testimonial"
+									>
+										<img
+											src={getThumbnailUrl(centerVideoId)}
+											alt={centerItem?.caption || `Reaction ${centerIndex + 1}`}
+											class="h-full w-full object-cover"
+										/>
+										<div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30"></div>
+
+										<!-- Large Touch-friendly Play button -->
+										<div class="absolute inset-0 flex items-center justify-center">
+											<div
+												class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-black shadow-2xl active:scale-90 transition-transform"
+											>
+												<Play size={24} fill="currentColor" class="ml-1" />
+											</div>
+										</div>
+
+										{#if centerItem?.caption}
+											<div class="absolute bottom-16 left-4 right-4 text-left">
+												<p class="text-xs font-semibold text-white line-clamp-2 drop-shadow-md">
+													{centerItem.caption}
+												</p>
+											</div>
+										{/if}
+									</button>
+								{/if}
+
+								<!-- Mobile Badge Pill -->
+								<div class="pointer-events-none absolute bottom-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/75 px-3 py-1 text-white backdrop-blur-md">
+									<span class="text-[10px] font-bold">#{centerIndex + 1}</span>
+									<span class="text-[10px] text-neutral-300">Live Reaction</span>
+								</div>
+
+								<!-- Mobile Controls (Stop & Share) -->
+								<div class="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+									{#if isPlaying}
+										<button
+											type="button"
+											onclick={(e) => {
+												e.stopPropagation();
+												isPlaying = false;
+											}}
+											class="flex h-8 w-8 items-center justify-center rounded-full bg-black/75 text-white backdrop-blur-md active:scale-95 cursor-pointer"
+										>
+											<RotateCw size={12} />
+										</button>
+									{/if}
+									<button
+										type="button"
+										onclick={handleShare}
+										class="flex h-8 w-8 items-center justify-center rounded-full bg-black/75 text-white backdrop-blur-md active:scale-95 cursor-pointer"
+									>
+										{#if copied}
+											<Check size={12} class="text-emerald-400" />
+										{:else}
+											<Share2 size={12} />
+										{/if}
+									</button>
+								</div>
+							</div>
+
+							<!-- Mobile Quick Prev / Next Bar below video -->
+							<div class="mt-4 flex items-center justify-between px-2">
+								<button
+									type="button"
+									onclick={prev}
+									class="flex items-center gap-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-2 text-xs font-semibold text-neutral-800 dark:text-neutral-200 shadow-sm active:scale-95 cursor-pointer"
+								>
+									<ChevronLeft size={14} />
+									<span>Prev</span>
+								</button>
+
+								<div class="flex items-center gap-1.5">
+									{#each items.slice(0, 6) as _, i}
+										<button
+											type="button"
+											onclick={() => {
+												isPlaying = false;
+												active = i;
+											}}
+											aria-label="Reaction {i + 1}"
+											class="h-1.5 rounded-full transition-all duration-300 {i === (centerIndex % 6)
+												? 'w-5 bg-black dark:bg-white'
+												: 'w-1.5 bg-neutral-300 dark:bg-neutral-700'}"
+										></button>
+									{/each}
+								</div>
+
+								<button
+									type="button"
+									onclick={next}
+									class="flex items-center gap-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-2 text-xs font-semibold text-neutral-800 dark:text-neutral-200 shadow-sm active:scale-95 cursor-pointer"
+								>
+									<span>Next</span>
+									<ChevronRight size={14} />
+								</button>
+							</div>
 						</div>
 					</div>
 

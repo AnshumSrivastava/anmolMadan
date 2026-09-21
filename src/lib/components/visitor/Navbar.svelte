@@ -96,25 +96,14 @@
 	}
 </script>
 
-<!-- NAVBAR CONTAINER -->
-<!-- NAVBAR CONTAINER -->
+<!-- NAVBAR CONTAINER (Desktop Only) -->
 <nav
-	class="fixed inset-x-0 z-[100] pointer-events-none transition-all duration-300 ease-out font-sans"
-	style="top: {isMobile ? (scrollY > 50 ? 8 : 0) : topOffset}px;"
+	class="fixed inset-x-0 z-[100] pointer-events-none transition-all duration-300 ease-out font-sans hidden lg:block"
+	style="top: {topOffset}px;"
 >
 	<div
-		class="pointer-events-auto mx-auto flex items-center justify-between overflow-hidden transition-all duration-300 ease-out {isMobile
-			? scrollY > 50
-				? 'mx-3 rounded-full px-4 sm:px-6'
-				: 'w-full px-6'
-			: 'px-8'}"
-		style="{!isMobile
-			? `max-width: calc(100% - ${desktopMarginX * 2}px); border-radius: ${borderRadius}px;`
-			: ''} height: {isMobile
-			? scrollY > 50
-				? 56
-				: 68
-			: containerHeight}px; background-color: rgba({isDark
+		class="pointer-events-auto mx-auto hidden lg:flex items-center justify-between overflow-hidden transition-all duration-300 ease-out px-8"
+		style="max-width: calc(100% - {desktopMarginX * 2}px); border-radius: {borderRadius}px; height: {containerHeight}px; background-color: rgba({isDark
 			? '0, 0, 0'
 			: '255, 255, 255'}, {bgOpacity}); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba({isDark
 			? '255, 255, 255'
@@ -165,64 +154,11 @@
 			<button
 				type="button"
 				onclick={onBookCall}
-				class="hidden sm:inline-flex items-center gap-2 rounded-full bg-black dark:bg-white px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-white dark:text-black transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-sm"
+				class="inline-flex items-center gap-2 rounded-full bg-black dark:bg-white px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-white dark:text-black transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-sm"
 			>
 				<Calendar size={14} class="stroke-[2.2]" />
 				<span>Book a Call</span>
 			</button>
-
-			<!-- Mobile Menu Hamburger -->
-			<button
-				type="button"
-				onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
-				aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-				class="flex lg:hidden h-9 w-9 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 text-black dark:text-white transition-colors cursor-pointer"
-			>
-				{#if mobileMenuOpen}
-					<X size={18} />
-				{:else}
-					<Menu size={18} />
-				{/if}
-			</button>
 		</div>
 	</div>
-
-	<!-- MOBILE DROPDOWN DRAWER -->
-	{#if mobileMenuOpen}
-		<div
-			class="pointer-events-auto mx-3 mt-2 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-black/95 p-6 shadow-2xl backdrop-blur-xl lg:hidden animate-in fade-in slide-in-from-top-4 duration-200"
-		>
-			<div class="flex flex-col gap-4">
-				{#each navItems as item}
-					{@const isActive = activeSection === item.id}
-					<button
-						type="button"
-						onclick={() => scrollTo(item.href)}
-						class="flex items-center justify-between py-2 text-base font-semibold uppercase tracking-wider text-left transition-colors cursor-pointer {isActive
-							? 'text-black dark:text-white'
-							: 'text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white'}"
-					>
-						<span>{item.label}</span>
-						{#if isActive}
-							<span class="h-1.5 w-1.5 rounded-full bg-black dark:bg-white"></span>
-						{/if}
-					</button>
-				{/each}
-
-				<div class="mt-4 border-t border-neutral-100 dark:border-neutral-800 pt-4">
-					<button
-						type="button"
-						onclick={() => {
-							mobileMenuOpen = false;
-							onBookCall();
-						}}
-						class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-black dark:bg-white px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white dark:text-black cursor-pointer"
-					>
-						<Calendar size={14} />
-						<span>Book a Call</span>
-					</button>
-				</div>
-			</div>
-		</div>
-	{/if}
 </nav>
