@@ -31,21 +31,29 @@
 	}
 
 	onMount(() => {
+		let ticking = false;
+
 		function handleScroll() {
-			if (window.scrollY < 200) {
-				activeSection = "hero";
-				return;
-			}
-			const sectionIds = ["testimonials", "services", "about"];
-			for (const id of sectionIds) {
-				const el = document.getElementById(id);
-				if (el) {
-					const rect = el.getBoundingClientRect();
-					if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= 100) {
-						activeSection = id;
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					ticking = false;
+					if (window.scrollY < 200) {
+						activeSection = "hero";
 						return;
 					}
-				}
+					const sectionIds = ["testimonials", "services", "about"];
+					for (const id of sectionIds) {
+						const el = document.getElementById(id);
+						if (el) {
+							const rect = el.getBoundingClientRect();
+							if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= 100) {
+								activeSection = id;
+								return;
+							}
+						}
+					}
+				});
+				ticking = true;
 			}
 		}
 

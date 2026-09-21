@@ -21,9 +21,17 @@
 	let scale = $derived(Math.max(0.92, 1 - (scrollY / 1000) * 0.08));
 	let translateY = $derived(-(scrollY * 0.1));
 
+	let ticking = false;
+
 	onMount(() => {
 		function handleScroll() {
-			scrollY = window.scrollY;
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					scrollY = window.scrollY;
+					ticking = false;
+				});
+				ticking = true;
+			}
 		}
 
 		window.addEventListener("scroll", handleScroll, {
@@ -51,7 +59,7 @@
 	<!-- ========================================================= -->
 
 	<div
-		class="relative flex h-full w-full flex-col will-change-transform"
+		class="relative flex h-full w-full flex-col will-change-transform mobile-no-filter"
 		style="filter: blur({blurPx}px); opacity: {opacity}; transform: scale({scale}) translateY({translateY}px); transform-origin: center center;"
 	>
 		<!-- ===================================================== -->
