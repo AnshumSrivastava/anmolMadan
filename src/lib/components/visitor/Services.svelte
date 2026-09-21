@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ServicesSectionData } from "$lib/data/services";
 	import Reveal from "$lib/components/shared/Reveal.svelte";
-	import { ArrowRight, Check } from "@lucide/svelte";
+	import { ArrowRight, Check, ChevronDown, ChevronUp } from "@lucide/svelte";
 
 	interface Props {
 		services: ServicesSectionData;
@@ -9,6 +9,8 @@
 	}
 
 	let { services, onRequestService }: Props = $props();
+
+	let expandedService = $state<number | null>(0);
 
 	let sortedItems = $derived(
 		(services.items || [])
@@ -126,70 +128,84 @@
 			{/each}
 		</div>
 
-		<!-- MOBILE HORIZONTAL SNAP CAROUSEL (Thumb-friendly Card Carousel) -->
+		<!-- MOBILE SERVICES ACCORDION (Vertical Stack with Tap-to-Expand) -->
 		<div class="mt-8 flex lg:hidden flex-col gap-3">
-			<div class="flex items-center justify-between px-1">
-				<p class="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
-					Swipe to explore ({sortedItems.length} formats)
-				</p>
-				<span class="text-[10px] font-medium text-neutral-400">← Scroll →</span>
-			</div>
-
-			<div
-				class="flex gap-4 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none -mx-6 px-6"
-				style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
-			>
-				{#each sortedItems as item, index}
-					<article
-						class="snap-center shrink-0 w-[84vw] max-w-[320px] rounded-3xl border border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm flex flex-col justify-between"
+			{#each sortedItems as item, index}
+				{@const isExpanded = expandedService === index}
+				<div
+					class="overflow-hidden rounded-2xl border transition-all duration-200 {isExpanded
+						? 'border-neutral-900 bg-white dark:border-white dark:bg-neutral-900 shadow-md ring-1 ring-neutral-900/10 dark:ring-white/10'
+						: 'border-neutral-200/90 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/40'}"
+				>
+					<!-- Accordion Header Trigger -->
+					<button
+						type="button"
+						onclick={() => (expandedService = isExpanded ? null : index)}
+						class="flex w-full items-center justify-between p-4 text-left cursor-pointer"
 					>
-						<div>
-							<div class="flex items-center justify-between">
-								<span class="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500">
-									{String(index + 1).padStart(2, "0")}
-								</span>
-								{#if item.badge}
-									<span class="rounded-full border border-neutral-200 bg-neutral-100/70 dark:border-neutral-800 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
-										{item.badge}
-									</span>
-								{/if}
+						<div class="flex items-center gap-3">
+							<span
+								class="font-mono text-xs font-bold {isExpanded
+									? 'text-black dark:text-white'
+									: 'text-neutral-400 dark:text-neutral-500'}"
+							>
+								{String(index + 1).padStart(2, "0")}
+							</span>
+							<div>
+								<div class="flex items-center gap-2">
+									<h3 class="text-base font-bold text-black dark:text-white tracking-tight">
+										{item.title}
+									</h3>
+									{#if item.badge}
+										<span class="rounded-full bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 text-[8.5px] font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+											{item.badge}
+										</span>
+									{/if}
+								</div>
 							</div>
+						</div>
 
-							<h3 class="mt-4 text-xl font-black text-black dark:text-white tracking-tight leading-snug">
-								{item.title}
-							</h3>
+						<div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+							{#if isExpanded}
+								<ChevronUp size={15} />
+							{:else}
+								<ChevronDown size={15} />
+							{/if}
+						</div>
+					</button>
 
-							<p class="mt-2 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400 line-clamp-3">
+					<!-- Expandable Drawer Body -->
+					{#if isExpanded}
+						<div class="border-t border-neutral-100 dark:border-neutral-800/80 px-4 pb-5 pt-3">
+							<p class="text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
 								{item.description}
 							</p>
 
-							<div class="my-4 h-px bg-neutral-100 dark:bg-neutral-800"></div>
-
-							<div class="space-y-2.5">
+							<div class="mt-3.5 space-y-2">
 								{#each item.points as point}
 									<div class="flex items-start gap-2">
-										<div class="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-black/5 dark:bg-white/10 text-black dark:text-white">
-											<Check class="h-2.5 w-2.5" />
+										<div class="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black">
+											<Check class="h-2 w-2 stroke-[3]" />
 										</div>
-										<p class="text-[11px] leading-snug text-neutral-700 dark:text-neutral-300">
+										<p class="text-[11.5px] leading-snug text-neutral-700 dark:text-neutral-300 font-medium">
 											{point}
 										</p>
 									</div>
 								{/each}
 							</div>
-						</div>
 
-						<button
-							type="button"
-							onclick={() => onRequestService(item.title)}
-							class="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 dark:bg-white py-3 text-xs font-bold uppercase tracking-wider text-white dark:text-black shadow-sm active:scale-95 transition-transform"
-						>
-							<span>{item.buttonText || "Let's Talk"}</span>
-							<ArrowRight class="h-3.5 w-3.5" />
-						</button>
-					</article>
-				{/each}
-			</div>
+							<button
+								type="button"
+								onclick={() => onRequestService(item.title)}
+								class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-black dark:bg-white py-2.5 text-xs font-bold uppercase tracking-wider text-white dark:text-black shadow-sm active:scale-95 transition-transform"
+							>
+								<span>{item.buttonText || "Request Service"}</span>
+								<ArrowRight class="h-3.5 w-3.5" />
+							</button>
+						</div>
+					{/if}
+				</div>
+			{/each}
 		</div>
 	</div>
 </section>

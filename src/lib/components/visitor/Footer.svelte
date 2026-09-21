@@ -276,92 +276,65 @@
 			</div>
 		</div>
 
-		<!-- MOBILE FOOTER (Compact Single-Column Design) -->
-		<div class="flex flex-col gap-6 sm:hidden">
-			<!-- Brand header with quick socials -->
-			<div class="flex items-center justify-between">
-				<div>
-					<div class="text-xl font-extrabold tracking-[0.2em] text-black dark:text-white">
-						ANMOL MADAN
-					</div>
-					<p class="text-[9px] font-semibold uppercase tracking-[0.24em] text-neutral-400 mt-0.5">
-						Cybersecurity & Keynotes
-					</p>
+		<!-- MOBILE FOOTER (Minimal Clean Design) -->
+		<div class="flex flex-col items-center text-center gap-5 sm:hidden">
+			<!-- Minimal Centered Brand -->
+			<div>
+				<div class="text-lg font-bold tracking-[0.25em] text-black dark:text-white uppercase">
+					ANMOL MADAN
 				</div>
-
-				<div class="flex items-center gap-2">
-					<a
-						href="https://www.linkedin.com/in/anmolmadan"
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label="LinkedIn"
-						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"
-					>
-						<SocialIcons name="Linkedin" size={13} class="h-3.5 w-3.5" />
-					</a>
-					<a
-						href="https://wa.me/916283603879"
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label="WhatsApp"
-						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"
-					>
-						<SocialIcons name="WhatsApp" size={13} class="h-3.5 w-3.5" />
-					</a>
-					<a
-						href="https://www.instagram.com/anmolxmadan"
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label="Instagram"
-						class="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"
-					>
-						<SocialIcons name="Instagram" size={13} class="h-3.5 w-3.5" />
-					</a>
-				</div>
+				<p class="text-[9px] font-medium uppercase tracking-[0.22em] text-neutral-400 dark:text-neutral-500 mt-1">
+					Cybersecurity Specialist · Speaker
+				</p>
 			</div>
 
-			<!-- Mobile direct contact chip list -->
-			<div class="space-y-2 pt-2">
+			<!-- Dock of Circular Quick Action / Contact Buttons -->
+			<div class="flex items-center justify-center gap-3 py-1">
 				{#each links as link}
 					{@const isBooking = link.id === "booking" || link.url.includes("cal.com")}
 					{#if isBooking}
 						<button
 							type="button"
 							onclick={onBookCall}
-							class="flex w-full items-center justify-between rounded-xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/40 px-3.5 py-2.5 text-xs font-semibold text-neutral-800 dark:text-neutral-200 cursor-pointer"
+							aria-label={link.label}
+							class="flex h-11 w-11 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black shadow-md active:scale-90 transition-transform cursor-pointer"
 						>
-							<div class="flex items-center gap-2.5">
-								<Calendar size={13} />
-								<span>{link.label}</span>
-							</div>
-							<span class="text-[10px] uppercase font-bold text-neutral-400">Schedule →</span>
+							<Calendar size={16} />
 						</button>
 					{:else}
 						<a
 							href={link.url}
 							target={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "_blank"}
 							rel={link.url.startsWith("mailto:") || link.url.startsWith("tel:") ? undefined : "noopener noreferrer"}
-							class="flex items-center justify-between rounded-xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/40 px-3.5 py-2.5 text-xs font-semibold text-neutral-800 dark:text-neutral-200"
+							aria-label={link.label}
+							class="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 shadow-sm active:scale-90 transition-transform"
 						>
-							<div class="flex items-center gap-2.5 truncate">
-								{#if link.iconName === "Linkedin"}
-									<SocialIcons name="Linkedin" size={13} class="h-3 w-3" />
-								{:else if link.iconName === "Instagram"}
-									<SocialIcons name="Instagram" size={13} class="h-3 w-3" />
-								{:else if link.iconName === "Mail"}
-									<Mail size={13} />
-								{:else if link.iconName === "Phone"}
-									<Phone size={13} />
-								{:else}
-									<Calendar size={13} />
-								{/if}
-								<span class="truncate">{link.label}</span>
-							</div>
-							<span class="text-[10px] text-neutral-400">Open ↗</span>
+							{#if link.iconName === "Linkedin"}
+								<SocialIcons name="Linkedin" size={15} class="h-4 w-4" />
+							{:else if link.iconName === "Instagram"}
+								<SocialIcons name="Instagram" size={15} class="h-4 w-4" />
+							{:else if link.iconName === "Mail"}
+								<Mail size={16} />
+							{:else if link.iconName === "Phone"}
+								<Phone size={16} />
+							{:else}
+								<Calendar size={16} />
+							{/if}
 						</a>
 					{/if}
 				{/each}
 			</div>
+
+			<!-- WhatsApp quick pill -->
+			<a
+				href="https://wa.me/916283603879"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-4 py-1.5 text-xs font-semibold text-neutral-700 dark:text-neutral-300"
+			>
+				<SocialIcons name="WhatsApp" size={13} class="h-3.5 w-3.5" />
+				<span>Direct WhatsApp</span>
+			</a>
 		</div>
 
 		<!-- BOTTOM BAR -->

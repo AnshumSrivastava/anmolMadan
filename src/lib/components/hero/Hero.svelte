@@ -7,12 +7,25 @@
 	import HeroImage from "./HeroImage.svelte";
 	import Reveal from "$lib/components/shared/Reveal.svelte";
 
+	import { ArrowUpRight, ArrowDown } from "@lucide/svelte";
+
 	interface Props {
 		hero: HeroData;
 		onBookCall: () => void;
 	}
 
 	let { hero, onBookCall }: Props = $props();
+
+	let mobileImageFailed = $state(false);
+	let mobileImageSrc = $derived(
+		mobileImageFailed
+			? hero.fallbackHeroImage ||
+					"https://qtwduupxhsxrsniicswk.supabase.co/storage/v1/object/public/hero/hero-1785752049223.png"
+			: "/images/hero_portrait_mobile.webp"
+	);
+	function handleMobileImageError() {
+		mobileImageFailed = true;
+	}
 
 	let scrollY = $state(0);
 
@@ -191,89 +204,135 @@
 		<!-- ===================================================== -->
 
 		<div
-			class="relative flex h-full min-h-0 flex-1 flex-col justify-between px-5 pt-7 pb-20 lg:hidden"
+			class="relative flex h-full min-h-[100dvh] w-full flex-col justify-between overflow-hidden px-5 pt-7 pb-8 lg:hidden text-white"
 		>
-			<!-- TOP HEADER BRANDING (Mobile Only) -->
-			<div class="relative z-30 flex items-center justify-between">
-				<div class="flex items-center gap-2">
-					<img
-						src="/anmol_logo.png"
-						alt="Anmol Madan"
-						class="h-7 w-auto grayscale contrast-125 dark:invert dark:grayscale"
-					/>
+			<!-- FULL-SCREEN HERO IMAGE BACKGROUND LAYER -->
+			<div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none select-none bg-neutral-950">
+				<!-- Giant ambient glow behind Anmol -->
+				<div
+					aria-hidden="true"
+					class="absolute left-1/2 top-[35%] -translate-x-1/2 -translate-y-1/2 h-[80vw] w-[80vw] rounded-full bg-gradient-to-tr from-blue-900/20 via-white/10 to-transparent blur-[90px]"
+				></div>
+
+				<!-- Subtle Giant Typographic Watermark -->
+				<div
+					aria-hidden="true"
+					class="absolute inset-x-0 top-[28%] -translate-y-1/2 flex items-center justify-center pointer-events-none select-none"
+				>
+					<span
+						class="text-[92px] sm:text-[110px] font-black tracking-[-0.04em] text-white/[0.04] uppercase leading-none"
+					>
+						ANMOL
+					</span>
 				</div>
 
-				<div class="flex items-center gap-2">
-					<span class="inline-flex items-center gap-1.5 rounded-full border border-neutral-200/80 bg-neutral-100/80 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider text-neutral-600 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400">
-						<span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-						Available for Talks
+				<!-- Full-Screen Anmol Portrait Image rising from the bottom -->
+				<img
+					src={mobileImageSrc}
+					alt={hero.preHeading || "Anmol Madan"}
+					onerror={handleMobileImageError}
+					class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[88vh] max-h-none w-auto max-w-none object-contain object-bottom drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)]"
+					loading="eager"
+				/>
+
+				<!-- Top Vignette for Header Contrast -->
+				<div class="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-black/85 via-black/35 to-transparent"></div>
+
+				<!-- Bottom Deep Gradient for Content Legibility -->
+				<div class="absolute bottom-0 inset-x-0 h-[58%] bg-gradient-to-t from-black via-black/85 via-50% to-transparent"></div>
+			</div>
+
+			<!-- Top Bar: Clean Monogram & Location Pill (No green dot) -->
+			<div class="relative z-20 flex items-center justify-between">
+				<img
+					src="/anmol_logo.png"
+					alt="Anmol Madan"
+					class="h-6 w-auto invert brightness-200 transition-opacity"
+				/>
+				<div
+					class="rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-3 py-1 shadow-sm"
+				>
+					<span
+						class="text-[9px] font-mono font-semibold uppercase tracking-[0.22em] text-white/80"
+					>
+						Keynote Speaker · India
 					</span>
 				</div>
 			</div>
 
-			<!-- HERO CENTER: COMPACT PORTRAIT WITH GLOW -->
-			<div class="relative my-auto flex flex-col items-center justify-center pt-2">
-				<!-- Ambient Soft Backing Glow -->
-				<div
-					aria-hidden="true"
-					class="pointer-events-none absolute h-64 w-64 rounded-full bg-neutral-200/50 dark:bg-white/[0.04] blur-3xl -z-10"
-				></div>
-
-				<div class="relative h-[min(38vh,260px)] w-[min(72vw,240px)] flex items-center justify-center">
-					<HeroImage
-						heroImage={hero.heroImage}
-						fallbackHeroImage={hero.fallbackHeroImage}
-						alt={hero.preHeading || "Anmol Madan"}
-					/>
+			<!-- Bottom Content Stack: Overlaid over the bottom gradient -->
+			<div class="relative z-20 mt-auto flex flex-col w-full max-w-[360px] mx-auto text-center">
+				<!-- Perfectly Aligned Authority Bubbles -->
+				<div class="mb-3.5 flex items-center justify-center gap-2">
+					<div
+						class="inline-flex items-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md px-2.5 py-1 shadow-md"
+					>
+						<span class="text-[8.5px] font-mono font-bold tracking-wider text-white">
+							100K+ STUDENTS
+						</span>
+					</div>
+					<div
+						class="inline-flex items-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md px-2.5 py-1 shadow-md"
+					>
+						<span class="text-[8.5px] font-mono font-bold tracking-wider text-white">
+							1,000+ SESSIONS
+						</span>
+					</div>
+					<div
+						class="inline-flex items-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md px-2.5 py-1 shadow-md"
+					>
+						<span class="text-[8.5px] font-mono font-bold tracking-wider text-white">
+							50+ ORGS
+						</span>
+					</div>
 				</div>
 
-				<!-- NAME & ROLES -->
-				<div class="mt-4 text-center">
-					<h1 class="text-3xl sm:text-4xl font-black tracking-tight text-black dark:text-white uppercase">
-						{hero.preHeading || "ANMOL MADAN"}
-					</h1>
-					<p class="mt-1 text-[9.5px] font-semibold uppercase tracking-[0.24em] text-neutral-500 dark:text-neutral-400">
-						Cybersecurity Specialist · Keynote Speaker
-					</p>
-				</div>
-
-				<!-- PITHY MOTTO -->
-				<p class="mt-2.5 max-w-[290px] text-center text-[12px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-					"We're not protecting technology from people. We're protecting people through technology."
+				<!-- Subtitle / Role -->
+				<p
+					class="text-[9.5px] font-semibold uppercase tracking-[0.28em] text-white/60"
+				>
+					Cybersecurity · Motivation
 				</p>
 
-				<!-- QUICK ACTIONS -->
+				<!-- Bold Commanding Name -->
+				<h1
+					class="mt-1 text-[34px] sm:text-[38px] font-black tracking-tight text-white uppercase leading-none drop-shadow-sm"
+				>
+					{hero.preHeading || "ANMOL MADAN"}
+				</h1>
+
+				<!-- Ethos Quote -->
+				<p
+					class="mt-2 text-[12px] leading-relaxed text-white/75 font-normal px-2 max-w-[320px] mx-auto"
+				>
+					Behind every device is a person. Protecting people through technology.
+				</p>
+
+				<!-- Action Buttons -->
 				<div class="mt-4 flex items-center gap-2.5">
 					<button
 						type="button"
 						onclick={onBookCall}
-						class="inline-flex h-9 items-center justify-center rounded-full bg-black px-5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md active:scale-95 transition-transform duration-150 dark:bg-white dark:text-black cursor-pointer"
+						class="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-white text-black px-5 text-xs font-semibold uppercase tracking-wider shadow-xl active:scale-95 transition-all duration-150 cursor-pointer"
 					>
-						{hero.buttonText || "Book a Call"}
+						<span>{hero.buttonText || "Book a Call"}</span>
+						<ArrowUpRight size={14} />
 					</button>
 
 					<a
 						href="#about"
-						class="inline-flex h-9 items-center justify-center rounded-full border border-neutral-300 dark:border-neutral-700 bg-white/60 dark:bg-neutral-900/60 backdrop-blur-sm px-4 text-[10px] font-semibold uppercase tracking-wider text-neutral-800 dark:text-neutral-200 active:scale-95 transition-transform duration-150"
+						class="inline-flex h-11 items-center justify-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md px-5 text-xs font-medium uppercase tracking-wider text-white active:scale-95 transition-all duration-150"
 					>
-						Explore ↓
+						Explore
 					</a>
 				</div>
-			</div>
 
-			<!-- MOBILE STATS: HORIZONTAL CHIPS STRIP -->
-			<div class="relative z-30 pt-2 pb-1 border-t border-neutral-200/70 dark:border-neutral-800/70">
-				<div class="grid grid-cols-4 gap-1.5 text-center">
-					{#each (hero.stats || []) as stat}
-						<div class="rounded-xl bg-neutral-50/80 dark:bg-neutral-900/60 py-1.5 px-1 border border-neutral-100 dark:border-neutral-800/80">
-							<div class="text-[13px] font-extrabold text-black dark:text-white tracking-tight">
-								{stat.number}
-							</div>
-							<div class="text-[8px] font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400 truncate">
-								{stat.label}
-							</div>
-						</div>
-					{/each}
+				<!-- Subtle Scroll Cue -->
+				<div
+					class="mt-3 flex items-center justify-center gap-1.5 text-[9px] font-medium uppercase tracking-[0.22em] text-white/40"
+				>
+					<span>Scroll to explore</span>
+					<ArrowDown size={11} class="animate-bounce mt-0.5" />
 				</div>
 			</div>
 		</div>

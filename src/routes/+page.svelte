@@ -11,7 +11,6 @@
 	import Experience from "$lib/components/visitor/Experience.svelte";
 	import Footer from "$lib/components/visitor/Footer.svelte";
 	import ConnectButton from "$lib/components/visitor/ConnectButton.svelte";
-	import BottomNav from "$lib/components/mobile/BottomNav.svelte";
 	import CalModal from "$lib/components/shared/CalModal.svelte";
 
 	let isCalOpen = $state(false);
@@ -48,9 +47,6 @@
 	<Experience experiences={siteData.experiences} />
 	<Footer links={siteData.contact.links} onBookCall={handleOpenCal} />
 </main>
-
-<!-- MOBILE FLOATING BOTTOM NAV BAR -->
-<BottomNav onBookCall={handleOpenCal} />
 
 <!-- STICKY CONNECT BUTTON & MENU -->
 <ConnectButton links={siteData.contact.links} onBookCall={handleOpenCal} />

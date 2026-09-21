@@ -61,24 +61,39 @@
 				{/each}
 			</div>
 
-			<!-- MOBILE TIMELINE STACK -->
-			<div class="flex flex-col gap-4 md:hidden">
-				{#each experiences as exp}
-					<div class="rounded-2xl border border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
-						<span class="inline-block rounded-full bg-neutral-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
-							{exp.duration}
-						</span>
-						<h3 class="mt-2 text-lg font-bold text-black dark:text-white tracking-tight">
-							{exp.lessonTitle}
-						</h3>
-						<p class="mt-0.5 text-xs font-medium text-neutral-500">
-							{exp.institutionName}
-						</p>
-						<p class="mt-2.5 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
-							{exp.description}
-						</p>
-					</div>
-				{/each}
+			<!-- MOBILE TIMELINE RAIL -->
+			<div class="relative pl-6 md:hidden">
+				<!-- Vertical timeline line -->
+				<div class="absolute left-2.5 top-3 bottom-3 w-px bg-neutral-300 dark:bg-neutral-800"></div>
+
+				<div class="space-y-6">
+					{#each experiences as exp, index}
+						<div class="relative group">
+							<!-- Timeline dot -->
+							<div class="absolute -left-6 top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-white dark:bg-black border-2 border-black dark:border-white">
+								<div class="h-1.5 w-1.5 rounded-full bg-black dark:bg-white"></div>
+							</div>
+
+							<div class="rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/40 p-4 shadow-sm">
+								<span class="inline-block rounded-md bg-neutral-200/60 dark:bg-neutral-800 px-2 py-0.5 text-[8.5px] font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-mono">
+									{exp.duration}
+								</span>
+
+								<h3 class="mt-2 text-sm font-bold text-black dark:text-white tracking-tight leading-snug">
+									{exp.lessonTitle}
+								</h3>
+
+								<p class="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">
+									{exp.institutionName}
+								</p>
+
+								<p class="mt-2 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
+									{exp.description}
+								</p>
+							</div>
+						</div>
+					{/each}
+				</div>
 			</div>
 		</div>
 	</section>

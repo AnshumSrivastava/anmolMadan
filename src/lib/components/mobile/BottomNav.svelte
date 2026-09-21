@@ -65,29 +65,26 @@
 <!-- Mobile Floating App-Style Bottom Navigation (Only visible on < lg screens) -->
 <aside
 	aria-label="Mobile Navigation"
-	class="fixed bottom-4 inset-x-4 z-50 flex items-center justify-between gap-1 rounded-full border border-neutral-200/80 bg-white/90 p-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.14)] backdrop-blur-xl transition-all duration-300 dark:border-neutral-800 dark:bg-black/90 dark:shadow-[0_12px_36px_rgba(0,0,0,0.6)] lg:hidden"
+	class="fixed bottom-4 inset-x-5 z-50 flex items-center justify-between gap-1 rounded-full border border-neutral-200/80 bg-white/90 p-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.14)] backdrop-blur-xl transition-all duration-300 dark:border-neutral-800 dark:bg-black/90 dark:shadow-[0_12px_36px_rgba(0,0,0,0.6)] lg:hidden"
 >
-	<div class="flex flex-1 items-center justify-around">
+	<div class="flex flex-1 items-center justify-start gap-1">
 		{#each navItems as item}
 			{@const isActive = activeSection === item.id}
 			{@const Icon = item.icon}
 			<button
 				type="button"
 				onclick={() => scrollToSection(item.id)}
-				class="group relative flex flex-col items-center justify-center py-1 px-3 text-[10px] font-medium transition-all duration-200 cursor-pointer {isActive
-					? 'text-black dark:text-white font-bold'
-					: 'text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300'}"
+				class="relative flex items-center justify-center gap-1.5 rounded-full py-2 px-3 transition-all duration-300 cursor-pointer {isActive
+					? 'bg-neutral-900 text-white dark:bg-white dark:text-black font-bold shadow-sm'
+					: 'text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white'}"
 				aria-label={item.label}
 			>
-				<div class="relative flex items-center justify-center">
-					<Icon size={18} class="transition-transform duration-200 group-active:scale-90" />
-					{#if isActive}
-						<span
-							class="absolute -bottom-1 h-1 w-1 rounded-full bg-black dark:bg-white"
-						></span>
-					{/if}
-				</div>
-				<span class="mt-1 tracking-tight text-[9.5px]">{item.label}</span>
+				<Icon size={16} class="transition-transform duration-200 active:scale-90" />
+				{#if isActive}
+					<span class="text-[10px] font-semibold tracking-tight transition-all duration-200 animate-in fade-in">
+						{item.label}
+					</span>
+				{/if}
 			</button>
 		{/each}
 	</div>
@@ -96,7 +93,7 @@
 	<button
 		type="button"
 		onclick={onBookCall}
-		class="flex shrink-0 items-center gap-1.5 rounded-full bg-black px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-white shadow-md active:scale-95 transition-transform duration-150 dark:bg-white dark:text-black cursor-pointer"
+		class="flex shrink-0 items-center gap-1.5 rounded-full bg-black px-3.5 py-2 text-[10.5px] font-semibold uppercase tracking-wider text-white shadow-md active:scale-95 transition-transform duration-150 dark:bg-white dark:text-black cursor-pointer"
 	>
 		<Calendar size={13} class="stroke-[2.5]" />
 		<span>Book</span>

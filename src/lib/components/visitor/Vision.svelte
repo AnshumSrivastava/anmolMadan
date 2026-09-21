@@ -217,24 +217,21 @@
 		</div>
 
 		<!-- ===================================================== -->
-		<!-- MOBILE VISION (Cinematic Full-Bleed Card Style)       -->
+		<!-- MOBILE VISION (Clean Minimal Layout)                  -->
 		<!-- ===================================================== -->
 		<div class="block lg:hidden space-y-6">
 			<!-- Header -->
 			<div>
-				<div class="flex items-center gap-2">
-					<span class="h-1 w-5 rounded-full bg-black dark:bg-white"></span>
-					<p class="text-[10px] font-bold uppercase tracking-[0.26em] text-neutral-400 dark:text-neutral-500">
-						{vision.sectionHeading || "MY VISION"}
-					</p>
-				</div>
-				<h2 class="mt-2.5 text-2xl font-black tracking-tight text-black dark:text-white leading-tight">
+				<p class="text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+					{vision.sectionHeading || "MY VISION"}
+				</p>
+				<h2 class="mt-2 text-2xl font-bold tracking-tight text-black dark:text-white leading-tight">
 					{vision.mainHeading || "Cybersecurity should become a mindset, not just a skill."}
 				</h2>
 			</div>
 
-			<!-- Cinematic Image Frame with Overlay Text -->
-			<div class="relative w-full aspect-[16/10] overflow-hidden rounded-3xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-900 shadow-md">
+			<!-- Visual Feature Card -->
+			<div class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl bg-neutral-950 shadow-md">
 				{#each slides as slide, i}
 					<div
 						class="absolute inset-0 transition-opacity duration-700 {i === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}"
@@ -247,43 +244,50 @@
 						/>
 					</div>
 				{/each}
-				<div class="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+				<div class="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-				<div class="absolute bottom-4 left-4 right-4 z-30 text-white">
-					<span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur-md">
-						Mission Statement
-					</span>
-					<p class="mt-1.5 text-xs text-neutral-200 font-medium line-clamp-2">
-						Empowering students and executives with mindset-first cybersecurity literacy.
+				<!-- Overlaid Vision Description -->
+				<div class="absolute bottom-4 inset-x-4 z-30 text-white">
+					<p class="text-xs leading-relaxed text-neutral-200 line-clamp-3">
+						{vision.description}
 					</p>
 				</div>
 			</div>
 
-			<!-- Core Description -->
-			<div class="rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/40 p-5 text-[13px] leading-relaxed text-neutral-700 dark:text-neutral-300">
-				<p>{vision.description}</p>
+			<!-- Pillars List / Carousel -->
+			<div class="-mx-6 pt-1">
+				<div class="px-6 mb-2">
+					<span class="text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+						Core Pillars
+					</span>
+				</div>
+
+				<div
+					class="flex gap-3 overflow-x-auto px-6 pb-2 snap-x snap-mandatory scrollbar-none"
+					style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
+				>
+					{#each vision.usps as usp, index}
+						<div class="snap-start shrink-0 w-[78vw] max-w-[280px] rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/60 p-4 flex flex-col justify-between">
+							<div>
+								<span class="font-mono text-[10px] text-neutral-400 dark:text-neutral-500">
+									0{index + 1}
+								</span>
+								<h3 class="mt-1.5 text-sm font-bold text-black dark:text-white tracking-tight">
+									{usp.title}
+								</h3>
+								<p class="mt-1.5 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
+									{usp.description}
+								</p>
+							</div>
+						</div>
+					{/each}
+				</div>
 			</div>
 
-			<!-- 3 Pillars Stacked Cards -->
-			<div class="space-y-3">
-				{#each vision.usps as usp, index}
-					<div class="rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
-						<span class="font-mono text-[10px] font-bold text-neutral-400 dark:text-neutral-500 tracking-wider">
-							0{index + 1}
-						</span>
-						<h3 class="mt-1 text-base font-bold text-black dark:text-white">
-							{usp.title}
-						</h3>
-						<p class="mt-1 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
-							{usp.description}
-						</p>
-					</div>
-				{/each}
-			</div>
-
+			<!-- Closing Statement -->
 			{#if vision.closingStatement}
-				<div class="rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-black text-white dark:bg-white dark:text-black p-5 text-center shadow-md">
-					<p class="text-sm font-semibold italic">
+				<div class="rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/40 p-4 text-center">
+					<p class="text-xs font-medium italic text-neutral-700 dark:text-neutral-300 leading-relaxed">
 						&ldquo;{vision.closingStatement}&rdquo;
 					</p>
 				</div>

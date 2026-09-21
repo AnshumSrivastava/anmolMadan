@@ -85,11 +85,11 @@
 			{/each}
 		</div>
 
-		<!-- MOBILE AUDIENCE STACK -->
-		<div class="flex flex-col gap-3 lg:hidden">
-			{#each audience as item}
-				<div class="flex items-start gap-4 rounded-2xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/40 p-4">
-					<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-black text-white dark:bg-white dark:text-black">
+		<!-- MOBILE AUDIENCE -->
+		<div class="flex flex-col gap-2.5 lg:hidden">
+			{#each audience as item, index}
+				<div class="flex items-center gap-4 rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4">
+					<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
 						{#if item.iconName === "Building2"}
 							<Building2 class="h-5 w-5" />
 						{:else if item.iconName === "GraduationCap"}
@@ -98,9 +98,13 @@
 							<Users class="h-5 w-5" />
 						{/if}
 					</div>
-					<div>
-						<h3 class="text-base font-bold text-black dark:text-white">{item.title}</h3>
-						<p class="mt-1 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">{item.description}</p>
+					<div class="flex-1 min-w-0">
+						<h3 class="text-sm font-semibold text-black dark:text-white tracking-tight">
+							{item.title}
+						</h3>
+						<p class="mt-0.5 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400 line-clamp-2">
+							{item.description}
+						</p>
 					</div>
 				</div>
 			{/each}

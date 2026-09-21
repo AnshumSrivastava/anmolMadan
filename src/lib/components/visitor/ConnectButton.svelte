@@ -44,7 +44,7 @@
 
 <div
 	bind:this={menuRef}
-	class="fixed bottom-20 right-4 lg:bottom-8 lg:right-8 z-[140] flex flex-col items-end gap-3 font-sans select-none"
+	class="fixed bottom-8 right-8 z-[140] hidden lg:flex flex-col items-end gap-3 font-sans select-none"
 >
 	<!-- POPUP MENU -->
 	{#if isOpen}

@@ -99,39 +99,18 @@
 				</div>
 			</div>
 
-			<!-- MOBILE VERSION (Remade Native-App Card Stack Style) -->
-			<div class="flex flex-col gap-6 lg:hidden">
-				<!-- Header block with badge -->
+			<!-- MOBILE VERSION -->
+			<div class="flex flex-col lg:hidden space-y-6">
 				<div>
-					<div class="flex items-center gap-2">
-						<span class="h-1 w-5 rounded-full bg-black dark:bg-white"></span>
-						<p class="text-[10px] font-bold uppercase tracking-[0.26em] text-neutral-400 dark:text-neutral-500">
-							{about.sectionHeading || "HOW I DO IT"}
-						</p>
-					</div>
-
-					<h2 class="mt-2.5 text-2xl font-black tracking-tight text-black dark:text-white leading-tight">
+					<p class="text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400 dark:text-neutral-500">
+						{about.sectionHeading || "HOW I DO IT"}
+					</p>
+					<h2 class="mt-2 text-2xl font-bold tracking-tight text-black dark:text-white leading-tight">
 						{about.mainHeading || "More Than Just a Trainer."}
 					</h2>
 				</div>
 
-				<!-- Mobile Portrait Card (Aspect ratio curated for smartphone screens) -->
-				<div class="relative w-full aspect-[4/3] overflow-hidden rounded-2xl border border-neutral-200/90 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 shadow-md">
-					<img
-						src={currentImg}
-						alt={about.mainHeading || "Anmol Madan"}
-						onerror={handleError}
-						class="h-full w-full object-cover object-[28%_35%]"
-					/>
-					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-					<div class="absolute bottom-3 left-3 right-3 text-white">
-						<p class="text-[10px] font-semibold uppercase tracking-widest opacity-80">Methodology</p>
-						<p class="text-sm font-bold tracking-tight">Protecting People Through Understanding</p>
-					</div>
-				</div>
-
-				<!-- Text Description Card -->
-				<div class="rounded-2xl border border-neutral-100 dark:border-neutral-900 bg-neutral-50/70 dark:bg-neutral-900/40 p-5 space-y-3.5 text-[13px] leading-relaxed text-neutral-700 dark:text-neutral-300">
+				<div class="space-y-4 text-[13px] leading-relaxed text-neutral-600 dark:text-neutral-400">
 					{#if about.paragraph1}
 						<p>{about.paragraph1}</p>
 					{/if}
@@ -143,18 +122,23 @@
 					{/if}
 				</div>
 
-				<!-- Credentials Grid as 2x2 Clean Chips -->
-				<div class="grid grid-cols-2 gap-2.5 pt-2">
-					{#each about.credentials as cred}
-						<div class="rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-900 p-3.5 shadow-sm">
-							<div class="text-lg font-black text-black dark:text-white tracking-tight">
-								{cred.title}
+				<!-- Credentials -->
+				<div class="-mx-6">
+					<div
+						class="flex gap-2.5 overflow-x-auto px-6 pb-2 scrollbar-none"
+						style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
+					>
+						{#each about.credentials as cred}
+							<div class="shrink-0 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 py-2.5 px-3.5 min-w-[120px]">
+								<div class="text-lg font-bold text-black dark:text-white tracking-tight">
+									{cred.title}
+								</div>
+								<div class="mt-0.5 text-[10px] font-medium text-neutral-500 dark:text-neutral-400">
+									{cred.subtitle}
+								</div>
 							</div>
-							<div class="mt-0.5 text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
-								{cred.subtitle}
-							</div>
-						</div>
-					{/each}
+						{/each}
+					</div>
 				</div>
 			</div>
 		</Reveal>
