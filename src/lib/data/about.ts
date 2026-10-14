@@ -55,8 +55,8 @@ export const aboutData: AboutData = {
 	],
 	credentials: [
 		{
-			title: "B.E. CSE",
-			subtitle: "Chitkara University"
+			title: "20K+ Community",
+			subtitle: "LinkedIn"
 		},
 		{
 			title: "Google + Microsoft",
@@ -67,8 +67,8 @@ export const aboutData: AboutData = {
 			subtitle: "Filed & Published"
 		},
 		{
-			title: "500+ Sessions",
-			subtitle: "Delivered Across India"
+			title: "Gold medalist",
+			subtitle: "Presentation & Public speaking"
 		}
 	],
 	audience: [

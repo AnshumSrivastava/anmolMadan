@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { X, ArrowLeft } from "@lucide/svelte";
+	import { X, Calendar, Clock, ExternalLink } from "@lucide/svelte";
 
 	interface Props {
 		isOpen: boolean;
@@ -14,24 +14,28 @@
 
 	const EVENTS = {
 		"15": {
-			title: "15 min meeting",
-			description: "Quick consultation",
+			title: "15 Min Consultation",
+			shortTitle: "15 Min",
+			description: "Quick introduction & preliminary inquiry",
 			url: "https://cal.com/anmolmadan/15min"
 		},
 		"30": {
-			title: "30 min meeting",
-			description: "Detailed consultation",
+			title: "30 Min In-Depth Meeting",
+			shortTitle: "30 Min",
+			description: "Detailed workshop, session, or keynote planning",
 			url: "https://cal.com/anmolmadan/30min"
 		}
 	} as const;
 
-	let selectedEvent: EventType | null = $state(null);
+	let selectedEvent: EventType = $state("15");
 	let isDark = $state(false);
 
 	$effect(() => {
 		if (isOpen) {
 			if (requestedService) {
 				selectedEvent = "30";
+			} else {
+				selectedEvent = "15";
 			}
 			isDark = document.documentElement.classList.contains("dark");
 			const prevOverflow = document.body.style.overflow;
@@ -53,18 +57,13 @@
 	});
 
 	function handleClose() {
-		selectedEvent = null;
 		onClose();
-	}
-
-	function handleBack() {
-		selectedEvent = null;
 	}
 </script>
 
 {#if isOpen}
 	<div
-		class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-6"
+		class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-2 sm:p-4 md:p-6 animate-in fade-in duration-200"
 		onclick={handleClose}
 		onkeydown={(e) => {
 			if (e.key === 'Escape') handleClose();
@@ -76,102 +75,99 @@
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
-			class="relative flex flex-col w-full max-w-2xl h-[90vh] max-h-[750px] overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl transition-all"
+			class="relative flex flex-col w-full max-w-[1040px] h-[92vh] max-h-[820px] overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl transition-all duration-300"
 			onclick={(e) => e.stopPropagation()}
 			role="document"
 		>
-			<!-- Top Bar -->
+			<!-- Top Bar: Website Logo, Duration Switcher, Close Button -->
 			<div
-				class="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800 px-6 py-4"
+				class="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-100 dark:border-neutral-800 px-4 sm:px-6 py-3 sm:py-3.5 bg-neutral-50/50 dark:bg-neutral-900/50 backdrop-blur-sm"
 			>
+				<!-- Left: Official Website Logo + Branding -->
 				<div class="flex items-center gap-3">
-					{#if selectedEvent}
-						<button
-							type="button"
-							onclick={handleBack}
-							class="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-black dark:hover:text-white transition-colors cursor-pointer"
-							aria-label="Back to event selection"
-						>
-							<ArrowLeft size={16} />
-						</button>
-					{/if}
+					<img
+						src="/anmol_logo.png"
+						alt="Anmol Madan"
+						class="h-7 sm:h-8 w-auto grayscale contrast-125 dark:invert dark:grayscale transition-opacity"
+					/>
+					<div class="h-4 w-px bg-neutral-200 dark:bg-neutral-800 hidden sm:block"></div>
 					<div>
-						<h3 class="text-lg font-bold text-black dark:text-white">
-							{selectedEvent ? EVENTS[selectedEvent].title : "Book a Meeting"}
-						</h3>
-						<p class="text-xs text-neutral-500 dark:text-neutral-400">
+						<h3 class="text-xs sm:text-sm font-bold text-black dark:text-white leading-tight flex items-center gap-2">
+							<span>Book a Call</span>
 							{#if requestedService}
-								<span class="font-semibold text-neutral-800 dark:text-neutral-200">Regarding: {requestedService}</span> · 
+								<span class="hidden md:inline-block rounded-full bg-neutral-200/80 dark:bg-neutral-800 px-2 py-0.5 text-[10px] font-medium text-neutral-700 dark:text-neutral-300">
+									{requestedService}
+								</span>
 							{/if}
-							{selectedEvent ? EVENTS[selectedEvent].description : "Choose a meeting duration"}
+						</h3>
+						<p class="text-[10px] sm:text-[11px] text-neutral-500 dark:text-neutral-400 hidden xs:block">
+							{EVENTS[selectedEvent].description}
 						</p>
 					</div>
 				</div>
 
-				<button
-					type="button"
-					onclick={handleClose}
-					class="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-black dark:hover:text-white transition-colors cursor-pointer"
-					aria-label="Close modal"
-				>
-					<X size={16} />
-				</button>
+				<!-- Right Area: Duration Segmented Control + Close -->
+				<div class="flex items-center gap-2.5">
+					<!-- Segmented Duration Toggle -->
+					<div
+						class="flex items-center rounded-full bg-neutral-200/70 dark:bg-neutral-850 p-1 border border-neutral-300/40 dark:border-neutral-700/50 shadow-inner"
+					>
+						<button
+							type="button"
+							onclick={() => (selectedEvent = "15")}
+							class="rounded-full px-3 py-1 text-[11px] sm:text-xs font-semibold tracking-wide transition-all cursor-pointer {selectedEvent === '15'
+								? 'bg-black text-white dark:bg-white dark:text-black shadow-sm'
+								: 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white'}"
+						>
+							<span class="hidden sm:inline">15 Min Consultation</span>
+							<span class="sm:hidden">15 Min</span>
+						</button>
+						<button
+							type="button"
+							onclick={() => (selectedEvent = "30")}
+							class="rounded-full px-3 py-1 text-[11px] sm:text-xs font-semibold tracking-wide transition-all cursor-pointer {selectedEvent === '30'
+								? 'bg-black text-white dark:bg-white dark:text-black shadow-sm'
+								: 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white'}"
+						>
+							<span class="hidden sm:inline">30 Min In-Depth</span>
+							<span class="sm:hidden">30 Min</span>
+						</button>
+					</div>
+
+					<!-- Direct Cal.com Link -->
+					<a
+						href={EVENTS[selectedEvent].url}
+						target="_blank"
+						rel="noopener noreferrer"
+						title="Open scheduler in new tab"
+						aria-label="Open in new tab"
+						class="hidden md:flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-black dark:hover:text-white transition-colors"
+					>
+						<ExternalLink size={14} />
+					</a>
+
+					<!-- Close Button -->
+					<button
+						type="button"
+						onclick={handleClose}
+						class="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-black dark:hover:text-white transition-colors cursor-pointer"
+						aria-label="Close modal"
+					>
+						<X size={15} />
+					</button>
+				</div>
 			</div>
 
-			<!-- Body -->
-			<div class="flex-1 overflow-y-auto p-6">
-				{#if !selectedEvent}
-					<!-- Choose Event -->
-					<div class="mx-auto max-w-md py-8">
-						<div class="text-center mb-8">
-							<div class="mx-auto mb-4 h-16 w-16 overflow-hidden rounded-full border-2 border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900">
-								<img
-									src="/images/hero_portrait.png"
-									alt="Anmol Madan"
-									class="h-full w-full object-cover"
-								/>
-							</div>
-							<h4 class="text-xl font-bold text-black dark:text-white">Anmol Madan</h4>
-							<p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-								Cybersecurity Specialist & Motivational Speaker
-							</p>
-						</div>
-
-						<div class="space-y-4">
-							{#each Object.entries(EVENTS) as [key, ev]}
-								<button
-									type="button"
-									onclick={() => (selectedEvent = key as EventType)}
-									class="group flex w-full items-center justify-between rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 p-5 text-left transition-all hover:border-black dark:hover:border-white hover:bg-neutral-100 dark:hover:bg-neutral-900 cursor-pointer shadow-sm hover:shadow-md"
-								>
-									<div>
-										<h5 class="text-base font-semibold text-black dark:text-white">
-											{ev.title}
-										</h5>
-										<p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-											{ev.description}
-										</p>
-									</div>
-									<span
-										class="text-lg text-neutral-400 transition-transform group-hover:translate-x-1 group-hover:text-black dark:group-hover:text-white"
-									>
-										→
-									</span>
-								</button>
-							{/each}
-						</div>
-					</div>
-				{:else}
-					<!-- Cal.com Embed Iframe -->
-					<div class="h-full w-full min-h-[500px] overflow-hidden rounded-2xl">
-						<iframe
-							src="{EVENTS[selectedEvent].url}?embed=1&theme={isDark ? 'dark' : 'light'}"
-							title="Schedule with Anmol Madan"
-							class="h-full w-full min-h-[550px] border-none"
-							allow="camera; microphone; autoplay; fullscreen"
-						></iframe>
-					</div>
-				{/if}
+			<!-- Body: Spacious Cal.com embed with no squishing -->
+			<div class="flex-1 w-full h-full min-h-0 bg-neutral-50/50 dark:bg-neutral-900/40 relative">
+				{#key selectedEvent}
+					<iframe
+						src="{EVENTS[selectedEvent].url}?embed=1&theme={isDark ? 'dark' : 'light'}"
+						title="Schedule with Anmol Madan"
+						class="w-full h-full border-none"
+						allow="camera; microphone; autoplay; fullscreen"
+					></iframe>
+				{/key}
 			</div>
 		</div>
 	</div>

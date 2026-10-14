@@ -42,7 +42,7 @@
 			if (!isPaused && slides.length > 1) {
 				nextSlide();
 			}
-		}, 4000);
+		}, 3000);
 
 		return () => clearInterval(interval);
 	});
@@ -111,23 +111,23 @@
 						class="absolute left-1/2 top-1/2 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/[0.025] blur-[90px] dark:bg-white/[0.02]"
 					></div>
 
-					<!-- Carousel Frame -->
+					<!-- Carousel Frame (Stable border, inner image zoom on hover) -->
 					<!-- svelte-ignore a11y_no_static_element_interactions -->
 					<div
 						onmouseenter={() => (isPaused = true)}
 						onmouseleave={() => (isPaused = false)}
-						class="group relative z-10 w-full max-w-[560px] lg:max-w-[620px] aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-black/30 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-white/30 select-none"
+						class="group relative z-10 w-full max-w-[560px] lg:max-w-[620px] aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm dark:border-neutral-800 dark:bg-neutral-900 select-none"
 					>
 						{#each slides as slide, i}
 							<div
-								class="absolute inset-0 transition-all duration-700 ease-in-out {i === currentIndex
-									? 'opacity-100 scale-100 pointer-events-auto z-10'
-									: 'opacity-0 scale-105 pointer-events-none z-0'}"
+								class="absolute inset-0 transition-opacity duration-700 ease-in-out {i === currentIndex
+									? 'opacity-100 pointer-events-auto z-10'
+									: 'opacity-0 pointer-events-none z-0'}"
 							>
 								<img
 									src={slide.url}
 									alt={slide.alt || "Vision"}
-									class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+									class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
 									style="object-position: {slide.focal || 'center center'}; {slide.zoom ? `transform: scale(${slide.zoom});` : ''}"
 								/>
 							</div>

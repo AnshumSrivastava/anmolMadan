@@ -7,7 +7,7 @@
 	import HeroImage from "./HeroImage.svelte";
 	import Reveal from "$lib/components/shared/Reveal.svelte";
 
-	import { ArrowUpRight, ArrowDown } from "@lucide/svelte";
+	import { ArrowUpRight, ArrowDown, Calendar } from "@lucide/svelte";
 
 	interface Props {
 		hero: HeroData;
@@ -132,7 +132,7 @@
 
 								<p>
 									That's why my approach to cybersecurity has always been people-first
-									— because we're not protecting technology from people. We're
+									because we're not protecting technology from people. We're
 									protecting people through technology.
 								</p>
 
@@ -149,9 +149,10 @@
 								<button
 									type="button"
 									onclick={onBookCall}
-									class="inline-flex cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm transition-all duration-200 hover:bg-neutral-800 active:scale-95 sm:px-6 sm:py-3 sm:text-[12px] lg:px-7 lg:py-3.5 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+									class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-neutral-950 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm transition-all duration-200 hover:bg-neutral-800 active:scale-95 sm:px-6 sm:py-3 sm:text-[12px] lg:px-7 lg:py-3.5 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
 								>
-									{hero.buttonText || "Book a Call"}
+									<Calendar size={14} class="stroke-[2.2]" />
+									<span>{hero.buttonText || "Book a Call"}</span>
 								</button>
 
 

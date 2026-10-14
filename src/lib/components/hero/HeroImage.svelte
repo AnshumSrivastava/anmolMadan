@@ -30,44 +30,27 @@
 <div
 	class="relative flex h-full w-full items-center justify-center pointer-events-none select-none animate-in fade-in zoom-in-95 duration-800"
 >
-	<!-- MASTER POP-OUT CIRCLE STAGE -->
+	<!-- MASTER HERO PORTRAIT STAGE -->
 	<div
-		class="relative aspect-square w-[clamp(280px,30vw,440px)] max-w-[85vw] mx-auto flex items-center justify-center translate-y-[2vh]"
+		class="relative w-full max-w-[480px] h-[520px] sm:h-[580px] lg:h-[620px] flex items-end justify-center"
 	>
-		<!-- AMBIENT DEPTH GLOW -->
+		<!-- 02 | THIN OUTLINE CIRCLE -->
+		<!-- A minimal, low-contrast circular outline adds structure while keeping the focus on the portrait -->
 		<div
 			aria-hidden="true"
-			class="absolute left-1/2 top-1/2 h-[95%] w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-neutral-400/25 via-neutral-200/10 to-transparent blur-3xl dark:from-white/15 dark:via-neutral-800/20 dark:to-transparent"
+			class="absolute left-[52%] top-[54%] -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[380px] lg:w-[420px] aspect-square rounded-full border border-black/15 dark:border-white/20 pointer-events-none"
 		></div>
 
-		<!-- 1. BASE CIRCLE PORTAL (Cleanly contains and clips lower body inside the circle frame) -->
+		<!-- FOREGROUND PORTRAIT (Softly fades into background at bottom) -->
 		<div
-			class="absolute inset-0 rounded-full bg-black dark:bg-white border-4 lg:border-[6px] border-neutral-800/20 dark:border-neutral-200/40 shadow-[0_25px_60px_rgba(0,0,0,0.25)] dark:shadow-[0_25px_60px_rgba(255,255,255,0.18)] overflow-hidden"
-		>
-			<!-- Subtle inner glass/gradient overlay -->
-			<div
-				aria-hidden="true"
-				class="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-black/35 dark:from-black/10 dark:via-transparent dark:to-black/20 pointer-events-none"
-			></div>
-
-			<img
-				src={currentSrc}
-				{alt}
-				onerror={handleError}
-				class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[128%] w-auto max-w-none object-contain object-bottom"
-			/>
-		</div>
-
-		<!-- 2. POP-OUT BREAKOUT LAYER (Head and shoulders bursting out beyond the top border) -->
-		<div
-			class="absolute inset-0 pointer-events-none"
-			style="clip-path: inset(-60% -50% 50% -50%); -webkit-clip-path: inset(-60% -50% 50% -50%);"
+			class="relative z-10 h-full w-full flex items-end justify-center pointer-events-none overflow-visible"
+			style="-webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 97%); mask-image: linear-gradient(to bottom, black 72%, transparent 97%);"
 		>
 			<img
 				src={currentSrc}
 				{alt}
 				onerror={handleError}
-				class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[128%] w-auto max-w-none object-contain object-bottom"
+				class="h-[490px] sm:h-[550px] lg:h-[590px] xl:h-[620px] w-auto max-w-none object-contain object-bottom drop-shadow-[0_10px_25px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_15px_35px_rgba(0,0,0,0.6)]"
 			/>
 		</div>
 	</div>
