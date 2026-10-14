@@ -39,6 +39,7 @@
 		<div
 			aria-hidden="true"
 			class="absolute left-[52%] top-[54%] -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[380px] lg:w-[420px] aspect-square rounded-full border border-black/15 dark:border-white/20 pointer-events-none"
+			style="-webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 80%); mask-image: linear-gradient(to bottom, black 50%, transparent 80%);"
 		></div>
 
 		<!-- FOREGROUND PORTRAIT (Softly fades into background at bottom) -->
